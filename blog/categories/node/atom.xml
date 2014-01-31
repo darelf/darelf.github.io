@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[The Blog from Darel]]></title>
-  <link href="http://darelf.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Node | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/node/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
   <updated>2014-01-31T07:05:08-05:00</updated>
   <id>http://darelf.github.io/</id>

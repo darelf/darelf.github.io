@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[The Blog from Darel]]></title>
-  <link href="http://darelf.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Browserify | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/browserify/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
   <updated>2014-01-31T07:05:08-05:00</updated>
   <id>http://darelf.github.io/</id>
@@ -56,36 +56,6 @@ code, and more cleanly setting up the custom javascript DOM events.</p>
 <p>All in all, though, stepping through the code again to refactor for all of
 this new knowledge makes for better code and I learned a little something
 along the way.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tracking Pathfinder]]></title>
-    <link href="http://darelf.github.io/blog/2014/01/24/tracking-pathfinder/"/>
-    <updated>2014-01-24T14:35:35-05:00</updated>
-    <id>http://darelf.github.io/blog/2014/01/24/tracking-pathfinder</id>
-    <content type="html"><![CDATA[<p>Oh boy. Yeah. The Pathfinder RPG.</p>
-
-<p>We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
-Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
-modifiers. Wow. A LOT.</p>
-
-<p>As of now, we keep a rather complicated sheet of certain precalculated sets of modifiers that
-tend to affect the whole group, things like Bless or Haste, and have them all added up so that
-play can continue smoothly. Depending on how many casters, and what the current level is, the
-number of modifiers &mdash; and more importantly the number of modifiers that clash &mdash; can get crazy.</p>
-
-<p>So, as two of us are programmers by trade, we thought to ourselves &ldquo;We can do this electronically&rdquo;.</p>
-
-<p>Ah, hubris. That&rsquo;s all fine and well, but definition of the problem became a chore in and of
-itself. Luckily we could keep defining down until comfortable with the scope, since we were only
-out to please ourselves.</p>
-
-<p>And so&hellip; <a href="http://github.com/darelf/bufftracker">bufftracker</a>. There is a companion web product,
-though it is not yet finished. Honestly the base project is not yet finished. As I make more
-progress I&rsquo;ll be updating it and probably post more on here about it.</p>
-
-<p>Maybe. I dunno. We&rsquo;ll play it by ear.</p>
 ]]></content>
   </entry>
   
