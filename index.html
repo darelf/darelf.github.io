@@ -9,8 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious. So, I had started a project a while &hellip;">
+  <meta name="description" content="The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+battle of configuration. Every useful application is configurable. This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,81 @@ really, really pretentious. So, I had started a project a while &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/31/important-topics-config-file-vs-command-line/">Important Topics: Config File vs. Command Line</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-31T13:26:34-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+battle of configuration.</p>
+
+<p>Every useful application is configurable. This is an axiom, a universally
+accepted truth about programming. If a software application is to be useful
+to a user of any kind, it must allow some way of specifying parameters that
+modify its behavior.</p>
+
+<p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
+Linux machine has over 50 separate command line switches that allow the
+user to modify the behavior. And this is for a program whose sole purpose
+is to list files.</p>
+
+<p>The question is not whether a program should accept one or the other. That
+way lies madness, since any given program should accept both. The question,
+instead, is what should you use?</p>
+
+<h3>Configuration files.</h3>
+
+<p>The pro-config-file argument is compelling. Store your settings a single time.
+Easier to run in cron or some other automation. Can be changed at any time,
+not merely when the program is about to run. Comments in the file itself
+can remind you what the options are for.</p>
+
+<p>The cons for this are obvious. Mainly, if you run the program with different
+options very often, editing a file is actually more work than changing the
+switches.</p>
+
+<h3>Command Line</h3>
+
+<p>Easy. Allows you to quickly modify behavior between several rapid uses of
+the same program. Help screen will generally tell you what you need to know.</p>
+
+<p>Tedious if you have many options. Easy to forget if the times between running
+the program by hand are very long. Easy to mistype.</p>
+
+<h3>Solution</h3>
+
+<p>Where possible use both. Set your config file to your common and least-changed
+settings, and use the command line for your often changing parameters.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -208,6 +283,10 @@ progress I&rsquo;ll be updating it and probably post more on here about it.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/31/important-topics-config-file-vs-command-line/">Important Topics: Config File vs. Command Line</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/01/27/browserify-and-me/">Browserify and Me</a>

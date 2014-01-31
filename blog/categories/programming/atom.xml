@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://darelf.github.io/"/>
+  <updated>2014-01-31T13:39:47-05:00</updated>
+  <id>http://darelf.github.io/</id>
+  <author>
+    <name><![CDATA[Darel Finkbeiner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Important Topics: Config File vs. Command Line]]></title>
+    <link href="http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line/"/>
+    <updated>2014-01-31T13:26:34-05:00</updated>
+    <id>http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line</id>
+    <content type="html"><![CDATA[<p>The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+battle of configuration.</p>
+
+<p>Every useful application is configurable. This is an axiom, a universally
+accepted truth about programming. If a software application is to be useful
+to a user of any kind, it must allow some way of specifying parameters that
+modify its behavior.</p>
+
+<p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
+Linux machine has over 50 separate command line switches that allow the
+user to modify the behavior. And this is for a program whose sole purpose
+is to list files.</p>
+
+<p>The question is not whether a program should accept one or the other. That
+way lies madness, since any given program should accept both. The question,
+instead, is what should you use?</p>
+
+<h3>Configuration files.</h3>
+
+<p>The pro-config-file argument is compelling. Store your settings a single time.
+Easier to run in cron or some other automation. Can be changed at any time,
+not merely when the program is about to run. Comments in the file itself
+can remind you what the options are for.</p>
+
+<p>The cons for this are obvious. Mainly, if you run the program with different
+options very often, editing a file is actually more work than changing the
+switches.</p>
+
+<h3>Command Line</h3>
+
+<p>Easy. Allows you to quickly modify behavior between several rapid uses of
+the same program. Help screen will generally tell you what you need to know.</p>
+
+<p>Tedious if you have many options. Easy to forget if the times between running
+the program by hand are very long. Easy to mistype.</p>
+
+<h3>Solution</h3>
+
+<p>Where possible use both. Set your config file to your common and least-changed
+settings, and use the command line for your often changing parameters.</p>
+]]></content>
+  </entry>
+  
+</feed>
