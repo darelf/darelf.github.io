@@ -188,6 +188,33 @@ settings, and use the command line for your often changing parameters.</p>
   </footer>
 </article>
 
+  <section id="comment">
+    <h1>Comments</h1>
+    <div id="livefyre-comments"></div>
+    
+
+<script type="text/javascript" src="http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js"></script>
+<script type="text/javascript">
+(function() {
+      var articleid = fyre.conv.load.makeArticleId(null)
+      fyre.conv.load({},[{
+            el: 'livefyre-comments',
+            network: "livefyre.com",
+            siteId: "352713",
+            articleId: articleid,
+            signed: false,
+            collectionMeta: {
+                  articleId: articleid,
+                  url: fyre.conv.load.makeCollectionUrl(),
+            }
+      }], function() {})
+}())
+
+</script>
+
+
+  </section>
+
 </div>
 
 <aside class="sidebar">
