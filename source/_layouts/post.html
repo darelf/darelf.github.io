@@ -30,6 +30,12 @@ single: true
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
   </section>
+{% else if page.comments == true %}
+  <section id="comment">
+    <h1>Comments</h1>
+    <div id="livefyre-comments"></div>
+    {% include livefyre.html %}
+  </section>
 {% endif %}
 </div>
 {% unless page.sidebar == false %}
