@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Browserify and Me - The Blog from Darel</title>
+  <title>Refactor - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious. So, I had started a project a while &hellip;">
+  <meta name="description" content="You&rsquo;ve heard of refactoring. Wikipedia has a pretty good definition.
+You have probably done it. You may not have even known it. I often think &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ really, really pretentious. So, I had started a project a while &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/01/27/browserify-and-me">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/02/06/refactor">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -69,7 +69,7 @@ really, really pretentious. So, I had started a project a while &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Browserify and Me</h1>
+      <h1 class="entry-title">Refactor</h1>
     
     
       <p class="meta">
@@ -85,51 +85,81 @@ really, really pretentious. So, I had started a project a while &hellip;">
   
 
 
-<time datetime="2014-01-27T08:18:54-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+<time datetime="2014-02-06T09:40:06-05:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious.</p>
+<div class="entry-content"><p>You&rsquo;ve heard of refactoring. Wikipedia has a pretty good <a href="http://en.wikipedia.org/wiki/Code_refactoring">definition</a>.
+You have probably done it. You may not have even known it.</p>
 
-<p>So, I had started a project a while back before realizing that something
-like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
-it in. And even when I started using it I didn&rsquo;t really understand what
-it was going to do.</p>
+<p>I often think of refactoring as the primary job in programming. It cuts to the heart of
+what this is all about, and the philosophy of programming in general. Refactoring code well
+means being disciplined about code structure in the first place. It is the anti-spaghetti code.
+It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
 
-<p>Then, as I got halfway through the project, I realized what was happening
-and started doing what I should have done the whole time. So now, the code
-for this web application has two completely different approaches that,
-while not technically incompatible, make reading and debugging the code
-a chore.</p>
+<p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
+is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
+the problem into smaller and smaller pieces until it is actually manageable.</p>
 
-<p>Here&rsquo;s what I learned in this very specific context:</p>
+<p>My problem was filtering.</p>
 
-<p>I&rsquo;m trying to use jquery/bootstrap to build a single page web application,
-and then using browserify to make a bridge between the client and the node
-server. That is, there are modules that run on node, and the application
-module is most easily written in node as well. The only problem is how
-to communicate between the server and client over what is essentially a
-layer on top of websockets.</p>
+<p>Specifically, filtering a list of javascript objects by some items in the keys. Easy one that.
+Then, one of the filters needed to check for the existance of some key on some other list of
+objects.</p>
 
-<p>It turns out, that the cleanest solution to this problem turned out to be
-using custom events on DOM elements from the application code, and catching
-those events to do the UI parts. That is, some jquery/bootstrap code can
-use all of its normal methods and coding style to accomplish the UI
-functions, while the node style application code that has been browserified
-can simply fire off events without worrying too much about what&rsquo;s going
-to happen.</p>
+<p>In the first pass of this, the filter function was written specifically to the problem we
+were trying to solve. Here&rsquo;s an example (although the objects were more complex than this):</p>
 
-<p>There are some improvements I can make, and will be making, in said
-application. Things like passing in the DOM element to the client application
-code, and more cleanly setting up the custom javascript DOM events.</p>
+<pre><code>var array_1 = [{name: 'Joe'}, {name: 'Jane'}]
 
-<p>All in all, though, stepping through the code again to refactor for all of
-this new knowledge makes for better code and I learned a little something
-along the way.</p>
+var array_2 = [{id: 1, name: 'Jane'}, {id:2, name: 'Jane'}]
+</code></pre>
+
+<p>So, the idea is to filter the first array to only include objects whose <code>name</code> attribute is
+found in the second array. That is, if we run the filter on this sample, it should return this array:
+<code>[{name: 'Jane'}]</code></p>
+
+<p>Again, the first pass of this looked like this:</p>
+
+<pre><code>var new_array = array_1.filter(function(v,i,a) {
+    for (i = 0; i &lt; array_2.length; i++) {
+        if (array_2[i]['name'] == v['name']) return true
+    }
+    return false
+})
+</code></pre>
+
+<p>This is very specific. The name of the key, the fact that <code>array_2</code> needs to be in scope, these
+all have to be true when running this. More importantly, such a function that looks for a
+match in an array could be very useful in more than one context. It&rsquo;s an obvious (some
+would say blindingly so) candidate for refactoring.</p>
+
+<p>Without much ado, here&rsquo;s the refactored version of this that I can now use in other places
+where I need similar functionality:</p>
+
+<pre><code>function contains(a, key, value) {
+    for (i = 0; i &lt; a.length; i++) {
+        if (a[i][key] == value) return true
+    }
+    return false
+}
+</code></pre>
+
+<p>Much better! Now I can call this function in order to determine if an array of objects
+contains a value on a given key. It&rsquo;s not perfect. And it&rsquo;s specific to an array of
+objects, and won&rsquo;t work on flat arrays. It could be made even better or more generic,
+though we begin at that point to enter the territory of trade-off value.</p>
+
+<p>This version makes a lot of sense in the context of the application, as that application
+uses quite a lot of arrays of objects.</p>
+
+<p>It may seem like a small thing, and it is, but these kind of tiny little refactorings
+over the course of an entire application will make the code better, more readable,
+and more maintainable. ( The name <code>contains</code> is easy to read and understand what
+it&rsquo;s supposed to do )</p>
 </div>
 
 
@@ -152,12 +182,12 @@ along the way.</p>
   
 
 
-<time datetime="2014-01-27T08:18:54-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+<time datetime="2014-02-06T09:40:06-05:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/browserify/'>browserify</a>, <a class='category' href='/blog/categories/modules/'>modules</a>, <a class='category' href='/blog/categories/node/'>node</a>
+    <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/tips/'>tips</a>
   
 </span>
 
@@ -166,7 +196,7 @@ along the way.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/02/06/refactor/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/02/06/refactor/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -177,10 +207,8 @@ along the way.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/01/24/tracking-pathfinder/" title="Previous Post: Tracking Pathfinder">&laquo; Tracking Pathfinder</a>
+        <a class="basic-alignment left" href="/blog/2014/02/04/programmer-identification/" title="Previous Post: Programmer Identification">&laquo; Programmer Identification</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/01/31/important-topics-config-file-vs-command-line/" title="Next Post: Important Topics: Config File vs. Command Line">Important Topics: Config File vs. Command Line &raquo;</a>
       
     </p>
   </footer>
