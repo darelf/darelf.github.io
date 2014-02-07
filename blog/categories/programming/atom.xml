@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-06T10:11:07-05:00</updated>
+  <updated>2014-02-07T09:25:17-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Semver]]></title>
+    <link href="http://darelf.github.io/blog/2014/02/07/semver/"/>
+    <updated>2014-02-07T09:00:27-05:00</updated>
+    <id>http://darelf.github.io/blog/2014/02/07/semver</id>
+    <content type="html"><![CDATA[<p>Semantic Versioning. Hell yeah.</p>
+
+<p>So here at work we finally settled on a versioning scheme. After literally
+years of trying to push versioning in general, and semantic versioning in
+particular, we are now implementing.</p>
+
+<p>What is &ldquo;semantic versioning&rdquo;?</p>
+
+<p>In short, you know those version numbers you see on all those projects
+on the internet with version numbers like 1.2.5 or 0.10.21? Yeah. That.</p>
+
+<p>The problem semantic versioning is trying to solve is dependency. Meaning
+that an application often depends on other software projects, and those
+other software projects often are currently being developed, either to
+fix bugs or add features/enhancements.</p>
+
+<p>This can often be referred to as &ldquo;dependency hell&rdquo; since making sure of
+which version of what you are using in a project can be a nightmare, taking
+into account which set of features you depend on from different projects,
+what those projects in turn depend on, etc. You need to distinguish between
+a bug fix version increase, a feature add, or API breaking changes. Maybe
+a new feature is one you want, or maybe you don&rsquo;t. How do you tell which
+version of a project you have?</p>
+
+<p>More importantly, how do you communicate those decisions in the project
+you are working on with both the other developers on your team (if any)
+and to the consumers of your project?</p>
+
+<p>In comes semver to save the day.</p>
+
+<p>The basic idea of semver is this:  MAJOR.MINOR.PATCH</p>
+
+<p>Additional labels, like &lsquo;-musical&rsquo; or whatever can be added if things get hairy.
+But the basic idea should serve.</p>
+
+<p>The MAJOR part of a version is the basic feature set. That is, the API for
+every version of that project that starts with the same MAJOR number should
+not change. If version 1.0.0 has a function X that takes argument Y, then
+that should also be the case for version 1.3.17 and 1.1.5 as well.</p>
+
+<p>The MINOR part of a version are minor changes to the API. Maybe a new
+function, or a change to the way a function works. But all of the existing
+API at x.0.0 should still be there, even if the actual workings of those
+may have changed.</p>
+
+<p>The PATCH part of a version are bug fixes. These should not introduce new
+functionality, but rather fix broken or incorrect functionality, or possibly
+refactor internal workings without actually changing the input or output
+of the functions.</p>
+
+<p>How do we use this at work?</p>
+
+<p>Now this is a specific case, and we are just now moving to use this. The idea
+for us is pretty much as described above, however the movement is a little
+more deployment specific than it is functionality specific. That is, the
+version number, especially the MAJOR and MINOR numbers, will indicate what
+deployment level this is at.</p>
+
+<p>So, the MAJOR number will be the &ldquo;this is in production&rdquo; version. This is
+the customer facing, being used in real work, version. 1.0.x will be in
+production use, 2.0.x will be it&rsquo;s successor, etc.</p>
+
+<p>The MINOR number will be &ldquo;features being tested&rdquo;. So, 1.1.x will NOT be
+in production use, but rather will be something that is being tested to
+eventually be included in the 2.0.x version.</p>
+
+<p>Again, that&rsquo;s a specific case for us, and not really required by the
+semver specification. We find that kind of structure useful for our purposes,
+while I&rsquo;m sure your project(s) will have different needs. The main reason
+for this kind of versioning is to prevent problems related to what version
+of which project is being used in a given context.</p>
+
+<p>For more information on semantic versioning, you can check out their
+<a href="http://semver.org">website</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Refactor]]></title>
