@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Modules | The Blog from Darel]]></title>
-  <link href="http://darelf.github.io/blog/categories/modules/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Queue | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/queue/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
   <updated>2014-02-18T08:41:13-05:00</updated>
   <id>http://darelf.github.io/</id>
@@ -112,52 +112,6 @@ since I don&rsquo;t need to pass the messages on.</p>
 and as you refactor make them generically useful if you can. When you use a modular
 design you can keep swapping out parts of the implementation without hassle. Something
 that can be frustrating if not impossible when using a framework.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Browserify and Me]]></title>
-    <link href="http://darelf.github.io/blog/2014/01/27/browserify-and-me/"/>
-    <updated>2014-01-27T08:18:54-05:00</updated>
-    <id>http://darelf.github.io/blog/2014/01/27/browserify-and-me</id>
-    <content type="html"><![CDATA[<p>The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious.</p>
-
-<p>So, I had started a project a while back before realizing that something
-like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
-it in. And even when I started using it I didn&rsquo;t really understand what
-it was going to do.</p>
-
-<p>Then, as I got halfway through the project, I realized what was happening
-and started doing what I should have done the whole time. So now, the code
-for this web application has two completely different approaches that,
-while not technically incompatible, make reading and debugging the code
-a chore.</p>
-
-<p>Here&rsquo;s what I learned in this very specific context:</p>
-
-<p>I&rsquo;m trying to use jquery/bootstrap to build a single page web application,
-and then using browserify to make a bridge between the client and the node
-server. That is, there are modules that run on node, and the application
-module is most easily written in node as well. The only problem is how
-to communicate between the server and client over what is essentially a
-layer on top of websockets.</p>
-
-<p>It turns out, that the cleanest solution to this problem turned out to be
-using custom events on DOM elements from the application code, and catching
-those events to do the UI parts. That is, some jquery/bootstrap code can
-use all of its normal methods and coding style to accomplish the UI
-functions, while the node style application code that has been browserified
-can simply fire off events without worrying too much about what&rsquo;s going
-to happen.</p>
-
-<p>There are some improvements I can make, and will be making, in said
-application. Things like passing in the DOM element to the client application
-code, and more cleanly setting up the custom javascript DOM events.</p>
-
-<p>All in all, though, stepping through the code again to refactor for all of
-this new knowledge makes for better code and I learned a little something
-along the way.</p>
 ]]></content>
   </entry>
   

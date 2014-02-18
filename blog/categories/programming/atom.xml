@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-07T09:25:17-05:00</updated>
+  <updated>2014-02-18T08:41:13-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building Blocks]]></title>
+    <link href="http://darelf.github.io/blog/2014/02/18/building-blocks/"/>
+    <updated>2014-02-18T08:04:35-05:00</updated>
+    <id>http://darelf.github.io/blog/2014/02/18/building-blocks</id>
+    <content type="html"><![CDATA[<p>Modules. Oh, modules.</p>
+
+<p>I&rsquo;ve talked to so many programmers over the years, and the one thing I would suggest
+to all of them is to rediscover modules. As opposed to frameworks.</p>
+
+<p>Modules are the building blocks of application development. Keeping them out of
+frameworks lets them breath and be more generally useful than if you bind them tightly
+in chains. You can reuse modules over and over again, if they are well designed, in
+many different contexts only if you emancipate them from the bondage of frameworks.</p>
+
+<p>What does that even look like?</p>
+
+<p>Let&rsquo;s take a quick overview look at a problem I needed to solve recently: I have a
+very large list of items that need processing and each item requires multiple database
+queries and even some file access. (large means in the millions)</p>
+
+<p>What did I try?</p>
+
+<p>Well, I tried just looping. That works fine on 10s of thousands of items, but the
+asynchronous nature of the database kills that on larger sets. It just fills up the
+space and crashes.</p>
+
+<p>Next up was an in memory queue. This actually works, but it is slow. It is slow for
+all the obvious reasons, but also because I&rsquo;m using a single process, single thread
+solution. This means I have to keep concurrency down because otherwise I will, again,
+fill up the available memory or use up the available file handles. ( I actually tried
+both the queue from the <code>async</code> module, as well as <code>queue-async</code>. The first would actually
+work, while the second was so slow it wasn&rsquo;t even worth pursuing any further. )</p>
+
+<p>So that&rsquo;s what didn&rsquo;t work at the level of performance I wanted, and wouldn&rsquo;t scale
+anyway.</p>
+
+<p>Network Queue</p>
+
+<p>What I did was separate the problem even further. I started with an object that knew
+how to process the individual items, and one that new how to get lists of items and
+queue them up for processing. So I broke that up into a worker, a manager and a server.
+This would allow me to scale up as many workers as I wanted, and even put them on
+different physical machines if I wanted.</p>
+
+<p>An aside: The good thing, seeing as this is node.js, is that a stream is a stream (for the most
+part) and what I did to make it work over the network would just as likely work fine
+over other kinds of streams.</p>
+
+<p>Conceptually, there are four parts I considered vital to accomplishing this task (and
+any similar task): Completely separate out the code that actually performs the task,
+create a worker that only knows how to participate in the group, create a server that
+communicates with workers and observers, and an observer that receives updates on what&rsquo;s
+happening.</p>
+
+<p>The code that actually runs the task needs to be completely separated from the rest.
+In this case, the task was to either delete a document or to create an updated document.
+That&rsquo;s all this code does, it knows how to get the information from the database and
+update the index.</p>
+
+<p>The code that manages the process keeps a list of workers, and list of observers. These
+two lists are very lightweight wrappers around streams. It doesn&rsquo;t need much information
+about these, just needs the stream so it can send over information. It also keeps the
+list of current items that need processing. It uses this to assign to the list of workers
+items until it&rsquo;s empty. The observers can request processing and can receive updates of
+status.</p>
+
+<p>The workers have a status (idle or busy) and can send update messages and receive request
+to process items. That&rsquo;s pretty much it.</p>
+
+<p>The observer mostly just listens to the server waiting for updates. It can also request
+that the entire grid work on a particular problem by sending a message. If no problem
+is being worked on currently, then the manager will generate the list of tasks and
+then start handing them out.</p>
+
+<p>What&rsquo;s underneath there?</p>
+
+<p>Oh, that&rsquo;s just <a href="http://npmjs.org/package/event-stream">event-stream</a> This thing kind of
+does what you think. Or maybe not. It creates a pipeline of processing on streams. That
+is, node js streams, which in my case means sockets. Basically it listens for <code>events</code>
+on the <code>stream</code> and then takes the steps in the chain, possibly passing it back out to
+another stream at the end.</p>
+
+<p>It solves a problem I was going to have to solve anyway, since I wanted to use JSON
+to communicate between the processes. This module has all of that, and does just that.
+Meaning it takes care of the event streaming so I don&rsquo;t have to, and doesn&rsquo;t do a
+whole bunch of unrelated, extraneous stuff that makes it unusable or terribly
+interdependent. Basic solution of problem using standard interfaces.</p>
+
+<p>In my case, I pass it the socket, split it and parse it (courtesy of <code>event-stream</code>),
+and then do something with the parsed message. I throw away the data after I&rsquo;m done,
+since I don&rsquo;t need to pass the messages on.</p>
+
+<p>Ta-Da!</p>
+
+<p>That&rsquo;s all there is to it. Use modules. When designing solutions, design them in modules
+and as you refactor make them generically useful if you can. When you use a modular
+design you can keep swapping out parts of the implementation without hassle. Something
+that can be frustrating if not impossible when using a framework.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Semver]]></title>
