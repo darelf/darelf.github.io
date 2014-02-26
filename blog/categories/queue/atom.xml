@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Queue | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/queue/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -27,6 +27,9 @@ to all of them is to rediscover modules. As opposed to frameworks.</p>
 frameworks lets them breath and be more generally useful than if you bind them tightly
 in chains. You can reuse modules over and over again, if they are well designed, in
 many different contexts only if you emancipate them from the bondage of frameworks.</p>
+
+<!--more-->
+
 
 <p>What does that even look like?</p>
 

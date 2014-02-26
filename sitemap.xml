@@ -2,37 +2,37 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://darelf.github.io/blog/2014/01/24/tracking-pathfinder/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:39:58-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/01/27/browserify-and-me/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:40:16-05:00</lastmod>
     </url>
     <url>
         <loc>
             http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line/
         </loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:40:29-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/04/programmer-identification/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:40:44-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/06/refactor/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:00-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/07/semver/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:13-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/18/building-blocks/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:28-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/24/characterization/</loc>
-        <lastmod>2014-02-26T13:17:44-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:44-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/blog/2014/02/26/no-comment/</loc>
@@ -44,10 +44,10 @@
     </url>
     <url>
         <loc>http://darelf.github.io/blog/archives/</loc>
-        <lastmod>2014-02-26T13:39:02-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:44-05:00</lastmod>
     </url>
     <url>
         <loc>http://darelf.github.io/</loc>
-        <lastmod>2014-02-26T13:39:02-05:00</lastmod>
+        <lastmod>2014-02-26T13:41:44-05:00</lastmod>
     </url>
 </urlset>

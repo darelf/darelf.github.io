@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Node | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/node/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -25,6 +25,9 @@ really, really pretentious.</p>
 like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
 it in. And even when I started using it I didn&rsquo;t really understand what
 it was going to do.</p>
+
+<!--more-->
+
 
 <p>Then, as I got halfway through the project, I realized what was happening
 and started doing what I should have done the whole time. So now, the code
@@ -69,6 +72,9 @@ along the way.</p>
 <p>We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
 Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
 modifiers. Wow. A LOT.</p>
+
+<!--more-->
+
 
 <p>As of now, we keep a rather complicated sheet of certain precalculated sets of modifiers that
 tend to affect the whole group, things like Bless or Haste, and have them all added up so that

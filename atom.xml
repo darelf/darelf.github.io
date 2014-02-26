@@ -4,7 +4,7 @@
   <title><![CDATA[The Blog from Darel]]></title>
   <link href="http://darelf.github.io/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -63,6 +63,9 @@ be anywhere on that alignment axis and play an interesting character. Such as
 a character who is neutral or passive regarding good and evil, but cares about
 freedom. Or one who cares about good, but doesn&rsquo;t really care about methods
 as long as good gets accomplished. Same thing for evil.</p>
+
+<!--more-->
+
 
 <p>Now, yes, it uses the word &ldquo;evil&rdquo; for what most people refer to not only as
 evil but also for things that are selfish. However, selfishness throughout
@@ -138,6 +141,9 @@ to all of them is to rediscover modules. As opposed to frameworks.</p>
 frameworks lets them breath and be more generally useful than if you bind them tightly
 in chains. You can reuse modules over and over again, if they are well designed, in
 many different contexts only if you emancipate them from the bondage of frameworks.</p>
+
+<!--more-->
+
 
 <p>What does that even look like?</p>
 
@@ -237,6 +243,9 @@ that can be frustrating if not impossible when using a framework.</p>
 years of trying to push versioning in general, and semantic versioning in
 particular, we are now implementing.</p>
 
+<!--more-->
+
+
 <p>What is &ldquo;semantic versioning&rdquo;?</p>
 
 <p>In short, you know those version numbers you see on all those projects
@@ -321,6 +330,9 @@ what this is all about, and the philosophy of programming in general. Refactorin
 means being disciplined about code structure in the first place. It is the anti-spaghetti code.
 It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
 
+<!--more-->
+
+
 <p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
 is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
 the problem into smaller and smaller pieces until it is actually manageable.</p>
@@ -392,6 +404,9 @@ it&rsquo;s supposed to do )</p>
     <content type="html"><![CDATA[<p>Seems like people are complicated creatures. Sure. But we always seem to come back
 to certain variables that we all latch on to when trying to identify each other
 or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
+
+<!--more-->
+
 
 <p>For the most part, these work as pretty good predictors, you can almost always tell
 &ldquo;if X then Y&rdquo; and make fairly accurate generalizations.</p>
@@ -477,6 +492,9 @@ accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
 modify its behavior.</p>
 
+<!--more-->
+
+
 <p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the
 user to modify the behavior. And this is for a program whose sole purpose
@@ -525,6 +543,9 @@ like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
 it in. And even when I started using it I didn&rsquo;t really understand what
 it was going to do.</p>
 
+<!--more-->
+
+
 <p>Then, as I got halfway through the project, I realized what was happening
 and started doing what I should have done the whole time. So now, the code
 for this web application has two completely different approaches that,
@@ -568,6 +589,9 @@ along the way.</p>
 <p>We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
 Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
 modifiers. Wow. A LOT.</p>
+
+<!--more-->
+
 
 <p>As of now, we keep a rather complicated sheet of certain precalculated sets of modifiers that
 tend to affect the whole group, things like Bless or Haste, and have them all added up so that

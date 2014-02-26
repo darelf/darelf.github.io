@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -27,6 +27,9 @@ to all of them is to rediscover modules. As opposed to frameworks.</p>
 frameworks lets them breath and be more generally useful than if you bind them tightly
 in chains. You can reuse modules over and over again, if they are well designed, in
 many different contexts only if you emancipate them from the bondage of frameworks.</p>
+
+<!--more-->
+
 
 <p>What does that even look like?</p>
 
@@ -126,6 +129,9 @@ that can be frustrating if not impossible when using a framework.</p>
 years of trying to push versioning in general, and semantic versioning in
 particular, we are now implementing.</p>
 
+<!--more-->
+
+
 <p>What is &ldquo;semantic versioning&rdquo;?</p>
 
 <p>In short, you know those version numbers you see on all those projects
@@ -210,6 +216,9 @@ what this is all about, and the philosophy of programming in general. Refactorin
 means being disciplined about code structure in the first place. It is the anti-spaghetti code.
 It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
 
+<!--more-->
+
+
 <p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
 is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
 the problem into smaller and smaller pieces until it is actually manageable.</p>
@@ -281,6 +290,9 @@ it&rsquo;s supposed to do )</p>
     <content type="html"><![CDATA[<p>Seems like people are complicated creatures. Sure. But we always seem to come back
 to certain variables that we all latch on to when trying to identify each other
 or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
+
+<!--more-->
+
 
 <p>For the most part, these work as pretty good predictors, you can almost always tell
 &ldquo;if X then Y&rdquo; and make fairly accurate generalizations.</p>
@@ -365,6 +377,9 @@ battle of configuration.</p>
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
 modify its behavior.</p>
+
+<!--more-->
+
 
 <p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the

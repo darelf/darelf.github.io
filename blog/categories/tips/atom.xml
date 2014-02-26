@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tips | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/tips/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -25,6 +25,9 @@ You have probably done it. You may not have even known it.</p>
 what this is all about, and the philosophy of programming in general. Refactoring code well
 means being disciplined about code structure in the first place. It is the anti-spaghetti code.
 It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
+
+<!--more-->
+
 
 <p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
 is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce

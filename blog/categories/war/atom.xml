@@ -4,7 +4,7 @@
   <title><![CDATA[Category: War | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/war/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -25,6 +25,9 @@ battle of configuration.</p>
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
 modify its behavior.</p>
+
+<!--more-->
+
 
 <p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the

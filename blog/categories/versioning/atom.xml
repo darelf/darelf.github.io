@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Versioning | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/versioning/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-26T13:39:21-05:00</updated>
+  <updated>2014-02-26T13:41:59-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -23,6 +23,9 @@
 <p>So here at work we finally settled on a versioning scheme. After literally
 years of trying to push versioning in general, and semantic versioning in
 particular, we are now implementing.</p>
+
+<!--more-->
+
 
 <p>What is &ldquo;semantic versioning&rdquo;?</p>
 
