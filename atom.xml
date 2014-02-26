@@ -4,7 +4,7 @@
   <title><![CDATA[The Blog from Darel]]></title>
   <link href="http://darelf.github.io/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-02-24T13:39:51-05:00</updated>
+  <updated>2014-02-26T13:26:20-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[No Comment]]></title>
+    <link href="http://darelf.github.io/blog/2014/02/26/no-comment/"/>
+    <updated>2014-02-26T12:57:37-05:00</updated>
+    <id>http://darelf.github.io/blog/2014/02/26/no-comment</id>
+    <content type="html"><![CDATA[<p>Taking out comments. Unnecessary.</p>
+
+<p>If you need to contact me or have a comment about a post, send me an email.
+Or use the twitter or google plus buttons on the post. I&rsquo;m down. Down with
+the twitters and plusai.</p>
+
+<p>Separating things into categories. That&rsquo;s what I&rsquo;ll be doing.</p>
+
+<p>There should already be a <a href="http://darelf.github.io/blog/categories/programming">programming category</a>
+which should have all of that stuff. If you are only interested in that
+part, well, use that category.</p>
+
+<p>I&rsquo;ll be adding character posts about gaming. Right now doing Pathfinder,
+so most of the posts will be about characters in that game. Don&rsquo;t sweat it.
+If you are only into the Pathfinder part, use the
+<a href="http://darelf.github.io/blog/categories/pathfinder">Pathfinder category</a>
+or if you want to know about a specific character, or what&rsquo;s going
+on in a specific game you can filter further by their categories.</p>
+
+<p>That&rsquo;s all for now. If you aren&rsquo;t on <a href="http://plus.google.com">Google +</a> or
+on <a href="http://twitter.com">Twitter</a> let me know; I can add different social
+networks.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Characterization]]></title>
