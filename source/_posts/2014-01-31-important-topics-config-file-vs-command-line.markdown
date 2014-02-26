@@ -12,7 +12,7 @@ Every useful application is configurable. This is an axiom, a universally
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
 modify its behavior.
-
+<!--more-->
 For instance, one of the simplest Unix programs of all time, `ls`, on my
 Linux machine has over 50 separate command line switches that allow the
 user to modify the behavior. And this is for a program whose sole purpose

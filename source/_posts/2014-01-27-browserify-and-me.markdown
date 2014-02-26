@@ -12,7 +12,7 @@ So, I had started a project a while back before realizing that something
 like browserify existed. I know. I feel like a moron already, don't rub
 it in. And even when I started using it I didn't really understand what
 it was going to do.
-
+<!--more-->
 Then, as I got halfway through the project, I realized what was happening
 and started doing what I should have done the whole time. So now, the code
 for this web application has two completely different approaches that,

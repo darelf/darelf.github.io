@@ -5,6 +5,9 @@ single: true
 
 <div>
 <article class="hentry" role="article">
+    {% unless page.sharing == false %}
+      {% include post/sharing.html %}
+    {% endunless %}
   {% include article.html %}
   <footer>
     <p class="meta">
@@ -30,14 +33,7 @@ single: true
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
   </section>
-{% else if page.comments == true %}
-  <section id="comment">
-    <h1>Comments</h1>
-    <div id="livefyre-comments"></div>
-    {% include livefyre.html %}
-  </section>
 {% endif %}
-</div>
 {% unless page.sidebar == false %}
 <aside class="sidebar">
   {% if site.post_asides.size %}

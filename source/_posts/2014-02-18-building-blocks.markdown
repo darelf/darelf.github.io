@@ -14,7 +14,7 @@ Modules are the building blocks of application development. Keeping them out of
 frameworks lets them breath and be more generally useful than if you bind them tightly
 in chains. You can reuse modules over and over again, if they are well designed, in
 many different contexts only if you emancipate them from the bondage of frameworks.
-
+<!--more-->
 What does that even look like?
 
 Let's take a quick overview look at a problem I needed to solve recently: I have a

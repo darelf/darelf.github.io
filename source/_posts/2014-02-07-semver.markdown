@@ -10,7 +10,7 @@ Semantic Versioning. Hell yeah.
 So here at work we finally settled on a versioning scheme. After literally
 years of trying to push versioning in general, and semantic versioning in
 particular, we are now implementing.
-
+<!--more-->
 What is "semantic versioning"?
 
 In short, you know those version numbers you see on all those projects

@@ -8,7 +8,7 @@ categories: [programming, culture]
 Seems like people are complicated creatures. Sure. But we always seem to come back
 to certain variables that we all latch on to when trying to identify each other
 or to predict behavior. Gender, race, social class, politics, hobbies, etc.
-
+<!--more-->
 For the most part, these work as pretty good predictors, you can almost always tell
 "if X then Y" and make fairly accurate generalizations.
 

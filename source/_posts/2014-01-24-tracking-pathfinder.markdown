@@ -10,7 +10,7 @@ Oh boy. Yeah. The Pathfinder RPG.
 We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
 Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
 modifiers. Wow. A LOT.
-
+<!--more-->
 As of now, we keep a rather complicated sheet of certain precalculated sets of modifiers that
 tend to affect the whole group, things like Bless or Haste, and have them all added up so that
 play can continue smoothly. Depending on how many casters, and what the current level is, the

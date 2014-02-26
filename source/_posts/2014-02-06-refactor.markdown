@@ -12,7 +12,7 @@ I often think of refactoring as the primary job in programming. It cuts to the h
 what this is all about, and the philosophy of programming in general. Refactoring code well
 means being disciplined about code structure in the first place. It is the anti-spaghetti code.
 It is the way in which we accomplish those ideals of "elegant" code.
-
+<!--more-->
 So, I thought I would give a recent example of something I worked on. It's a small bit. Which
 is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
 the problem into smaller and smaller pieces until it is actually manageable.
