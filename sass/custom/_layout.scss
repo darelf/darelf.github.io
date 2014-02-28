@@ -1,6 +1,54 @@
 // Here you can easily change your sites's layout.
 // To give it a try, uncomment some of the lines below, make changes, rebuild your blog, and see how it works.
 
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #999;
+  border-radius: 10px;
+}
+
+body > header h1 {
+  padding-left: 2.5em;
+  text-align: right;
+  @media only screen and (min-width: 432px) { text-align: left; }
+  @media only screen and (min-width: 768px) { padding-left: 3em; }
+  @media only screen and (min-width: 992px) { padding-left: 2em; }
+}
+
+body > header h2 {
+  padding-left: 5.62em;
+  text-align: left;
+  @media only screen and (min-width: 432px) { text-align: left; padding-left: 3.9em; }
+  @media only screen and (min-width: 768px) { padding-left: 5em; }
+  @media only screen and (min-width: 992px) { padding-left: 2.9em; }
+}
+
+body > header h1:before {
+  content: "";
+  position: absolute;
+  left: 0em;
+  right: 0;
+  top: 1.5em;
+  height: 110px;
+  width: 110px;
+  overflow: hidden;
+  text-align: right;
+  background-image: url('/images/circle_profile.png');
+  background-repeat: no-repeat;
+  background-size: 100px 100px;
+  @media only screen and (min-width: 432px) { top: .32em; }
+  @media only screen and (min-width: 768px) { left: .75em; }
+}
+
 //$header-font-size: 1em;
 //$header-padding-top: 1.5em;
 //$header-padding-bottom: 1.5em;
