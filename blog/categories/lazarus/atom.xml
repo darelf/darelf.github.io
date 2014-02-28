@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Pathfinder | The Blog from Darel]]></title>
-  <link href="http://darelf.github.io/blog/categories/pathfinder/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Lazarus | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/lazarus/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
   <updated>2014-02-28T13:59:05-05:00</updated>
   <id>http://darelf.github.io/</id>
@@ -46,39 +46,6 @@ of funds from the temple to help offset any costs.</p>
 about the guild. She would have loved to go on this expedition, since I&rsquo;m
 sure the payout would be plenty to cover her losses back in Sargava.
 Unfortunately, I haven&rsquo;t been able to find her. Oh well, more for me then.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tracking Pathfinder]]></title>
-    <link href="http://darelf.github.io/blog/2014/01/24/tracking-pathfinder/"/>
-    <updated>2014-01-24T14:35:35-05:00</updated>
-    <id>http://darelf.github.io/blog/2014/01/24/tracking-pathfinder</id>
-    <content type="html"><![CDATA[<p>Oh boy. Yeah. The Pathfinder RPG.</p>
-
-<p>We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
-Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
-modifiers. Wow. A LOT.</p>
-
-<!--more-->
-
-
-<p>As of now, we keep a rather complicated sheet of certain precalculated sets of modifiers that
-tend to affect the whole group, things like Bless or Haste, and have them all added up so that
-play can continue smoothly. Depending on how many casters, and what the current level is, the
-number of modifiers &mdash; and more importantly the number of modifiers that clash &mdash; can get crazy.</p>
-
-<p>So, as two of us are programmers by trade, we thought to ourselves &ldquo;We can do this electronically&rdquo;.</p>
-
-<p>Ah, hubris. That&rsquo;s all fine and well, but definition of the problem became a chore in and of
-itself. Luckily we could keep defining down until comfortable with the scope, since we were only
-out to please ourselves.</p>
-
-<p>And so&hellip; <a href="http://github.com/darelf/bufftracker">bufftracker</a>. There is a companion web product,
-though it is not yet finished. Honestly the base project is not yet finished. As I make more
-progress I&rsquo;ll be updating it and probably post more on here about it.</p>
-
-<p>Maybe. I dunno. We&rsquo;ll play it by ear.</p>
 ]]></content>
   </entry>
   
