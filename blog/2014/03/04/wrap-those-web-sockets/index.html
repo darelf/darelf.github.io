@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>No Comment - The Blog from Darel</title>
+  <title>Wrap Those Web Sockets - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="Taking out comments. Unnecessary. If you need to contact me or have a comment about a post, send me an email.
-Or use the twitter or google plus &hellip;">
+  <meta name="description" content="Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+only has a single port available on each machine. (at least &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ Or use the twitter or google plus &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/02/26/no-comment">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -69,7 +69,7 @@ Or use the twitter or google plus &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/02/26/no-comment/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/02/26/no-comment/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -81,7 +81,7 @@ Or use the twitter or google plus &hellip;">
   
   <header>
     
-      <h1 class="entry-title">No Comment</h1>
+      <h1 class="entry-title">Wrap Those Web Sockets</h1>
     
     
       <p class="meta">
@@ -97,38 +97,39 @@ Or use the twitter or google plus &hellip;">
   
 
 
-<time datetime="2014-02-26T12:57:37-05:00" pubdate data-updated="true">Feb 26<span>th</span>, 2014</time>
+<time datetime="2014-03-04T10:59:10-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Taking out comments. Unnecessary.</p>
+<div class="entry-content"><p>Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+only has a single port available on each machine. (at least that you can use) But
+you have some awesome client-server stuff that runs completely in the background
+and is not really related to browsers or anything. You currently, and brilliantly,
+have them speaking over regular node streams using the <code>net</code> functionality.</p>
 
-<p>If you need to contact me or have a comment about a post, send me an email.
-Or use the twitter or google plus buttons on the post. I&rsquo;m down. Down with
-the twitters and plusai.</p>
+<p>What to do?</p>
 
-<!--more-->
+<p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
+socket connections.</p>
 
+<p>WEBSOCKETS TO THE RESCUE!  Websockets are just sockets, but they are negotiated
+over http. Oh yeah they are. So they can be routed by your infrastructure that
+supports websockets. (like, say, <a href="http://github.com/substack/bouncy">bouncy</a>, but
+there are plenty of other examples).</p>
 
-<p>Separating things into categories. That&rsquo;s what I&rsquo;ll be doing.</p>
+<p>But you aren&rsquo;t using a browser. There&rsquo;s no browser here. Hmm.</p>
 
-<p>There should already be a <a href="http://darelf.github.io/blog/categories/programming">programming category</a>
-which should have all of that stuff. If you are only interested in that
-part, well, use that category.</p>
+<p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
+That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
+a project he calls <a href="http://github/maxogden/websocket-stream">websocket-stream</a></p>
 
-<p>I&rsquo;ll be adding character posts about gaming. Right now doing Pathfinder,
-so most of the posts will be about characters in that game. Don&rsquo;t sweat it.
-If you are only into the Pathfinder part, use the
-<a href="http://darelf.github.io/blog/categories/pathfinder">Pathfinder category</a>
-or if you want to know about a specific character, or what&rsquo;s going
-on in a specific game you can filter further by their categories.</p>
+<p>Now your carefully designed code that leverages the node stream api can continue
+on untouched simply by wrapping the websockets with this little gem.</p>
 
-<p>That&rsquo;s all for now. If you aren&rsquo;t on <a href="http://plus.google.com">Google +</a> or
-on <a href="http://twitter.com">Twitter</a> let me know; I can add different social
-networks.</p>
+<p>Enjoy!</p>
 </div>
 
 
@@ -151,12 +152,12 @@ networks.</p>
   
 
 
-<time datetime="2014-02-26T12:57:37-05:00" pubdate data-updated="true">Feb 26<span>th</span>, 2014</time>
+<time datetime="2014-03-04T10:59:10-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/blog/'>blog</a>
+    <a class='category' href='/blog/categories/http/'>http</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/websockets/'>websockets</a>
   
 </span>
 
@@ -165,7 +166,7 @@ networks.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/02/26/no-comment/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/02/26/no-comment/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -176,10 +177,8 @@ networks.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/18/building-blocks/" title="Previous Post: Building Blocks">&laquo; Building Blocks</a>
+        <a class="basic-alignment left" href="/blog/2014/03/03/lazarus-new-beginnings/" title="Previous Post: Lazarus - New Beginnings">&laquo; Lazarus - New Beginnings</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/28/lazarus-intro/" title="Next Post: Lazarus - Intro">Lazarus - Intro &raquo;</a>
       
     </p>
   </footer>

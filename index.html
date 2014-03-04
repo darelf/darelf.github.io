@@ -9,7 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="Journal Entry: Mae is exactly as I remember her. Something about elves, probably. ">
+  <meta name="description" content="Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+only has a single port available on each machine. (at least &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/04/wrap-those-web-sockets/">Wrap Those Web Sockets</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-04T10:59:10-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+only has a single port available on each machine. (at least that you can use) But
+you have some awesome client-server stuff that runs completely in the background
+and is not really related to browsers or anything. You currently, and brilliantly,
+have them speaking over regular node streams using the <code>net</code> functionality.</p>
+
+<p>What to do?</p>
+
+<p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
+socket connections.</p>
+
+<p>WEBSOCKETS TO THE RESCUE!  Websockets are just sockets, but they are negotiated
+over http. Oh yeah they are. So they can be routed by your infrastructure that
+supports websockets. (like, say, <a href="http://github.com/substack/bouncy">bouncy</a>, but
+there are plenty of other examples).</p>
+
+<p>But you aren&rsquo;t using a browser. There&rsquo;s no browser here. Hmm.</p>
+
+<p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
+That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
+a project he calls <a href="http://github/maxogden/websocket-stream">websocket-stream</a></p>
+
+<p>Now your carefully designed code that leverages the node stream api can continue
+on untouched simply by wrapping the websockets with this little gem.</p>
+
+<p>Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -475,52 +537,9 @@ it was going to do.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/24/tracking-pathfinder/">Tracking Pathfinder</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-24T14:35:35-05:00" pubdate data-updated="true">Jan 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Oh boy. Yeah. The Pathfinder RPG.</p>
-
-<p>We play this game pretty relentlessly. Throughout that whole experience, years of slogging through
-Pathfinder campaigns, we come across a simple problem: Pathfinder has a LOT of conditional
-modifiers. Wow. A LOT.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/24/tracking-pathfinder/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -531,6 +550,10 @@ modifiers. Wow. A LOT.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/03/04/wrap-those-web-sockets/">Wrap Those Web Sockets</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/03/03/lazarus-new-beginnings/">Lazarus - New Beginnings</a>
@@ -548,10 +571,6 @@ modifiers. Wow. A LOT.</p>
         <a href="/blog/2014/02/18/building-blocks/">Building Blocks</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/07/semver/">Semver</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -560,16 +579,19 @@ modifiers. Wow. A LOT.</p>
     <li class='category'><a href='/blog/categories/blog/'>blog <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/browserify/'>browserify <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/culture/'>culture <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/http/'>http <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/lazarus/'>lazarus <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/modules/'>modules <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/network/'>network <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/node/'>node <span class='badge'>2</span></a></li>
+<li class='category'><a href='/blog/categories/nodejs/'>nodejs <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/pathfinder/'>pathfinder <span class='badge'>3</span></a></li>
-<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>5</span></a></li>
+<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>6</span></a></li>
 <li class='category'><a href='/blog/categories/queue/'>queue <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/tips/'>tips <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/versioning/'>versioning <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/war/'>war <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/websockets/'>websockets <span class='badge'>1</span></a></li>
 
   </ul>
 </section>
