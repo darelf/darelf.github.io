@@ -25,7 +25,7 @@ But you aren't using a browser. There's no browser here. Hmm.
 
 You go check out `npm` and find out that maxogden has already solved your problem.
 That's what you do. He has already wrapped websockets with stream functionality in
-a project he calls [websocket-stream](http://github/maxogden/websocket-stream)
+a project he calls [websocket-stream](http://github.com/maxogden/websocket-stream)
 
 Now your carefully designed code that leverages the node stream api can continue
 on untouched simply by wrapping the websockets with this little gem.
