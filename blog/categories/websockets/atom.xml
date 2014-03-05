@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Websockets | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/websockets/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-05T10:37:20-05:00</updated>
+  <updated>2014-03-05T10:43:55-05:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -38,7 +38,7 @@ there are plenty of other examples).</p>
 
 <p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
 That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
-a project he calls <a href="http://github/maxogden/websocket-stream">websocket-stream</a></p>
+a project he calls <a href="http://github.com/maxogden/websocket-stream">websocket-stream</a></p>
 
 <p>Now your carefully designed code that leverages the node stream api can continue
 on untouched simply by wrapping the websockets with this little gem.</p>
