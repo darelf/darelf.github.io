@@ -181,26 +181,12 @@ have them speaking over regular node streams using the <code>net</code> function
 
 <p>What to do?</p>
 
-<p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
-socket connections.</p>
-
-<p>WEBSOCKETS TO THE RESCUE!  Websockets are just sockets, but they are negotiated
-over http. Oh yeah they are. So they can be routed by your infrastructure that
-supports websockets. (like, say, <a href="http://github.com/substack/bouncy">bouncy</a>, but
-there are plenty of other examples).</p>
-
-<p>But you aren&rsquo;t using a browser. There&rsquo;s no browser here. Hmm.</p>
-
-<p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
-That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
-a project he calls <a href="http://github.com/maxogden/websocket-stream">websocket-stream</a></p>
-
-<p>Now your carefully designed code that leverages the node stream api can continue
-on untouched simply by wrapping the websockets with this little gem.</p>
-
-<p>Enjoy!</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/03/04/wrap-those-web-sockets/">Read on &rarr;</a>
+    </footer>
   
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Websockets | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/websockets/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-10T08:26:36-04:00</updated>
+  <updated>2014-03-10T08:27:17-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -25,6 +25,9 @@ and is not really related to browsers or anything. You currently, and brilliantl
 have them speaking over regular node streams using the <code>net</code> functionality.</p>
 
 <p>What to do?</p>
+
+<!--more-->
+
 
 <p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
 socket connections.</p>
