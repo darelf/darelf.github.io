@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-10T14:12:02-04:00</updated>
+  <updated>2014-03-11T13:33:12-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Distributed Jobs]]></title>
+    <link href="http://darelf.github.io/blog/2014/03/11/distributed-jobs/"/>
+    <updated>2014-03-11T13:12:33-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/03/11/distributed-jobs</id>
+    <content type="html"><![CDATA[<p>This post is supposed to be about network queuing of jobs that can be
+distributed into discrete tasks which themselves can be completed in
+any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
+npm package that I have published. I will diverge just a bit here to
+talk a little bit of background.</p>
+
+<!--more-->
+
+
+<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+in programming to talk about streams and streaming.</p>
+
+<p>Probably number one is networking, that is TCP (or whatever) network
+sockets that are read/write and have very well-established, at this point,
+semantics. Open, close, pause, end, read, write, etc. Depending on the
+exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+quite a lot of semantics built on top of streams.</p>
+
+<p>Nodejs, of course, does networking really well. In fact, that may be the
+number one purpose for most programmers using it. It&rsquo;s just really
+fantastic at networking. Your code can worry about what goes on just
+above the socket level, with the streams. They also give you an
+abstraction, so that there are file streams, etc. helping you out.</p>
+
+<p>This is all fairly normal in programming, and streams have been around
+for a long time. UNIX pipes are probably the most common stream-semantic
+thing that programmers use, but they are everywhere in just about every
+language that&rsquo;s of any use.</p>
+
+<p>So&hellip;</p>
+
+<p>Back to jobs. If you have a big job that can broken down into discreet
+tasks such that those tasks can happen in any order, you have something
+that can be distributed. And by distributed, I mean among separate processes,
+each process accomplishing one of the tasks towards the goal of completing
+the job.</p>
+
+<p>What <code>stream-queue</code> is designed to do is give the basic functionality of
+a distributed queue that I needed. I need to have it manage the list of
+tasks, how many total tasks there were at the beginning, how many have
+been completed and how many are left to do. It needs to notify me of
+when it starts, when it ends, and each time a step is taken on the way
+(progress).</p>
+
+<p>These are all straightforward. They need to not depend on time. That is,
+having a unique timestamp should not be required, seeing as how there
+might be many workers concurrently processing tasks, and some will inevitably
+happen at the same timestamp.</p>
+
+<p>The workers should be able to spin up or shutdown without consequence to
+the working of the queue as it is in progress. One future upgrade to the
+<code>stream-queue</code> package will be the ability to re-do a task if a worker
+gets shutdown before completing the task. Also, having a standard semantic
+for asking the queue to shutdown one of its workers, either simply to
+reduce the load, or possibly even by name.</p>
+
+<p>Others might be the ability to manage multiple kinds of workers, and
+have those workers advertise the kind of work they can do and let the
+queue manager distribute jobs accordingly.</p>
+
+<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+lot of progress towards better features.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Wrap Those Web Sockets]]></title>
@@ -316,89 +386,6 @@ uses quite a lot of arrays of objects.</p>
 over the course of an entire application will make the code better, more readable,
 and more maintainable. ( The name <code>contains</code> is easy to read and understand what
 it&rsquo;s supposed to do )</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Programmer Identification]]></title>
-    <link href="http://darelf.github.io/blog/2014/02/04/programmer-identification/"/>
-    <updated>2014-02-04T07:47:45-05:00</updated>
-    <id>http://darelf.github.io/blog/2014/02/04/programmer-identification</id>
-    <content type="html"><![CDATA[<p>Seems like people are complicated creatures. Sure. But we always seem to come back
-to certain variables that we all latch on to when trying to identify each other
-or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
-
-<!--more-->
-
-
-<p>For the most part, these work as pretty good predictors, you can almost always tell
-&ldquo;if X then Y&rdquo; and make fairly accurate generalizations.</p>
-
-<p>We do this for a lot of reasons, but one is to find those that we would be
-compatible with. In fact, a lot of the identifiers that we look for are usually
-in relation to our own preferences and not some objective standard. So while, for
-instance gender is an objective identifier, something like &ldquo;goes to Starbucks a lot&rdquo;
-would be just as useful as an indentifier for social compatibility.</p>
-
-<p>So, how do programmers/software engineers/developers identify possible compatibilities?
-Outside of the standard ones, such as &ldquo;wears sandles at all times&rdquo; or &ldquo;drives a Prius&rdquo;
-or &ldquo;deeply and passionately believes that proper government can solve problems&rdquo;, we
-have to look at preferences that indicate something about that person.</p>
-
-<p>Since, as I mentioned, this is kind of subjective, I will only be talking about things
-that matter to me even in the smallest way, along with how important or useful an
-indicator it is with &ldquo;1&rdquo; being not very useful at all, and &ldquo;10&rdquo; being apocalyptic.</p>
-
-<h4>Tabs or Spaces &ndash; 2</h4>
-
-<p>Spaces is the correct answer here.</p>
-
-<p>Why so high as a 2? Well, there are two indications here. The first is that if you are
-the kind of programmer who has never really considered which one is better and has
-experimented with both to find what&rsquo;s right for you, then that&rsquo;s an indicator that we
-probably don&rsquo;t have much in common. In fact, that would be an even bigger negative
-than choosing Tabs.</p>
-
-<h4>Functional Language &ndash; 5</h4>
-
-<p>There are two main camps of good programmers. (I mean good in the sense of &ldquo;good at
-their job&rdquo;). The ones who like math, and the rest of us.</p>
-
-<p>I am not a mathemetician. I passed my classes, but have forgotten everything past
-Algebra since I never use any of it in my line of work. This means that I generally
-hate things like Lisp. And I&rsquo;ve tried Lisp and Erlang and Scala and Haskell and others,
-but just never got into them.</p>
-
-<p>As xkcd once remarked they have &ldquo;the flexibility and power of abstract mathematics
-with the intuitive clarity of abstract mathematics&rdquo;. Which is why I generally just
-stay away from &ldquo;functional&rdquo; languages. I understand, by the way, why it&rsquo;s called that
-but I have a hard time viewing those languages as functional in the normal sense
-of the word.</p>
-
-<h4>Command Line or IDE &ndash; 7</h4>
-
-<p>This is a tough one, since in some circumstances an IDE is the most efficient.
-But to make it a seven it has to be a preference for an IDE over command line, where
-all other things are equal. That is, when editing HTML, you prefer Eclipse over Vi,
-in which case we will just never get along.</p>
-
-<p>When I bring new people in at work, we go over how to build the projects both at
-the command line and using the Eclipse IDE. I lie to them and say it doesn&rsquo;t matter
-and use whatever you want. In reality, it does matter, and if they choose and
-stick with the IDE, we generally don&rsquo;t end up doing a lot of successful projects
-together.</p>
-
-<h4>Single Language &ndash; 10</h4>
-
-<p>This is a ten because if you only program in one language, then I wouldn&rsquo;t even
-call you a programmer. As far as I&rsquo;m concerned, you chose the wrong profession.</p>
-
-<p>So&hellip;.</p>
-
-<p>This is just my brief list, and isn&rsquo;t everything, and reflects my own biases.
-Yet, we all use these kinds of things to varying degress to help us match up with
-fellow programmers. Maybe one day we can come up with a system for helping match
-programmers.</p>
 ]]></content>
   </entry>
   

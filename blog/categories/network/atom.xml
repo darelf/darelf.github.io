@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Network | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/network/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-10T14:12:02-04:00</updated>
+  <updated>2014-03-11T13:33:12-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Distributed Jobs]]></title>
+    <link href="http://darelf.github.io/blog/2014/03/11/distributed-jobs/"/>
+    <updated>2014-03-11T13:12:33-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/03/11/distributed-jobs</id>
+    <content type="html"><![CDATA[<p>This post is supposed to be about network queuing of jobs that can be
+distributed into discrete tasks which themselves can be completed in
+any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
+npm package that I have published. I will diverge just a bit here to
+talk a little bit of background.</p>
+
+<!--more-->
+
+
+<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+in programming to talk about streams and streaming.</p>
+
+<p>Probably number one is networking, that is TCP (or whatever) network
+sockets that are read/write and have very well-established, at this point,
+semantics. Open, close, pause, end, read, write, etc. Depending on the
+exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+quite a lot of semantics built on top of streams.</p>
+
+<p>Nodejs, of course, does networking really well. In fact, that may be the
+number one purpose for most programmers using it. It&rsquo;s just really
+fantastic at networking. Your code can worry about what goes on just
+above the socket level, with the streams. They also give you an
+abstraction, so that there are file streams, etc. helping you out.</p>
+
+<p>This is all fairly normal in programming, and streams have been around
+for a long time. UNIX pipes are probably the most common stream-semantic
+thing that programmers use, but they are everywhere in just about every
+language that&rsquo;s of any use.</p>
+
+<p>So&hellip;</p>
+
+<p>Back to jobs. If you have a big job that can broken down into discreet
+tasks such that those tasks can happen in any order, you have something
+that can be distributed. And by distributed, I mean among separate processes,
+each process accomplishing one of the tasks towards the goal of completing
+the job.</p>
+
+<p>What <code>stream-queue</code> is designed to do is give the basic functionality of
+a distributed queue that I needed. I need to have it manage the list of
+tasks, how many total tasks there were at the beginning, how many have
+been completed and how many are left to do. It needs to notify me of
+when it starts, when it ends, and each time a step is taken on the way
+(progress).</p>
+
+<p>These are all straightforward. They need to not depend on time. That is,
+having a unique timestamp should not be required, seeing as how there
+might be many workers concurrently processing tasks, and some will inevitably
+happen at the same timestamp.</p>
+
+<p>The workers should be able to spin up or shutdown without consequence to
+the working of the queue as it is in progress. One future upgrade to the
+<code>stream-queue</code> package will be the ability to re-do a task if a worker
+gets shutdown before completing the task. Also, having a standard semantic
+for asking the queue to shutdown one of its workers, either simply to
+reduce the load, or possibly even by name.</p>
+
+<p>Others might be the ability to manage multiple kinds of workers, and
+have those workers advertise the kind of work they can do and let the
+queue manager distribute jobs accordingly.</p>
+
+<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+lot of progress towards better features.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building Blocks]]></title>

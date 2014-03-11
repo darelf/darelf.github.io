@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Browserify and Me - The Blog from Darel</title>
+  <title>Distributed Jobs - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious. So, I had started a project a while &hellip;">
+  <meta name="description" content="This post is supposed to be about network queuing of jobs that can be
+distributed into discrete tasks which themselves can be completed in
+any order &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@ really, really pretentious. So, I had started a project a while &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/01/27/browserify-and-me">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/03/11/distributed-jobs">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -81,7 +82,7 @@ really, really pretentious. So, I had started a project a while &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/11/distributed-jobs/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/11/distributed-jobs/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -93,7 +94,7 @@ really, really pretentious. So, I had started a project a while &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Browserify and Me</h1>
+      <h1 class="entry-title">Distributed Jobs</h1>
     
     
       <p class="meta">
@@ -109,54 +110,75 @@ really, really pretentious. So, I had started a project a while &hellip;">
   
 
 
-<time datetime="2014-01-27T08:18:54-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+<time datetime="2014-03-11T13:12:33-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
-really, really pretentious.</p>
-
-<p>So, I had started a project a while back before realizing that something
-like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
-it in. And even when I started using it I didn&rsquo;t really understand what
-it was going to do.</p>
+<div class="entry-content"><p>This post is supposed to be about network queuing of jobs that can be
+distributed into discrete tasks which themselves can be completed in
+any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
+npm package that I have published. I will diverge just a bit here to
+talk a little bit of background.</p>
 
 <!--more-->
 
 
-<p>Then, as I got halfway through the project, I realized what was happening
-and started doing what I should have done the whole time. So now, the code
-for this web application has two completely different approaches that,
-while not technically incompatible, make reading and debugging the code
-a chore.</p>
+<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+in programming to talk about streams and streaming.</p>
 
-<p>Here&rsquo;s what I learned in this very specific context:</p>
+<p>Probably number one is networking, that is TCP (or whatever) network
+sockets that are read/write and have very well-established, at this point,
+semantics. Open, close, pause, end, read, write, etc. Depending on the
+exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+quite a lot of semantics built on top of streams.</p>
 
-<p>I&rsquo;m trying to use jquery/bootstrap to build a single page web application,
-and then using browserify to make a bridge between the client and the node
-server. That is, there are modules that run on node, and the application
-module is most easily written in node as well. The only problem is how
-to communicate between the server and client over what is essentially a
-layer on top of websockets.</p>
+<p>Nodejs, of course, does networking really well. In fact, that may be the
+number one purpose for most programmers using it. It&rsquo;s just really
+fantastic at networking. Your code can worry about what goes on just
+above the socket level, with the streams. They also give you an
+abstraction, so that there are file streams, etc. helping you out.</p>
 
-<p>It turns out, that the cleanest solution to this problem turned out to be
-using custom events on DOM elements from the application code, and catching
-those events to do the UI parts. That is, some jquery/bootstrap code can
-use all of its normal methods and coding style to accomplish the UI
-functions, while the node style application code that has been browserified
-can simply fire off events without worrying too much about what&rsquo;s going
-to happen.</p>
+<p>This is all fairly normal in programming, and streams have been around
+for a long time. UNIX pipes are probably the most common stream-semantic
+thing that programmers use, but they are everywhere in just about every
+language that&rsquo;s of any use.</p>
 
-<p>There are some improvements I can make, and will be making, in said
-application. Things like passing in the DOM element to the client application
-code, and more cleanly setting up the custom javascript DOM events.</p>
+<p>So&hellip;</p>
 
-<p>All in all, though, stepping through the code again to refactor for all of
-this new knowledge makes for better code and I learned a little something
-along the way.</p>
+<p>Back to jobs. If you have a big job that can broken down into discreet
+tasks such that those tasks can happen in any order, you have something
+that can be distributed. And by distributed, I mean among separate processes,
+each process accomplishing one of the tasks towards the goal of completing
+the job.</p>
+
+<p>What <code>stream-queue</code> is designed to do is give the basic functionality of
+a distributed queue that I needed. I need to have it manage the list of
+tasks, how many total tasks there were at the beginning, how many have
+been completed and how many are left to do. It needs to notify me of
+when it starts, when it ends, and each time a step is taken on the way
+(progress).</p>
+
+<p>These are all straightforward. They need to not depend on time. That is,
+having a unique timestamp should not be required, seeing as how there
+might be many workers concurrently processing tasks, and some will inevitably
+happen at the same timestamp.</p>
+
+<p>The workers should be able to spin up or shutdown without consequence to
+the working of the queue as it is in progress. One future upgrade to the
+<code>stream-queue</code> package will be the ability to re-do a task if a worker
+gets shutdown before completing the task. Also, having a standard semantic
+for asking the queue to shutdown one of its workers, either simply to
+reduce the load, or possibly even by name.</p>
+
+<p>Others might be the ability to manage multiple kinds of workers, and
+have those workers advertise the kind of work they can do and let the
+queue manager distribute jobs accordingly.</p>
+
+<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+lot of progress towards better features.</p>
 </div>
 
 
@@ -179,12 +201,12 @@ along the way.</p>
   
 
 
-<time datetime="2014-01-27T08:18:54-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+<time datetime="2014-03-11T13:12:33-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/browserify/'>browserify</a>, <a class='category' href='/blog/categories/modules/'>modules</a>, <a class='category' href='/blog/categories/node/'>node</a>
+    <a class='category' href='/blog/categories/network/'>network</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/streams/'>streams</a>
   
 </span>
 
@@ -193,7 +215,7 @@ along the way.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/01/27/browserify-and-me/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/11/distributed-jobs/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/11/distributed-jobs/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -204,10 +226,8 @@ along the way.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/01/24/tracking-pathfinder/" title="Previous Post: Tracking Pathfinder">&laquo; Tracking Pathfinder</a>
+        <a class="basic-alignment left" href="/blog/2014/03/10/lazarus-business/" title="Previous Post: Lazarus - Business">&laquo; Lazarus - Business</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/01/31/important-topics-config-file-vs-command-line/" title="Next Post: Important Topics: Config File vs. Command Line">Important Topics: Config File vs. Command Line &raquo;</a>
       
     </p>
   </footer>
