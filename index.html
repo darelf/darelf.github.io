@@ -9,9 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="This post is supposed to be about network queuing of jobs that can be
-distributed into discrete tasks which themselves can be completed in
-any order &hellip;">
+  <meta name="description" content="Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +78,99 @@ any order &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/18/data-synchonization/">Data Synchonization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-18T09:40:31-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out of sync.</p>
+
+<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
+
+<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+and how it can get messed up. Two people updating a spreadsheet separately can
+easily end up with two different versions, and then needing to synchronize them
+(aka merge).</p>
+
+<p>What are some of our options? Glad you asked.</p>
+
+<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+delete anything, you can only add to it. This makes synchronization easy. You just
+ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+
+<p>Updates are also fairly easy. Each record having a time it was last updated, or
+a sequence number or whatever, and you can just ask for the latest versions. Again,
+that&rsquo;s pretty much a snap.</p>
+
+<p>What about deletes?</p>
+
+<p>Ah. Well, this is only slightly more complicated. In this case, what you really need
+is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+simplest design, of course, is to have each record have a sync field (either a
+sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
+deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+be reused.</p>
+
+<p>If they can be reused, then you need to also include the sync field in the history,
+that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+is not uncommon in many systems.</p>
+
+<p>So, what do we have? Well, in order to keep multiple copies of the same data in
+sync with each other efficiently (that is, not just checking every line and
+replacing the whole dataset), a system should have: a history that lists the latest
+version of each item with a synchronization field of some kind, such as a
+monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+
+<p>One of the issues is with timestamps. If you need to synchronize in real-time
+between multiple nodes that share data, and you have a high rate of operations,
+your timestamps will probably cause you issues. The issues are directly related
+to the same problem of keeping two clocks in sync. When you have multiple
+processes on different machines doing multiple updates per second each, you are
+going to have to come up with some scheme for ordering them.</p>
+
+<p>This can be important for updates/deletes, depending on how you structure things.
+Very often, the solutions end up being a combination of timestamp, process name,
+and a sequence number. There are many different approaches, but they all follow
+the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
+
+<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+fascinating in and of itself.</p>
+
+<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+it and come up with some really complicated system.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -487,49 +579,6 @@ It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/04/programmer-identification/">Programmer Identification</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-04T07:47:45-05:00" pubdate data-updated="true">Feb 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Seems like people are complicated creatures. Sure. But we always seem to come back
-to certain variables that we all latch on to when trying to identify each other
-or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/02/04/programmer-identification/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -543,6 +592,10 @@ or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/03/18/data-synchonization/">Data Synchonization</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/03/11/distributed-jobs/">Distributed Jobs</a>
@@ -560,10 +613,6 @@ or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
         <a href="/blog/2014/03/03/lazarus-new-beginnings/">Lazarus - New Beginnings</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/28/lazarus-intro/">Lazarus - Intro</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -572,6 +621,7 @@ or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
     <li class='category'><a href='/blog/categories/blog/'>blog <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/browserify/'>browserify <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/culture/'>culture <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/data/'>data <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/http/'>http <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/lazarus/'>lazarus <span class='badge'>3</span></a></li>
 <li class='category'><a href='/blog/categories/modules/'>modules <span class='badge'>2</span></a></li>
@@ -579,10 +629,12 @@ or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
 <li class='category'><a href='/blog/categories/node/'>node <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>nodejs <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/pathfinder/'>pathfinder <span class='badge'>4</span></a></li>
-<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>7</span></a></li>
+<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>8</span></a></li>
 <li class='category'><a href='/blog/categories/queue/'>queue <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/rpg/'>rpg <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/streams/'>streams <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/sync/'>sync <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/synchronization/'>synchronization <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/tips/'>tips <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/versioning/'>versioning <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/war/'>war <span class='badge'>1</span></a></li>

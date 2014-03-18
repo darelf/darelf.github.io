@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: War - The Blog from Darel</title>
+  <title>Data Synchonization - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="Category: war">
+  <meta name="description" content="Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.ioblog/categories/war">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/03/18/data-synchonization">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -76,35 +77,155 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
-  
-  <header>
-    <h1 class="entry-title">Category: War</h1>
+<article class="hentry" role="article">
     
-  </header>
+      <div class="sharing">
   
-  <div id="blog-archives" class="category">
-
-
-
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/18/data-synchonization/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/18/data-synchonization/" >Tweet</a>
   
-  <h2>2014</h2>
-
-<article>
   
-<h1><a href="/blog/2014/01/31/important-topics-config-file-vs-command-line/">Important Topics: Config File vs. Command Line</a></h1>
-<time datetime="2014-01-31T13:26:34-05:00" pubdate><span class='month'>Jan</span> <span class='day'>31</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/war/'>war</a></span>
-</footer>
-
-
-</article>
-
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
 </div>
 
+    
   
+  <header>
+    
+      <h1 class="entry-title">Data Synchonization</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-18T09:40:31-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out of sync.</p>
+
+<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
+
+<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+and how it can get messed up. Two people updating a spreadsheet separately can
+easily end up with two different versions, and then needing to synchronize them
+(aka merge).</p>
+
+<p>What are some of our options? Glad you asked.</p>
+
+<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+delete anything, you can only add to it. This makes synchronization easy. You just
+ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+
+<p>Updates are also fairly easy. Each record having a time it was last updated, or
+a sequence number or whatever, and you can just ask for the latest versions. Again,
+that&rsquo;s pretty much a snap.</p>
+
+<p>What about deletes?</p>
+
+<p>Ah. Well, this is only slightly more complicated. In this case, what you really need
+is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+simplest design, of course, is to have each record have a sync field (either a
+sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
+deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+be reused.</p>
+
+<p>If they can be reused, then you need to also include the sync field in the history,
+that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+is not uncommon in many systems.</p>
+
+<p>So, what do we have? Well, in order to keep multiple copies of the same data in
+sync with each other efficiently (that is, not just checking every line and
+replacing the whole dataset), a system should have: a history that lists the latest
+version of each item with a synchronization field of some kind, such as a
+monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+
+<p>One of the issues is with timestamps. If you need to synchronize in real-time
+between multiple nodes that share data, and you have a high rate of operations,
+your timestamps will probably cause you issues. The issues are directly related
+to the same problem of keeping two clocks in sync. When you have multiple
+processes on different machines doing multiple updates per second each, you are
+going to have to come up with some scheme for ordering them.</p>
+
+<p>This can be important for updates/deletes, depending on how you structure things.
+Very often, the solutions end up being a combination of timestamp, process name,
+and a sequence number. There are many different approaches, but they all follow
+the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
+
+<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+fascinating in and of itself.</p>
+
+<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+it and come up with some really complicated system.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Darel Finkbeiner</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-18T09:40:31-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/data/'>data</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/sync/'>sync</a>, <a class='category' href='/blog/categories/synchronization/'>synchronization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/03/18/data-synchonization/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/03/18/data-synchonization/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/11/distributed-jobs/" title="Previous Post: Distributed Jobs">&laquo; Distributed Jobs</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

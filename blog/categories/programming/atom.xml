@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-11T13:33:12-04:00</updated>
+  <updated>2014-03-18T10:45:55-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Data Synchonization]]></title>
+    <link href="http://darelf.github.io/blog/2014/03/18/data-synchonization/"/>
+    <updated>2014-03-18T09:40:31-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/03/18/data-synchonization</id>
+    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out of sync.</p>
+
+<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
+
+<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+and how it can get messed up. Two people updating a spreadsheet separately can
+easily end up with two different versions, and then needing to synchronize them
+(aka merge).</p>
+
+<p>What are some of our options? Glad you asked.</p>
+
+<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+delete anything, you can only add to it. This makes synchronization easy. You just
+ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+
+<p>Updates are also fairly easy. Each record having a time it was last updated, or
+a sequence number or whatever, and you can just ask for the latest versions. Again,
+that&rsquo;s pretty much a snap.</p>
+
+<p>What about deletes?</p>
+
+<p>Ah. Well, this is only slightly more complicated. In this case, what you really need
+is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+simplest design, of course, is to have each record have a sync field (either a
+sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
+deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+be reused.</p>
+
+<p>If they can be reused, then you need to also include the sync field in the history,
+that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+is not uncommon in many systems.</p>
+
+<p>So, what do we have? Well, in order to keep multiple copies of the same data in
+sync with each other efficiently (that is, not just checking every line and
+replacing the whole dataset), a system should have: a history that lists the latest
+version of each item with a synchronization field of some kind, such as a
+monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+
+<p>One of the issues is with timestamps. If you need to synchronize in real-time
+between multiple nodes that share data, and you have a high rate of operations,
+your timestamps will probably cause you issues. The issues are directly related
+to the same problem of keeping two clocks in sync. When you have multiple
+processes on different machines doing multiple updates per second each, you are
+going to have to come up with some scheme for ordering them.</p>
+
+<p>This can be important for updates/deletes, depending on how you structure things.
+Very often, the solutions end up being a combination of timestamp, process name,
+and a sequence number. There are many different approaches, but they all follow
+the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
+
+<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+fascinating in and of itself.</p>
+
+<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+it and come up with some really complicated system.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Distributed Jobs]]></title>
@@ -307,85 +373,6 @@ of which project is being used in a given context.</p>
 
 <p>For more information on semantic versioning, you can check out their
 <a href="http://semver.org">website</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Refactor]]></title>
-    <link href="http://darelf.github.io/blog/2014/02/06/refactor/"/>
-    <updated>2014-02-06T09:40:06-05:00</updated>
-    <id>http://darelf.github.io/blog/2014/02/06/refactor</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve heard of refactoring. Wikipedia has a pretty good <a href="http://en.wikipedia.org/wiki/Code_refactoring">definition</a>.
-You have probably done it. You may not have even known it.</p>
-
-<p>I often think of refactoring as the primary job in programming. It cuts to the heart of
-what this is all about, and the philosophy of programming in general. Refactoring code well
-means being disciplined about code structure in the first place. It is the anti-spaghetti code.
-It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
-
-<!--more-->
-
-
-<p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
-is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
-the problem into smaller and smaller pieces until it is actually manageable.</p>
-
-<p>My problem was filtering.</p>
-
-<p>Specifically, filtering a list of javascript objects by some items in the keys. Easy one that.
-Then, one of the filters needed to check for the existance of some key on some other list of
-objects.</p>
-
-<p>In the first pass of this, the filter function was written specifically to the problem we
-were trying to solve. Here&rsquo;s an example (although the objects were more complex than this):</p>
-
-<pre><code>var array_1 = [{name: 'Joe'}, {name: 'Jane'}]
-
-var array_2 = [{id: 1, name: 'Jane'}, {id:2, name: 'Jane'}]
-</code></pre>
-
-<p>So, the idea is to filter the first array to only include objects whose <code>name</code> attribute is
-found in the second array. That is, if we run the filter on this sample, it should return this array:
-<code>[{name: 'Jane'}]</code></p>
-
-<p>Again, the first pass of this looked like this:</p>
-
-<pre><code>var new_array = array_1.filter(function(v,i,a) {
-    for (i = 0; i &lt; array_2.length; i++) {
-        if (array_2[i]['name'] == v['name']) return true
-    }
-    return false
-})
-</code></pre>
-
-<p>This is very specific. The name of the key, the fact that <code>array_2</code> needs to be in scope, these
-all have to be true when running this. More importantly, such a function that looks for a
-match in an array could be very useful in more than one context. It&rsquo;s an obvious (some
-would say blindingly so) candidate for refactoring.</p>
-
-<p>Without much ado, here&rsquo;s the refactored version of this that I can now use in other places
-where I need similar functionality:</p>
-
-<pre><code>function contains(a, key, value) {
-    for (i = 0; i &lt; a.length; i++) {
-        if (a[i][key] == value) return true
-    }
-    return false
-}
-</code></pre>
-
-<p>Much better! Now I can call this function in order to determine if an array of objects
-contains a value on a given key. It&rsquo;s not perfect. And it&rsquo;s specific to an array of
-objects, and won&rsquo;t work on flat arrays. It could be made even better or more generic,
-though we begin at that point to enter the territory of trade-off value.</p>
-
-<p>This version makes a lot of sense in the context of the application, as that application
-uses quite a lot of arrays of objects.</p>
-
-<p>It may seem like a small thing, and it is, but these kind of tiny little refactorings
-over the course of an entire application will make the code better, more readable,
-and more maintainable. ( The name <code>contains</code> is easy to read and understand what
-it&rsquo;s supposed to do )</p>
 ]]></content>
   </entry>
   

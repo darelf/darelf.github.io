@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sync | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/sync/atom.xml" rel="self"/>
+  <link href="http://darelf.github.io/"/>
+  <updated>2014-03-18T10:45:55-04:00</updated>
+  <id>http://darelf.github.io/</id>
+  <author>
+    <name><![CDATA[Darel Finkbeiner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Data Synchonization]]></title>
+    <link href="http://darelf.github.io/blog/2014/03/18/data-synchonization/"/>
+    <updated>2014-03-18T09:40:31-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/03/18/data-synchonization</id>
+    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+maybe if you tightened up your code it would never get out of sync.</p>
+
+<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
+
+<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+and how it can get messed up. Two people updating a spreadsheet separately can
+easily end up with two different versions, and then needing to synchronize them
+(aka merge).</p>
+
+<p>What are some of our options? Glad you asked.</p>
+
+<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+delete anything, you can only add to it. This makes synchronization easy. You just
+ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+
+<p>Updates are also fairly easy. Each record having a time it was last updated, or
+a sequence number or whatever, and you can just ask for the latest versions. Again,
+that&rsquo;s pretty much a snap.</p>
+
+<p>What about deletes?</p>
+
+<p>Ah. Well, this is only slightly more complicated. In this case, what you really need
+is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+simplest design, of course, is to have each record have a sync field (either a
+sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
+deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+be reused.</p>
+
+<p>If they can be reused, then you need to also include the sync field in the history,
+that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+is not uncommon in many systems.</p>
+
+<p>So, what do we have? Well, in order to keep multiple copies of the same data in
+sync with each other efficiently (that is, not just checking every line and
+replacing the whole dataset), a system should have: a history that lists the latest
+version of each item with a synchronization field of some kind, such as a
+monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+
+<p>One of the issues is with timestamps. If you need to synchronize in real-time
+between multiple nodes that share data, and you have a high rate of operations,
+your timestamps will probably cause you issues. The issues are directly related
+to the same problem of keeping two clocks in sync. When you have multiple
+processes on different machines doing multiple updates per second each, you are
+going to have to come up with some scheme for ordering them.</p>
+
+<p>This can be important for updates/deletes, depending on how you structure things.
+Very often, the solutions end up being a combination of timestamp, process name,
+and a sequence number. There are many different approaches, but they all follow
+the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
+
+<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+fascinating in and of itself.</p>
+
+<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+it and come up with some really complicated system.</p>
+]]></content>
+  </entry>
+  
+</feed>
