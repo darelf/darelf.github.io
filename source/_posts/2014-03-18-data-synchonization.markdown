@@ -9,7 +9,7 @@ Data. Always getting out of sync. You'd think it would learn. You'd think that
 maybe if you tightened up your code it would never get out of sync.
 
 Well. Data don't care what you think. That's why CRC, etc.
-
+<!--more-->
 At a high level, though, it's very easy to see why data needs to be synchronized
 and how it can get messed up. Two people updating a spreadsheet separately can
 easily end up with two different versions, and then needing to synchronize them
