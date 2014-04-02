@@ -4,7 +4,7 @@
   <title><![CDATA[The Blog from Darel]]></title>
   <link href="http://darelf.github.io/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-03-24T13:09:59-04:00</updated>
+  <updated>2014-04-02T09:24:04-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Programming]]></title>
+    <link href="http://darelf.github.io/blog/2014/04/02/simple-programming/"/>
+    <updated>2014-04-02T08:19:57-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/04/02/simple-programming</id>
+    <content type="html"><![CDATA[<p>&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov</p>
+
+<p>&ldquo;A scientific theory should be as simple as possible, but no simpler.&rdquo; &mdash; Albert Einstein</p>
+
+<p>Ran into this problem recently. It&rsquo;s very difficult to deal with programmers sometimes,
+as they tend to very often be right in the face of naysayers, they get used to it and
+just assume that their way is right even when it&rsquo;s obviously wrong.</p>
+
+<p>Programmers fall for the same failings of the rest of humanity, such as resisting change,
+or taking perverse pride in something they did even when that thing is awful. I hear so
+many times from people that they &ldquo;worked so hard&rdquo; on something. And I think, &ldquo;But that
+something you worked hard on is horrible, you should not be proud of it or resist replacing
+it with something good.&rdquo; (I have rather lengthy internal monologues sometimes)</p>
+
+<p>The big issues when code gets complex center around maintainability. That extends both to
+bringing in new programmers on a project, as well as revisiting code that you have written
+in the past. It also affects interoperability. Simple interfaces are better than complex
+ones. As simple as possible while still accomplishing all the goals.</p>
+
+<p>So, if you are familiar with one tool and you start using it to solve a problem that it
+is not designed for, you will inexorably end up with a much more complex system than
+necessary. If you use techniques that aren&rsquo;t tailored to the task at hand, you will
+have the same problem.</p>
+
+<p>Choices in programming should be made by programmers not by business decisions. Goals
+and products should be chosen by business not by programmers. Once you start mixing, you
+end up with a horrible mess that is far more costly and a nightmare to maintain. When
+business makes the decision on programming language, techniques, etc. you are headed into
+the dystopian realm of ill-functioning, difficult to maintain software.</p>
+
+<p>&ldquo;But it&rsquo;s easier to hire Java (or insert other horrible languages) programmers&hellip;&rdquo;
+I hear you cry. First, I call BS on that on its face. Second, you don&rsquo;t want programmers
+that are easy to hire. That&rsquo;s like saying it&rsquo;s easier to hire unskilled laborers.
+Of course it is. There&rsquo;s a reason for that.</p>
+
+<p>Advice is only as good as the people taking it.</p>
+
+<p>When we say &ldquo;make it simple&rdquo;, we mean also &ldquo;make it work and work well&rdquo;. Don&rsquo;t over-simplify,
+but choose the right tool and the right techniques and make it as simple as it can be.
+Make code easy to reason about. Make it easy to extend. Make it easy to integrate. Make it
+easy. Simple is easy. Complex is hard.</p>
+
+<p>Just because you haven&rsquo;t encountered a technique before doesn&rsquo;t mean it&rsquo;s hard. If you
+look at something like <a href="http://en.wikipedia.org/wiki/Bitmap_index">WAH</a> or CONCISE it may look
+difficult and complex at first, but it&rsquo;s really rather simple. Honestly, when you realize
+that half the compression is simply packing and run length encoding it&rsquo;s very easy to
+grasp, and importantly easy to reason about.</p>
+
+<p>Keep code simple. Keep inter-process interfaces simple. Keep APIs simple. Make the so-called
+surface area easy to grasp, easy to reason about. Keep it easy to maintain, easy to upgrade,
+easy to extend. You can&rsquo;t see all futures, but if you make the code simple it will be
+easier to adapt to new and changing environments.</p>
+
+<p>If you don&rsquo;t, you are inviting trouble for yourself and others. You are the Causer of
+Problems. Don&rsquo;t be the bad guy.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lazarus - the Not Dead]]></title>
