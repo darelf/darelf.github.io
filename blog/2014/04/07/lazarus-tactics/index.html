@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building Blocks - The Blog from Darel</title>
+  <title>Lazarus - Tactics - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="Modules. Oh, modules. I&rsquo;ve talked to so many programmers over the years, and the one thing I would suggest
-to all of them is to rediscover &hellip;">
+  <meta name="description" content="There&rsquo;s some sort of northern barbarian that hangs out in Mae&rsquo;s group. Odd fellow.
+Keeps to himself mostly. At first I thought he didn& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ to all of them is to rediscover &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/02/18/building-blocks">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/04/07/lazarus-tactics">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -81,7 +81,7 @@ to all of them is to rediscover &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/02/18/building-blocks/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/02/18/building-blocks/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/07/lazarus-tactics/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/07/lazarus-tactics/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -93,7 +93,7 @@ to all of them is to rediscover &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Building Blocks</h1>
+      <h1 class="entry-title">Lazarus - Tactics</h1>
     
     
       <p class="meta">
@@ -109,110 +109,63 @@ to all of them is to rediscover &hellip;">
   
 
 
-<time datetime="2014-02-18T08:04:35-05:00" pubdate data-updated="true">Feb 18<span>th</span>, 2014</time>
+<time datetime="2014-04-07T09:01:00-04:00" pubdate data-updated="true">Apr 7<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Modules. Oh, modules.</p>
-
-<p>I&rsquo;ve talked to so many programmers over the years, and the one thing I would suggest
-to all of them is to rediscover modules. As opposed to frameworks.</p>
-
-<p>Modules are the building blocks of application development. Keeping them out of
-frameworks lets them breath and be more generally useful than if you bind them tightly
-in chains. You can reuse modules over and over again, if they are well designed, in
-many different contexts only if you emancipate them from the bondage of frameworks.</p>
+<div class="entry-content"><p>There&rsquo;s some sort of northern barbarian that hangs out in Mae&rsquo;s group. Odd fellow.
+Keeps to himself mostly. At first I thought he didn&rsquo;t speak the language, until
+he went into a semi-furious rant about some vision he had.</p>
 
 <!--more-->
 
 
-<p>What does that even look like?</p>
+<p>Unfortuantely, the vision was of the assassin cult of Norgorber. Those guys. You
+know, one of the groups that if you leave them alone they usually leave you alone.
+But apparently, this Pike (or Pickaxe, maybe?) fellow crossed them somehow, or maybe someone put out a
+contract on him (though I hadn&rsquo;t heard about it). Whatever the reason, he was in
+deep, and these assassins are pretty sneaky; you never know who they are.</p>
 
-<p>Let&rsquo;s take a quick overview look at a problem I needed to solve recently: I have a
-very large list of items that need processing and each item requires multiple database
-queries and even some file access. (large means in the millions)</p>
+<p>We staked out their hideout for a few days until we saw they were having a meeting.
+Then we quickly discussed tactics.</p>
 
-<p>What did I try?</p>
+<p>Now Mae&rsquo;s guards, the three ex-soldiers, seem to be a little light on tactics.
+(That may be why they are &ldquo;ex&rdquo;. That or sleeping on duty seems just as likely)
+However, they did manage to have a single thought about possbile alternate
+escape routes for the enemy. But then, instead of actually securing the exit,
+instead they sent the pirate Dripstain to take care of it. And he &ldquo;took care of it&rdquo;
+by drinking and having a piratey good time, and then watching calmly while several
+of the enemy escaped.</p>
 
-<p>Well, I tried just looping. That works fine on 10s of thousands of items, but the
-asynchronous nature of the database kills that on larger sets. It just fills up the
-space and crashes.</p>
+<p>When asked, he said something like &ldquo;Oh, you wanted me to stop them? I.. I didn&rsquo;t
+know that. I just assumed you wanted me to drink and wench and observe any
+of them coming out of the basement. Which I did! Especially the first two items!&rdquo;</p>
 
-<p>Next up was an in memory queue. This actually works, but it is slow. It is slow for
-all the obvious reasons, but also because I&rsquo;m using a single process, single thread
-solution. This means I have to keep concurrency down because otherwise I will, again,
-fill up the available memory or use up the available file handles. ( I actually tried
-both the queue from the <code>async</code> module, as well as <code>queue-async</code>. The first would actually
-work, while the second was so slow it wasn&rsquo;t even worth pursuing any further. )</p>
+<p>&ldquo;How many, Dripstain?&rdquo;</p>
 
-<p>So that&rsquo;s what didn&rsquo;t work at the level of performance I wanted, and wouldn&rsquo;t scale
-anyway.</p>
+<p>&ldquo;Oh, maybe three or four. Or maybe it was only one. I was in my fifth cups by
+then, and Stacey&rsquo;s ample bosom was blocking some of my view. Plus I was trying to
+keep an eye on Jessica, since I thought she might be in on it what with the way
+she was swaying her hips at me constantly. Definitely, probably
+at least one of the assassins got away.&rdquo; (I&rsquo;m paraphrasing here, but you get the idea)</p>
 
-<p>Network Queue</p>
+<p>Meanwhile, with Assisstant Vice Cabin Boy busy, we were laying into the enemy pretty
+heavily. Not being a group very good at making our way down corridors, we of course
+got completely tangled up just getting into the place, tripping over each other.</p>
 
-<p>What I did was separate the problem even further. I started with an object that knew
-how to process the individual items, and one that new how to get lists of items and
-queue them up for processing. So I broke that up into a worker, a manager and a server.
-This would allow me to scale up as many workers as I wanted, and even put them on
-different physical machines if I wanted.</p>
+<p>Mae got the high ground on some barrels to light up the room with arrow fire.
+Eventually we got untangled and went face first into assassins, fire elementals,
+and giant scorpians. It was invigorating.</p>
 
-<p>An aside: The good thing, seeing as this is node.js, is that a stream is a stream (for the most
-part) and what I did to make it work over the network would just as likely work fine
-over other kinds of streams.</p>
+<p>The frustration with the entire affair of just getting in the door made me cranky.
+I vaguely remember eating a man&rsquo;s heart. It happens sometimes. After that, of course,
+everything is a bit fuzzy since I was high as a kite on lifeblood.</p>
 
-<p>Conceptually, there are four parts I considered vital to accomplishing this task (and
-any similar task): Completely separate out the code that actually performs the task,
-create a worker that only knows how to participate in the group, create a server that
-communicates with workers and observers, and an observer that receives updates on what&rsquo;s
-happening.</p>
-
-<p>The code that actually runs the task needs to be completely separated from the rest.
-In this case, the task was to either delete a document or to create an updated document.
-That&rsquo;s all this code does, it knows how to get the information from the database and
-update the index.</p>
-
-<p>The code that manages the process keeps a list of workers, and list of observers. These
-two lists are very lightweight wrappers around streams. It doesn&rsquo;t need much information
-about these, just needs the stream so it can send over information. It also keeps the
-list of current items that need processing. It uses this to assign to the list of workers
-items until it&rsquo;s empty. The observers can request processing and can receive updates of
-status.</p>
-
-<p>The workers have a status (idle or busy) and can send update messages and receive request
-to process items. That&rsquo;s pretty much it.</p>
-
-<p>The observer mostly just listens to the server waiting for updates. It can also request
-that the entire grid work on a particular problem by sending a message. If no problem
-is being worked on currently, then the manager will generate the list of tasks and
-then start handing them out.</p>
-
-<p>What&rsquo;s underneath there?</p>
-
-<p>Oh, that&rsquo;s just <a href="http://npmjs.org/package/event-stream">event-stream</a> This thing kind of
-does what you think. Or maybe not. It creates a pipeline of processing on streams. That
-is, node js streams, which in my case means sockets. Basically it listens for <code>events</code>
-on the <code>stream</code> and then takes the steps in the chain, possibly passing it back out to
-another stream at the end.</p>
-
-<p>It solves a problem I was going to have to solve anyway, since I wanted to use JSON
-to communicate between the processes. This module has all of that, and does just that.
-Meaning it takes care of the event streaming so I don&rsquo;t have to, and doesn&rsquo;t do a
-whole bunch of unrelated, extraneous stuff that makes it unusable or terribly
-interdependent. Basic solution of problem using standard interfaces.</p>
-
-<p>In my case, I pass it the socket, split it and parse it (courtesy of <code>event-stream</code>),
-and then do something with the parsed message. I throw away the data after I&rsquo;m done,
-since I don&rsquo;t need to pass the messages on.</p>
-
-<p>Ta-Da!</p>
-
-<p>That&rsquo;s all there is to it. Use modules. When designing solutions, design them in modules
-and as you refactor make them generically useful if you can. When you use a modular
-design you can keep swapping out parts of the implementation without hassle. Something
-that can be frustrating if not impossible when using a framework.</p>
+<p>Maybe next time we can have a little better organization on getting through the door.
+I know. Baby steps, baby steps.</p>
 </div>
 
 
@@ -235,12 +188,12 @@ that can be frustrating if not impossible when using a framework.</p>
   
 
 
-<time datetime="2014-02-18T08:04:35-05:00" pubdate data-updated="true">Feb 18<span>th</span>, 2014</time>
+<time datetime="2014-04-07T09:01:00-04:00" pubdate data-updated="true">Apr 7<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/modules/'>modules</a>, <a class='category' href='/blog/categories/network/'>network</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/queue/'>queue</a>
+    <a class='category' href='/blog/categories/lazarus/'>lazarus</a>, <a class='category' href='/blog/categories/pathfinder/'>pathfinder</a>
   
 </span>
 
@@ -249,7 +202,7 @@ that can be frustrating if not impossible when using a framework.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/02/18/building-blocks/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/02/18/building-blocks/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/07/lazarus-tactics/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/07/lazarus-tactics/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -260,10 +213,8 @@ that can be frustrating if not impossible when using a framework.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/07/semver/" title="Previous Post: Semver">&laquo; Semver</a>
+        <a class="basic-alignment left" href="/blog/2014/04/02/simple-programming/" title="Previous Post: Simple Programming">&laquo; Simple Programming</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/26/no-comment/" title="Next Post: No Comment">No Comment &raquo;</a>
       
     </p>
   </footer>
