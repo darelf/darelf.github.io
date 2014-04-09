@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Simple Programming - The Blog from Darel</title>
+  <title>Category: Events - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov &ldquo;A scientific theory should be as &hellip;">
+  <meta name="description" content="Category: events">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/04/02/simple-programming">
+  <link rel="canonical" href="http://darelf.github.ioblog/categories/events">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -76,157 +76,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/02/simple-programming/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/02/simple-programming/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
-    
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Simple Programming</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-02T08:19:57-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Events</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov</p>
 
-<p>&ldquo;A scientific theory should be as simple as possible, but no simpler.&rdquo; &mdash; Albert Einstein</p>
+  
+  <h2>2014</h2>
 
-<p>Ran into this problem recently. It&rsquo;s very difficult to deal with programmers sometimes,
-as they tend to very often be right in the face of naysayers, they get used to it and
-just assume that their way is right even when it&rsquo;s obviously wrong.</p>
+<article>
+  
+<h1><a href="/blog/2014/04/09/evented/">Evented</a></h1>
+<time datetime="2014-04-09T13:06:49-04:00" pubdate><span class='month'>Apr</span> <span class='day'>09</span> <span class='year'>2014</span></time>
 
-<!--more-->
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/i-slash-o/'>I/O</a>, <a class='category' href='/blog/categories/asynchronous/'>asynchronous</a>, <a class='category' href='/blog/categories/events/'>events</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>, <a class='category' href='/blog/categories/programming/'>programming</a></span>
+</footer>
 
 
-<p>Programmers fall for the same failings of the rest of humanity, such as resisting change,
-or taking perverse pride in something they did even when that thing is awful. I hear so
-many times from people that they &ldquo;worked so hard&rdquo; on something. And I think, &ldquo;But that
-something you worked hard on is horrible, you should not be proud of it or resist replacing
-it with something good.&rdquo; (I have rather lengthy internal monologues sometimes)</p>
+</article>
 
-<p>The big issues when code gets complex center around maintainability. That extends both to
-bringing in new programmers on a project, as well as revisiting code that you have written
-in the past. It also affects interoperability. Simple interfaces are better than complex
-ones. As simple as possible while still accomplishing all the goals.</p>
-
-<p>So, if you are familiar with one tool and you start using it to solve a problem that it
-is not designed for, you will inexorably end up with a much more complex system than
-necessary. If you use techniques that aren&rsquo;t tailored to the task at hand, you will
-have the same problem.</p>
-
-<p>Choices in programming should be made by programmers not by business decisions. Goals
-and products should be chosen by business not by programmers. Once you start mixing, you
-end up with a horrible mess that is far more costly and a nightmare to maintain. When
-business makes the decision on programming language, techniques, etc. you are headed into
-the dystopian realm of ill-functioning, difficult to maintain software.</p>
-
-<p>&ldquo;But it&rsquo;s easier to hire Java (or insert other horrible languages) programmers&hellip;&rdquo;
-I hear you cry. First, I call BS on that on its face. Second, you don&rsquo;t want programmers
-that are easy to hire. That&rsquo;s like saying it&rsquo;s easier to hire unskilled laborers.
-Of course it is. There&rsquo;s a reason for that.</p>
-
-<p>Advice is only as good as the people taking it.</p>
-
-<p>When we say &ldquo;make it simple&rdquo;, we mean also &ldquo;make it work and work well&rdquo;. Don&rsquo;t over-simplify,
-but choose the right tool and the right techniques and make it as simple as it can be.
-Make code easy to reason about. Make it easy to extend. Make it easy to integrate. Make it
-easy. Simple is easy. Complex is hard.</p>
-
-<p>Just because you haven&rsquo;t encountered a technique before doesn&rsquo;t mean it&rsquo;s hard. If you
-look at something like <a href="http://en.wikipedia.org/wiki/Bitmap_index">WAH</a> or CONCISE it may look
-difficult and complex at first, but it&rsquo;s really rather simple. Honestly, when you realize
-that half the compression is simply packing and run length encoding it&rsquo;s very easy to
-grasp, and importantly easy to reason about.</p>
-
-<p>Keep code simple. Keep inter-process interfaces simple. Keep APIs simple. Make the so-called
-surface area easy to grasp, easy to reason about. Keep it easy to maintain, easy to upgrade,
-easy to extend. You can&rsquo;t see all futures, but if you make the code simple it will be
-easier to adapt to new and changing environments.</p>
-
-<p>If you don&rsquo;t, you are inviting trouble for yourself and others. You are the Causer of
-Problems. Don&rsquo;t be the bad guy.</p>
 </div>
 
 
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Darel Finkbeiner</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-02T08:19:57-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/complexity/'>complexity</a>, <a class='category' href='/blog/categories/philosophy/'>philosophy</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/02/simple-programming/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/02/simple-programming/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/03/24/lazarus-the-not-dead/" title="Previous Post: Lazarus - The Not Dead">&laquo; Lazarus - The Not Dead</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/04/07/lazarus-tactics/" title="Next Post: Lazarus - Tactics">Lazarus - Tactics &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

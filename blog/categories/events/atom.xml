@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Events | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/events/atom.xml" rel="self"/>
+  <link href="http://darelf.github.io/"/>
+  <updated>2014-04-09T13:43:05-04:00</updated>
+  <id>http://darelf.github.io/</id>
+  <author>
+    <name><![CDATA[Darel Finkbeiner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Evented]]></title>
+    <link href="http://darelf.github.io/blog/2014/04/09/evented/"/>
+    <updated>2014-04-09T13:06:49-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/04/09/evented</id>
+    <content type="html"><![CDATA[<p>One of the big advantages of <a href="http://nodejs.org">node.js</a> is that of events and
+an emphasis on asynchronous programming.</p>
+
+<!--more-->
+
+
+<p>It is almost a given, at this point, that if you learned all your programming
+from college, you probably didn&rsquo;t learn how to write asynchronous functions. In
+fact, you were probably warned away from dealing with things that were asynchronous
+directly. Instead using pre-packaged frameworks that exposed asynchronous things
+( like I/O ) as if they were synchronous, solving your problem for you.</p>
+
+<p>That&rsquo;s fine. But node.js don&rsquo;t truck with that.</p>
+
+<p>If you are going to do something in node.js, you need to deal with asynchronous
+functions. You need to create functions that can be called asynchronously, and that
+play well in that kind of ecosystem. Here are a few tips to help you make the
+transition from one to the other.</p>
+
+<p>** Problem &ndash; Big File</p>
+
+<p>You have to create many millions of rows of data and output them to a file. You
+can&rsquo;t keep the whole file in memory and write it all at once. You may have infinite
+time but you don&rsquo;t have infinite memory.</p>
+
+<p>Step one is to have a function that creates a row of data.</p>
+
+<pre><code>function makeOneRow(item) {
+  // do something fancy
+  return rowOfData
+}
+</code></pre>
+
+<p>Step two is to create a writable stream. For our purposes, we say a file, so we can
+use the <code>fs</code> module.</p>
+
+<pre><code>var fs = require('fs')
+var outputFile = fs.createWriteableStream('name-of-output-file.txt')
+</code></pre>
+
+<p>Step three is to loop through your list of items to create and write them to the file</p>
+
+<pre><code>listOfItems.forEach(function (item) {
+  outputFile.write(makeOneRow(item))
+})
+outputFile.end()
+</code></pre>
+
+<p>&ldquo;Wait a second!&rdquo; I hear you exclaim. &ldquo;What if the makeOneRow() is also asynchronous?&rdquo;
+Maybe the call that makes a row has to call the database, which is almost certainly and
+asynchronous call. In this case, we would quickly crash.</p>
+
+<p>One solution to this problem is my favorite: events. The stream functionality that is
+available in node.js makes events a natural choice for this. Let&rsquo;s say for the moment
+that creating a row takes a database call that uses a callback.</p>
+
+<pre><code>function databaseCall(item, callback) {
+  // do database stuff and store results in processData variable.
+  callback(processData)
+}
+</code></pre>
+
+<p>What do we do with this callback? Well, if we are using events we need a javascript
+object that is an <code>EventEmitter</code>. So let&rsquo;s create one real quick.</p>
+
+<pre><code>var util = require('util')
+var events = require('events')
+
+function MyObject() {
+  events.EventEmitter.call(this)
+}
+util.inherits(MyObject, events.EventEmitter)
+
+var myobject = new MyObject()
+</code></pre>
+
+<p>Ok. What does this give us? Well, it gives us an object that can call <code>emit</code> in order
+to send out events to listeners. So let&rsquo;s adapt our function that makes items to use it.</p>
+
+<pre><code>MyObject.prototype.makeOneRow = function(item) {
+  var self = this
+  databaseCall(item, function(processData) {
+    self.emit('data', processData)
+  })
+}
+</code></pre>
+
+<p>Now all we have to do is listen for data events and write them to the file. The other
+thing is calling only one of these at a time, since we care about the order that
+things get written to the file. So when listening for the &lsquo;data&rsquo; event, check if
+you have more items, and if you do then ask for another one.</p>
+
+<pre><code>function doOne() {
+  var nextItem = listOfItems.splice(0,1)
+  myobject.makeOneRow(nextItem)
+}
+
+myobject.on('data', function(newdata) {
+  outputFile.write(newdata)
+  if (listOfItems.length &gt; 0) doOne()
+})
+</code></pre>
+
+<p>Even better would be to allow the object to keep track of how many items, and send
+an &lsquo;end&rsquo; event when it reached the end. I&rsquo;ll leave that as an exercise. (You gotta
+learn to do it yourself eventually, right?)</p>
+]]></content>
+  </entry>
+  
+</feed>
