@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nodejs | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-09T13:43:05-04:00</updated>
+  <updated>2014-04-09T13:44:18-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -67,7 +67,7 @@ outputFile.end()
 </code></pre>
 
 <p>&ldquo;Wait a second!&rdquo; I hear you exclaim. &ldquo;What if the makeOneRow() is also asynchronous?&rdquo;
-Maybe the call that makes a row has to call the database, which is almost certainly and
+Maybe the call that makes a row has to call the database, which is almost certainly an
 asynchronous call. In this case, we would quickly crash.</p>
 
 <p>One solution to this problem is my favorite: events. The stream functionality that is
