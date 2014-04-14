@@ -1,0 +1,100 @@
+---
+layout: post
+title: "Evented"
+date: 2014-04-09 13:06:49 -0400
+comments: true
+categories: [programming, asynchronous, I/O, events, nodejs]
+---
+One of the big advantages of [node.js](http://nodejs.org) is that of events and
+an emphasis on asynchronous programming.
+<!--more-->
+It is almost a given, at this point, that if you learned all your programming
+from college, you probably didn't learn how to write asynchronous functions. In
+fact, you were probably warned away from dealing with things that were asynchronous
+directly. Instead using pre-packaged frameworks that exposed asynchronous things
+( like I/O ) as if they were synchronous, solving your problem for you.
+
+That's fine. But node.js don't truck with that.
+
+If you are going to do something in node.js, you need to deal with asynchronous
+functions. You need to create functions that can be called asynchronously, and that
+play well in that kind of ecosystem. Here are a few tips to help you make the
+transition from one to the other.
+
+** Problem - Big File
+
+You have to create many millions of rows of data and output them to a file. You
+can't keep the whole file in memory and write it all at once. You may have infinite
+time but you don't have infinite memory.
+
+Step one is to have a function that creates a row of data.
+    function makeOneRow(item) {
+      // do something fancy
+      return rowOfData
+    }
+
+Step two is to create a writable stream. For our purposes, we say a file, so we can
+use the `fs` module.
+    var fs = require('fs')
+    var outputFile = fs.createWriteableStream('name-of-output-file.txt')
+    
+Step three is to loop through your list of items to create and write them to the file
+    listOfItems.forEach(function (item) {
+      outputFile.write(makeOneRow(item))
+    })
+    outputFile.end()
+    
+"Wait a second!" I hear you exclaim. "What if the makeOneRow() is also asynchronous?"
+Maybe the call that makes a row has to call the database, which is almost certainly an
+asynchronous call. In this case, we would quickly crash.
+
+One solution to this problem is my favorite: events. The stream functionality that is
+available in node.js makes events a natural choice for this. Let's say for the moment
+that creating a row takes a database call that uses a callback.
+
+    function databaseCall(item, callback) {
+      // do database stuff and store results in processData variable.
+      callback(processData)
+    }
+
+What do we do with this callback? Well, if we are using events we need a javascript
+object that is an `EventEmitter`. So let's create one real quick.
+
+    var util = require('util')
+    var events = require('events')
+    
+    function MyObject() {
+      events.EventEmitter.call(this)
+    }
+    util.inherits(MyObject, events.EventEmitter)
+    
+    var myobject = new MyObject()
+    
+Ok. What does this give us? Well, it gives us an object that can call `emit` in order
+to send out events to listeners. So let's adapt our function that makes items to use it.
+
+    MyObject.prototype.makeOneRow = function(item) {
+      var self = this
+      databaseCall(item, function(processData) {
+        self.emit('data', processData)
+      })
+    }
+
+Now all we have to do is listen for data events and write them to the file. The other
+thing is calling only one of these at a time, since we care about the order that
+things get written to the file. So when listening for the 'data' event, check if
+you have more items, and if you do then ask for another one.
+
+    function doOne() {
+      var nextItem = listOfItems.splice(0,1)
+      myobject.makeOneRow(nextItem)
+    }
+    
+    myobject.on('data', function(newdata) {
+      outputFile.write(newdata)
+      if (listOfItems.length > 0) doOne()
+    })
+
+Even better would be to allow the object to keep track of how many items, and send
+an 'end' event when it reached the end. I'll leave that as an exercise. (You gotta
+learn to do it yourself eventually, right?)
