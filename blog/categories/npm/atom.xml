@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Npm | The Blog from Darel]]></title>
+  <link href="http://darelf.github.io/blog/categories/npm/atom.xml" rel="self"/>
+  <link href="http://darelf.github.io/"/>
+  <updated>2014-04-22T14:12:27-04:00</updated>
+  <id>http://darelf.github.io/</id>
+  <author>
+    <name><![CDATA[Darel Finkbeiner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using NPM Like a Boss]]></title>
+    <link href="http://darelf.github.io/blog/2014/04/22/using-npm-like-a-boss/"/>
+    <updated>2014-04-22T13:50:43-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/04/22/using-npm-like-a-boss</id>
+    <content type="html"><![CDATA[<p>So I have to keep track of what I work on each week and send
+out an email with a short description of each. Yeah. You know.</p>
+
+<p>I thought &ldquo;What a great idea for making a script that handles all
+that with a simple command line!&rdquo; I hear you mumbling &ldquo;nerd&rdquo;. That&rsquo;s
+OK. I can take it.</p>
+
+<p>Well, I just need a list, each list can live in a text file that I
+can then email to my boss each week. What do I need?</p>
+
+<p>Very little. I use <a href="http://momentjs.org">moment</a> to figure out what
+week I&rsquo;m working on automatically and store it in the correct file.
+I also use <a href="http://github.com/substack/minimist">minimist</a> to do
+command line parsing since I barely need anything there.</p>
+
+<p>So the beginning looked like this:</p>
+
+<pre><code>var fs = require('fs')
+var moment = require('moment')
+</code></pre>
+
+<p>Then I realized I (or someone) might want it daily, so I add a
+default. And while I&rsquo;m at it, let&rsquo;s define a working directory
+for the files.</p>
+
+<pre><code>var defaults = { weekly: true, workdir: process.env.HOME + '/worklist/' }
+var argv = require('minimist')(process.argv.slice(2), {default: defaults})
+</code></pre>
+
+<p>You could override those, for instance with <code>--workdir=/my/crazy/directory/</code> but
+hopefully these are sane defaults.</p>
+
+<p>Now let&rsquo;s figure out what file we should be working with:</p>
+
+<pre><code>var m = moment()
+if (argv.weekly) {
+  m = moment().startOf('week').add('days', 1)
+}
+
+var fname = argv.workdir + m.format('YYYY-MM-DD') + '.txt'
+</code></pre>
+
+<p>The file name will now have the date, or Monday&rsquo;s date when we are doing weekly
+files. This let&rsquo;s us choose.</p>
+
+<p>Next we read in the file, if it exists, and parse the contents:</p>
+
+<pre><code>var contents = []
+fs.readFile(fname, function(err, data) {
+  if (!err) {
+    contents = data.toString().split('\n').filter(Boolean)
+    parseCommands()
+  }
+})
+</code></pre>
+
+<p>That <code>parseCommands()</code> function will need to be defined. It&rsquo;s basically the
+entry point for looking at any command the user sent and taking the correct
+action. I decided I only needed 3 commands:  list, add, and delete.</p>
+
+<pre><code>function parseCommands() {
+  if (argv._.indexOf('list') &gt; -1) {
+    contents.forEach(function(v,i) { console.log("%d: %s", i, v) })
+  }
+  if (argv.add) {
+    contents.push(argv.add)
+    saveContents()
+  }
+  if (argv.d) {
+    if (contents.length &gt; argv.d) {
+      delete contents[argv.d]
+      saveContents()
+    }
+  }
+}
+</code></pre>
+
+<p>What have going on here is a <code>list</code> command that just dumps the contents.
+Next, we have a <code>--add="This is the item to add"</code> command that will add
+a single line to our file, and then it will save the file. (see below for that)
+And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
+
+<p>Not really pretty, but since I&rsquo;m mostly just adding and listing, it seems
+to work just fine. And since the files are just text files, I can always
+edit them by hand, feed them into other programs or utilities easily, and
+generally use any of my typical Unixy workflows.</p>
+
+<p>Oh, and saving the file just looks like this:</p>
+
+<pre><code>function saveContents() {
+  fs.writeFile(fname, contents.join('\n') + '\n')
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
