@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Npm | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/npm/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T14:21:27-04:00</updated>
+  <updated>2014-04-22T14:28:06-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -97,7 +97,7 @@ action. I decided I only needed 3 commands:  list, add, and delete.</p>
 }
 </code></pre>
 
-<p>What have going on here is a <code>list</code> command that just dumps the contents.
+<p>What we have going on here is a <code>list</code> command that just dumps the contents.
 Next, we have a <code>--add="This is the item to add"</code> command that will add
 a single line to our file, and then it will save the file. (see below for that)
 And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
