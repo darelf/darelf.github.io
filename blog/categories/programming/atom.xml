@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T14:12:27-04:00</updated>
+  <updated>2014-04-22T14:21:27-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -24,6 +24,8 @@ out an email with a short description of each. Yeah. You know.</p>
 <p>I thought &ldquo;What a great idea for making a script that handles all
 that with a simple command line!&rdquo; I hear you mumbling &ldquo;nerd&rdquo;. That&rsquo;s
 OK. I can take it.</p>
+
+<h2>Enter&hellip; The Script</h2>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
@@ -111,6 +113,62 @@ generally use any of my typical Unixy workflows.</p>
   fs.writeFile(fname, contents.join('\n') + '\n')
 }
 </code></pre>
+
+<h2>Enter&hellip; NPM!!!</h2>
+
+<p>How does the <code>npm</code> utility enter in to this? I&rsquo;m glad you asked!</p>
+
+<p>NPM has a facility called &ldquo;bin&rdquo; in the <code>package.json</code> file that allows you
+to define so-called <code>binary</code> programs to be installed. In my case, this is
+just a node js script as shown above.</p>
+
+<p>What steps do I take to make this work as a command? I.e. <code>worklist list</code> or
+<code>worklist --add="I totally did important work just now"</code></p>
+
+<h3>Step One</h3>
+
+<p>Add the &ldquo;shebang&rdquo; at the beginning of the script telling it to use node.</p>
+
+<pre><code>#!/usr/bin/env node
+</code></pre>
+
+<p>For the script, that&rsquo;s it.</p>
+
+<h3>Step Two</h3>
+
+<p>Add the entry into <code>package.json</code> telling it that the script is a binary.
+For our example, I put the script in <code>./bin/worklist.js</code> so that&rsquo;s what I
+will tell NPM. Also, I need to tell it what I want the command to look like,
+which in this example is <code>worklist</code> so that I can just type <code>worklist</code> on the
+command line and it will run my script in node automatically.</p>
+
+<pre><code>{
+  ... bunch of normal package.json stuff ...
+  "bin": {
+    "worklist": "./bin/worklist.js"
+  }
+}
+</code></pre>
+
+<h3>Step Three</h3>
+
+<p>Install it globally.</p>
+
+<pre><code>npm install -g
+</code></pre>
+
+<p>You will notice NPM telling you that it is linking the script into your path
+somewhere. I believe on Windows that this also automatically wraps it in a
+<code>.cmd</code> for you. WIN.</p>
+
+<h3>Step Four</h3>
+
+<p>Pour a hot cup of coffee, light up your favorite cigar, and enjoy. THIS STEP
+IS NOT OPTIONAL.</p>
+
+<h2>Feedback</h2>
+
+<p>Please, please, please, send me feedback, ask me questions. Yeah. You can do it.</p>
 ]]></content>
   </entry>
   
