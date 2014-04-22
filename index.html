@@ -160,8 +160,8 @@ files. This let’s us choose.</p>
 fs.readFile(fname, function(err, data) {
   if (!err) {
     contents = data.toString().split('\n').filter(Boolean)
-    parseCommands()
   }
+  parseCommands()
 })
 </code></pre>
 
