@@ -4,7 +4,7 @@
   <title><![CDATA[Category: War | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/war/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:21:32-04:00</updated>
+  <updated>2014-04-22T15:31:52-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -18,18 +18,15 @@
     <link href="http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line/"/>
     <updated>2014-01-31T13:26:34-05:00</updated>
     <id>http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line</id>
-    <content type="html"><![CDATA[<p>The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+    <content type="html"><![CDATA[<p>The eternal struggle rages on, and in today’s episode we bring you the
 battle of configuration.</p>
 
 <p>Every useful application is configurable. This is an axiom, a universally
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
-modify its behavior.</p>
-
+modify its behavior.
 <!--more-->
-
-
-<p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
+For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the
 user to modify the behavior. And this is for a program whose sole purpose
 is to list files.</p>
@@ -38,7 +35,7 @@ is to list files.</p>
 way lies madness, since any given program should accept both. The question,
 instead, is what should you use?</p>
 
-<h3>Configuration files.</h3>
+<h3 id="configuration-files">Configuration files.</h3>
 
 <p>The pro-config-file argument is compelling. Store your settings a single time.
 Easier to run in cron or some other automation. Can be changed at any time,
@@ -49,7 +46,7 @@ can remind you what the options are for.</p>
 options very often, editing a file is actually more work than changing the
 switches.</p>
 
-<h3>Command Line</h3>
+<h3 id="command-line">Command Line</h3>
 
 <p>Easy. Allows you to quickly modify behavior between several rapid uses of
 the same program. Help screen will generally tell you what you need to know.</p>
@@ -57,7 +54,7 @@ the same program. Help screen will generally tell you what you need to know.</p>
 <p>Tedious if you have many options. Easy to forget if the times between running
 the program by hand are very long. Easy to mistype.</p>
 
-<h3>Solution</h3>
+<h3 id="solution">Solution</h3>
 
 <p>Where possible use both. Set your config file to your common and least-changed
 settings, and use the command line for your often changing parameters.</p>

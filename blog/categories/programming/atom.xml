@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:21:32-04:00</updated>
+  <updated>2014-04-22T15:31:52-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -21,17 +21,17 @@
     <content type="html"><![CDATA[<p>So I have to keep track of what I work on each week and send
 out an email with a short description of each. Yeah. You know.</p>
 
-<p>I thought &ldquo;What a great idea for making a script that handles all
-that with a simple command line!&rdquo; I hear you mumbling &ldquo;nerd&rdquo;. That&rsquo;s
+<p>I thought “What a great idea for making a script that handles all
+that with a simple command line!” I hear you mumbling “nerd”. That’s
 OK. I can take it.</p>
 
-<h2>Enter&hellip; The Script</h2>
+<h2 id="enter-the-script">Enter… The Script</h2>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
 
 <p>Very little. I use <a href="http://momentjs.com">moment</a> to figure out what
-week I&rsquo;m working on automatically and store it in the correct file.
+week I’m working on automatically and store it in the correct file.
 I also use <a href="http://github.com/substack/minimist#minimist">minimist</a> to do
 command line parsing since I barely need anything there.</p>
 
@@ -42,7 +42,7 @@ var moment = require('moment')
 </code></pre>
 
 <p>Then I realized I (or someone) might want it daily, so I add a
-default. And while I&rsquo;m at it, let&rsquo;s define a working directory
+default. And while I’m at it, let’s define a working directory
 for the files.</p>
 
 <pre><code>var defaults = { weekly: true, workdir: process.env.HOME + '/worklist/' }
@@ -52,7 +52,7 @@ var argv = require('minimist')(process.argv.slice(2), {default: defaults})
 <p>You could override those, for instance with <code>--workdir=/my/crazy/directory/</code> but
 hopefully these are sane defaults.</p>
 
-<p>Now let&rsquo;s figure out what file we should be working with:</p>
+<p>Now let’s figure out what file we should be working with:</p>
 
 <pre><code>var m = moment()
 if (argv.weekly) {
@@ -62,8 +62,8 @@ if (argv.weekly) {
 var fname = argv.workdir + m.format('YYYY-MM-DD') + '.txt'
 </code></pre>
 
-<p>The file name will now have the date, or Monday&rsquo;s date when we are doing weekly
-files. This let&rsquo;s us choose.</p>
+<p>The file name will now have the date, or Monday’s date when we are doing weekly
+files. This let’s us choose.</p>
 
 <p>Next we read in the file, if it exists, and parse the contents:</p>
 
@@ -76,7 +76,7 @@ fs.readFile(fname, function(err, data) {
 })
 </code></pre>
 
-<p>That <code>parseCommands()</code> function will need to be defined. It&rsquo;s basically the
+<p>That <code>parseCommands()</code> function will need to be defined. It’s basically the
 entry point for looking at any command the user sent and taking the correct
 action. I decided I only needed 3 commands:  list, add, and delete.</p>
 
@@ -102,7 +102,7 @@ Next, we have a <code>--add="This is the item to add"</code> command that will a
 a single line to our file, and then it will save the file. (see below for that)
 And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
 
-<p>Not really pretty, but since I&rsquo;m mostly just adding and listing, it seems
+<p>Not really pretty, but since I’m mostly just adding and listing, it seems
 to work just fine. And since the files are just text files, I can always
 edit them by hand, feed them into other programs or utilities easily, and
 generally use any of my typical Unixy workflows.</p>
@@ -114,30 +114,30 @@ generally use any of my typical Unixy workflows.</p>
 }
 </code></pre>
 
-<h2>Enter&hellip; NPM!!!</h2>
+<h2 id="enter-npm">Enter… NPM!!!</h2>
 
-<p>How does the <code>npm</code> utility enter in to this? I&rsquo;m glad you asked!</p>
+<p>How does the <code>npm</code> utility enter in to this? I’m glad you asked!</p>
 
-<p>NPM has a facility called &ldquo;bin&rdquo; in the <code>package.json</code> file that allows you
+<p>NPM has a facility called “bin” in the <code>package.json</code> file that allows you
 to define so-called <code>binary</code> programs to be installed. In my case, this is
 just a node js script as shown above.</p>
 
 <p>What steps do I take to make this work as a command? I.e. <code>worklist list</code> or
 <code>worklist --add="I totally did important work just now"</code></p>
 
-<h3>Step One</h3>
+<h3 id="step-one">Step One</h3>
 
-<p>Add the &ldquo;shebang&rdquo; at the beginning of the script telling it to use node.</p>
+<p>Add the “shebang” at the beginning of the script telling it to use node.</p>
 
 <pre><code>#!/usr/bin/env node
 </code></pre>
 
-<p>For the script, that&rsquo;s it.</p>
+<p>For the script, that’s it.</p>
 
-<h3>Step Two</h3>
+<h3 id="step-two">Step Two</h3>
 
 <p>Add the entry into <code>package.json</code> telling it that the script is a binary.
-For our example, I put the script in <code>./bin/worklist.js</code> so that&rsquo;s what I
+For our example, I put the script in <code>./bin/worklist.js</code> so that’s what I
 will tell NPM. Also, I need to tell it what I want the command to look like,
 which in this example is <code>worklist</code> so that I can just type <code>worklist</code> on the
 command line and it will run my script in node automatically.</p>
@@ -150,7 +150,7 @@ command line and it will run my script in node automatically.</p>
 }
 </code></pre>
 
-<h3>Step Three</h3>
+<h3 id="step-three">Step Three</h3>
 
 <p>Install it globally.</p>
 
@@ -161,12 +161,12 @@ command line and it will run my script in node automatically.</p>
 somewhere. I believe on Windows that this also automatically wraps it in a
 <code>.cmd</code> for you. WIN.</p>
 
-<h3>Step Four</h3>
+<h3 id="step-four">Step Four</h3>
 
 <p>Pour a hot cup of coffee, light up your favorite cigar, and enjoy. THIS STEP
 IS NOT OPTIONAL.</p>
 
-<h2>Feedback</h2>
+<h2 id="feedback">Feedback</h2>
 
 <p>Please, please, please, send me feedback, ask me questions. Yeah. You can do it.</p>
 ]]></content>
@@ -178,59 +178,50 @@ IS NOT OPTIONAL.</p>
     <updated>2014-04-09T13:06:49-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/09/evented</id>
     <content type="html"><![CDATA[<p>One of the big advantages of <a href="http://nodejs.org">node.js</a> is that of events and
-an emphasis on asynchronous programming.</p>
-
+an emphasis on asynchronous programming.
 <!--more-->
-
-
-<p>It is almost a given, at this point, that if you learned all your programming
-from college, you probably didn&rsquo;t learn how to write asynchronous functions. In
+It is almost a given, at this point, that if you learned all your programming
+from college, you probably didn’t learn how to write asynchronous functions. In
 fact, you were probably warned away from dealing with things that were asynchronous
 directly. Instead using pre-packaged frameworks that exposed asynchronous things
 ( like I/O ) as if they were synchronous, solving your problem for you.</p>
 
-<p>That&rsquo;s fine. But node.js don&rsquo;t truck with that.</p>
+<p>That’s fine. But node.js don’t truck with that.</p>
 
 <p>If you are going to do something in node.js, you need to deal with asynchronous
 functions. You need to create functions that can be called asynchronously, and that
 play well in that kind of ecosystem. Here are a few tips to help you make the
 transition from one to the other.</p>
 
-<p>** Problem &ndash; Big File</p>
+<p>** Problem - Big File</p>
 
 <p>You have to create many millions of rows of data and output them to a file. You
-can&rsquo;t keep the whole file in memory and write it all at once. You may have infinite
-time but you don&rsquo;t have infinite memory.</p>
+can’t keep the whole file in memory and write it all at once. You may have infinite
+time but you don’t have infinite memory.</p>
 
-<p>Step one is to have a function that creates a row of data.</p>
-
-<pre><code>function makeOneRow(item) {
-  // do something fancy
-  return rowOfData
-}
-</code></pre>
+<p>Step one is to have a function that creates a row of data.
+    function makeOneRow(item) {
+      // do something fancy
+      return rowOfData
+    }</p>
 
 <p>Step two is to create a writable stream. For our purposes, we say a file, so we can
-use the <code>fs</code> module.</p>
+use the <code>fs</code> module.
+    var fs = require(‘fs’)
+    var outputFile = fs.createWriteableStream(‘name-of-output-file.txt’)</p>
 
-<pre><code>var fs = require('fs')
-var outputFile = fs.createWriteableStream('name-of-output-file.txt')
-</code></pre>
+<p>Step three is to loop through your list of items to create and write them to the file
+    listOfItems.forEach(function (item) {
+      outputFile.write(makeOneRow(item))
+    })
+    outputFile.end()</p>
 
-<p>Step three is to loop through your list of items to create and write them to the file</p>
-
-<pre><code>listOfItems.forEach(function (item) {
-  outputFile.write(makeOneRow(item))
-})
-outputFile.end()
-</code></pre>
-
-<p>&ldquo;Wait a second!&rdquo; I hear you exclaim. &ldquo;What if the makeOneRow() is also asynchronous?&rdquo;
+<p>“Wait a second!” I hear you exclaim. “What if the makeOneRow() is also asynchronous?”
 Maybe the call that makes a row has to call the database, which is almost certainly an
 asynchronous call. In this case, we would quickly crash.</p>
 
 <p>One solution to this problem is my favorite: events. The stream functionality that is
-available in node.js makes events a natural choice for this. Let&rsquo;s say for the moment
+available in node.js makes events a natural choice for this. Let’s say for the moment
 that creating a row takes a database call that uses a callback.</p>
 
 <pre><code>function databaseCall(item, callback) {
@@ -240,7 +231,7 @@ that creating a row takes a database call that uses a callback.</p>
 </code></pre>
 
 <p>What do we do with this callback? Well, if we are using events we need a javascript
-object that is an <code>EventEmitter</code>. So let&rsquo;s create one real quick.</p>
+object that is an <code>EventEmitter</code>. So let’s create one real quick.</p>
 
 <pre><code>var util = require('util')
 var events = require('events')
@@ -254,7 +245,7 @@ var myobject = new MyObject()
 </code></pre>
 
 <p>Ok. What does this give us? Well, it gives us an object that can call <code>emit</code> in order
-to send out events to listeners. So let&rsquo;s adapt our function that makes items to use it.</p>
+to send out events to listeners. So let’s adapt our function that makes items to use it.</p>
 
 <pre><code>MyObject.prototype.makeOneRow = function(item) {
   var self = this
@@ -266,7 +257,7 @@ to send out events to listeners. So let&rsquo;s adapt our function that makes it
 
 <p>Now all we have to do is listen for data events and write them to the file. The other
 thing is calling only one of these at a time, since we care about the order that
-things get written to the file. So when listening for the &lsquo;data&rsquo; event, check if
+things get written to the file. So when listening for the ‘data’ event, check if
 you have more items, and if you do then ask for another one.</p>
 
 <pre><code>function doOne() {
@@ -281,7 +272,7 @@ myobject.on('data', function(newdata) {
 </code></pre>
 
 <p>Even better would be to allow the object to keep track of how many items, and send
-an &lsquo;end&rsquo; event when it reached the end. I&rsquo;ll leave that as an exercise. (You gotta
+an ‘end’ event when it reached the end. I’ll leave that as an exercise. (You gotta
 learn to do it yourself eventually, right?)</p>
 ]]></content>
   </entry>
@@ -291,22 +282,19 @@ learn to do it yourself eventually, right?)</p>
     <link href="http://darelf.github.io/blog/2014/04/02/simple-programming/"/>
     <updated>2014-04-02T08:19:57-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/02/simple-programming</id>
-    <content type="html"><![CDATA[<p>&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov</p>
+    <content type="html"><![CDATA[<p>“All that is complex is not useful. All that is useful is simple.” – Mikhail Kalashnikov</p>
 
-<p>&ldquo;A scientific theory should be as simple as possible, but no simpler.&rdquo; &mdash; Albert Einstein</p>
+<p>“A scientific theory should be as simple as possible, but no simpler.” – Albert Einstein</p>
 
-<p>Ran into this problem recently. It&rsquo;s very difficult to deal with programmers sometimes,
+<p>Ran into this problem recently. It’s very difficult to deal with programmers sometimes,
 as they tend to very often be right in the face of naysayers, they get used to it and
-just assume that their way is right even when it&rsquo;s obviously wrong.</p>
-
+just assume that their way is right even when it’s obviously wrong.
 <!--more-->
-
-
-<p>Programmers fall for the same failings of the rest of humanity, such as resisting change,
+Programmers fall for the same failings of the rest of humanity, such as resisting change,
 or taking perverse pride in something they did even when that thing is awful. I hear so
-many times from people that they &ldquo;worked so hard&rdquo; on something. And I think, &ldquo;But that
+many times from people that they “worked so hard” on something. And I think, “But that
 something you worked hard on is horrible, you should not be proud of it or resist replacing
-it with something good.&rdquo; (I have rather lengthy internal monologues sometimes)</p>
+it with something good.” (I have rather lengthy internal monologues sometimes)</p>
 
 <p>The big issues when code gets complex center around maintainability. That extends both to
 bringing in new programmers on a project, as well as revisiting code that you have written
@@ -315,7 +303,7 @@ ones. As simple as possible while still accomplishing all the goals.</p>
 
 <p>So, if you are familiar with one tool and you start using it to solve a problem that it
 is not designed for, you will inexorably end up with a much more complex system than
-necessary. If you use techniques that aren&rsquo;t tailored to the task at hand, you will
+necessary. If you use techniques that aren’t tailored to the task at hand, you will
 have the same problem.</p>
 
 <p>Choices in programming should be made by programmers not by business decisions. Goals
@@ -324,31 +312,31 @@ end up with a horrible mess that is far more costly and a nightmare to maintain.
 business makes the decision on programming language, techniques, etc. you are headed into
 the dystopian realm of ill-functioning, difficult to maintain software.</p>
 
-<p>&ldquo;But it&rsquo;s easier to hire Java (or insert other horrible languages) programmers&hellip;&rdquo;
-I hear you cry. First, I call BS on that on its face. Second, you don&rsquo;t want programmers
-that are easy to hire. That&rsquo;s like saying it&rsquo;s easier to hire unskilled laborers.
-Of course it is. There&rsquo;s a reason for that.</p>
+<p>“But it’s easier to hire Java (or insert other horrible languages) programmers…”
+I hear you cry. First, I call BS on that on its face. Second, you don’t want programmers
+that are easy to hire. That’s like saying it’s easier to hire unskilled laborers.
+Of course it is. There’s a reason for that.</p>
 
 <p>Advice is only as good as the people taking it.</p>
 
-<p>When we say &ldquo;make it simple&rdquo;, we mean also &ldquo;make it work and work well&rdquo;. Don&rsquo;t over-simplify,
+<p>When we say “make it simple”, we mean also “make it work and work well”. Don’t over-simplify,
 but choose the right tool and the right techniques and make it as simple as it can be.
 Make code easy to reason about. Make it easy to extend. Make it easy to integrate. Make it
 easy. Simple is easy. Complex is hard.</p>
 
-<p>Just because you haven&rsquo;t encountered a technique before doesn&rsquo;t mean it&rsquo;s hard. If you
+<p>Just because you haven’t encountered a technique before doesn’t mean it’s hard. If you
 look at something like <a href="http://en.wikipedia.org/wiki/Bitmap_index">WAH</a> or CONCISE it may look
-difficult and complex at first, but it&rsquo;s really rather simple. Honestly, when you realize
-that half the compression is simply packing and run length encoding it&rsquo;s very easy to
+difficult and complex at first, but it’s really rather simple. Honestly, when you realize
+that half the compression is simply packing and run length encoding it’s very easy to
 grasp, and importantly easy to reason about.</p>
 
 <p>Keep code simple. Keep inter-process interfaces simple. Keep APIs simple. Make the so-called
 surface area easy to grasp, easy to reason about. Keep it easy to maintain, easy to upgrade,
-easy to extend. You can&rsquo;t see all futures, but if you make the code simple it will be
+easy to extend. You can’t see all futures, but if you make the code simple it will be
 easier to adapt to new and changing environments.</p>
 
-<p>If you don&rsquo;t, you are inviting trouble for yourself and others. You are the Causer of
-Problems. Don&rsquo;t be the bad guy.</p>
+<p>If you don’t, you are inviting trouble for yourself and others. You are the Causer of
+Problems. Don’t be the bad guy.</p>
 ]]></content>
   </entry>
   
@@ -357,47 +345,44 @@ Problems. Don&rsquo;t be the bad guy.</p>
     <link href="http://darelf.github.io/blog/2014/03/18/data-synchonization/"/>
     <updated>2014-03-18T09:40:31-04:00</updated>
     <id>http://darelf.github.io/blog/2014/03/18/data-synchonization</id>
-    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You’d think it would learn. You’d think that
 maybe if you tightened up your code it would never get out of sync.</p>
 
-<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
-
+<p>Well. Data don’t care what you think. That’s why CRC, etc.
 <!--more-->
-
-
-<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+At a high level, though, it’s very easy to see why data needs to be synchronized
 and how it can get messed up. Two people updating a spreadsheet separately can
 easily end up with two different versions, and then needing to synchronize them
 (aka merge).</p>
 
 <p>What are some of our options? Glad you asked.</p>
 
-<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+<p>One of my favorite ways of making it work is “append only”. That is, you can never
 delete anything, you can only add to it. This makes synchronization easy. You just
-ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+ask if they have any items you don’t have, and that’s it. Synchronized.</p>
 
 <p>Updates are also fairly easy. Each record having a time it was last updated, or
 a sequence number or whatever, and you can just ask for the latest versions. Again,
-that&rsquo;s pretty much a snap.</p>
+that’s pretty much a snap.</p>
 
 <p>What about deletes?</p>
 
 <p>Ah. Well, this is only slightly more complicated. In this case, what you really need
-is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+is a “history”. This history can actually just be items that were deleted. The
 simplest design, of course, is to have each record have a sync field (either a
-sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
-deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+sequence or a timestamp) and also have a “tombstone” or list of items that were
+deleted. You don’t even need to know when, necessarily, if a given id can never
 be reused.</p>
 
 <p>If they can be reused, then you need to also include the sync field in the history,
-that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+that way something might be “brought back to life” later. This kind of necromancy
 is not uncommon in many systems.</p>
 
 <p>So, what do we have? Well, in order to keep multiple copies of the same data in
 sync with each other efficiently (that is, not just checking every line and
 replacing the whole dataset), a system should have: a history that lists the latest
 version of each item with a synchronization field of some kind, such as a
-monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+monotonic timestamp, and the action of ‘created’, ‘updated’, or ‘deleted’.</p>
 
 <p>One of the issues is with timestamps. If you need to synchronize in real-time
 between multiple nodes that share data, and you have a high rate of operations,
@@ -409,14 +394,14 @@ going to have to come up with some scheme for ordering them.</p>
 <p>This can be important for updates/deletes, depending on how you structure things.
 Very often, the solutions end up being a combination of timestamp, process name,
 and a sequence number. There are many different approaches, but they all follow
-the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+the same pattern. A decent approach, if you are satisfied with “rough” ordering,
 would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
 
-<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+<p>But don’t stop there. There’s a lot to learn about this topic, and it is
 fascinating in and of itself.</p>
 
-<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
-about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+<p>Warning: make sure you don’t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don’t overthink
 it and come up with some really complicated system.</p>
 ]]></content>
   </entry>
@@ -430,22 +415,19 @@ it and come up with some really complicated system.</p>
 distributed into discrete tasks which themselves can be completed in
 any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
 npm package that I have published. I will diverge just a bit here to
-talk a little bit of background.</p>
-
+talk a little bit of background.
 <!--more-->
-
-
-<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+STREAMS. Just think about that. Streams. Think of all the things it implies
 in programming to talk about streams and streaming.</p>
 
 <p>Probably number one is networking, that is TCP (or whatever) network
 sockets that are read/write and have very well-established, at this point,
 semantics. Open, close, pause, end, read, write, etc. Depending on the
-exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+exact stream, of course, things may be slightly different, and we’ve seen
 quite a lot of semantics built on top of streams.</p>
 
 <p>Nodejs, of course, does networking really well. In fact, that may be the
-number one purpose for most programmers using it. It&rsquo;s just really
+number one purpose for most programmers using it. It’s just really
 fantastic at networking. Your code can worry about what goes on just
 above the socket level, with the streams. They also give you an
 abstraction, so that there are file streams, etc. helping you out.</p>
@@ -453,9 +435,9 @@ abstraction, so that there are file streams, etc. helping you out.</p>
 <p>This is all fairly normal in programming, and streams have been around
 for a long time. UNIX pipes are probably the most common stream-semantic
 thing that programmers use, but they are everywhere in just about every
-language that&rsquo;s of any use.</p>
+language that’s of any use.</p>
 
-<p>So&hellip;</p>
+<p>So…</p>
 
 <p>Back to jobs. If you have a big job that can broken down into discreet
 tasks such that those tasks can happen in any order, you have something
@@ -486,7 +468,7 @@ reduce the load, or possibly even by name.</p>
 have those workers advertise the kind of work they can do and let the
 queue manager distribute jobs accordingly.</p>
 
-<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+<p>So that’s where it’s at. A lot of interesting tweaks to be made, and a
 lot of progress towards better features.</p>
 ]]></content>
   </entry>

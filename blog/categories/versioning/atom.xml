@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Versioning | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/versioning/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:21:32-04:00</updated>
+  <updated>2014-04-22T15:31:52-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -22,12 +22,9 @@
 
 <p>So here at work we finally settled on a versioning scheme. After literally
 years of trying to push versioning in general, and semantic versioning in
-particular, we are now implementing.</p>
-
+particular, we are now implementing.
 <!--more-->
-
-
-<p>What is &ldquo;semantic versioning&rdquo;?</p>
+What is “semantic versioning”?</p>
 
 <p>In short, you know those version numbers you see on all those projects
 on the internet with version numbers like 1.2.5 or 0.10.21? Yeah. That.</p>
@@ -37,12 +34,12 @@ that an application often depends on other software projects, and those
 other software projects often are currently being developed, either to
 fix bugs or add features/enhancements.</p>
 
-<p>This can often be referred to as &ldquo;dependency hell&rdquo; since making sure of
+<p>This can often be referred to as “dependency hell” since making sure of
 which version of what you are using in a project can be a nightmare, taking
 into account which set of features you depend on from different projects,
 what those projects in turn depend on, etc. You need to distinguish between
 a bug fix version increase, a feature add, or API breaking changes. Maybe
-a new feature is one you want, or maybe you don&rsquo;t. How do you tell which
+a new feature is one you want, or maybe you don’t. How do you tell which
 version of a project you have?</p>
 
 <p>More importantly, how do you communicate those decisions in the project
@@ -53,7 +50,7 @@ and to the consumers of your project?</p>
 
 <p>The basic idea of semver is this:  MAJOR.MINOR.PATCH</p>
 
-<p>Additional labels, like &lsquo;-musical&rsquo; or whatever can be added if things get hairy.
+<p>Additional labels, like ‘-musical’ or whatever can be added if things get hairy.
 But the basic idea should serve.</p>
 
 <p>The MAJOR part of a version is the basic feature set. That is, the API for
@@ -79,17 +76,17 @@ more deployment specific than it is functionality specific. That is, the
 version number, especially the MAJOR and MINOR numbers, will indicate what
 deployment level this is at.</p>
 
-<p>So, the MAJOR number will be the &ldquo;this is in production&rdquo; version. This is
+<p>So, the MAJOR number will be the “this is in production” version. This is
 the customer facing, being used in real work, version. 1.0.x will be in
-production use, 2.0.x will be it&rsquo;s successor, etc.</p>
+production use, 2.0.x will be it’s successor, etc.</p>
 
-<p>The MINOR number will be &ldquo;features being tested&rdquo;. So, 1.1.x will NOT be
+<p>The MINOR number will be “features being tested”. So, 1.1.x will NOT be
 in production use, but rather will be something that is being tested to
 eventually be included in the 2.0.x version.</p>
 
-<p>Again, that&rsquo;s a specific case for us, and not really required by the
+<p>Again, that’s a specific case for us, and not really required by the
 semver specification. We find that kind of structure useful for our purposes,
-while I&rsquo;m sure your project(s) will have different needs. The main reason
+while I’m sure your project(s) will have different needs. The main reason
 for this kind of versioning is to prevent problems related to what version
 of which project is being used in a given context.</p>
 

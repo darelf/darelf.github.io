@@ -9,8 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
-only has a single port available on each machine. (at least &hellip;">
+  <meta name="description" content="Here’s the situation: You have a websocket-friendly routing infrastructure that
+only has a single port available on each machine. (at least that you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,18 +116,15 @@ only has a single port available on each machine. (at least &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+<div class="entry-content"><p>Here’s the situation: You have a websocket-friendly routing infrastructure that
 only has a single port available on each machine. (at least that you can use) But
 you have some awesome client-server stuff that runs completely in the background
 and is not really related to browsers or anything. You currently, and brilliantly,
 have them speaking over regular node streams using the <code>net</code> functionality.</p>
 
-<p>What to do?</p>
-
+<p>What to do?
 <!--more-->
-
-
-<p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
+The routing structure only routes http requests. You can’t just redirect regular
 socket connections.</p>
 
 <p>WEBSOCKETS TO THE RESCUE!  Websockets are just sockets, but they are negotiated
@@ -135,10 +132,10 @@ over http. Oh yeah they are. So they can be routed by your infrastructure that
 supports websockets. (like, say, <a href="http://github.com/substack/bouncy">bouncy</a>, but
 there are plenty of other examples).</p>
 
-<p>But you aren&rsquo;t using a browser. There&rsquo;s no browser here. Hmm.</p>
+<p>But you aren’t using a browser. There’s no browser here. Hmm.</p>
 
 <p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
-That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
+That’s what you do. He has already wrapped websockets with stream functionality in
 a project he calls <a href="http://github.com/maxogden/websocket-stream">websocket-stream</a></p>
 
 <p>Now your carefully designed code that leverages the node stream api can continue

@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="So I have to keep track of what I work on each week and send
-out an email with a short description of each. Yeah. You know. I thought &ldquo;What a &hellip;">
+out an email with a short description of each. Yeah. You know. I thought “What a great &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,17 +110,17 @@ out an email with a short description of each. Yeah. You know. I thought &ldquo;
   <div class="entry-content"><p>So I have to keep track of what I work on each week and send
 out an email with a short description of each. Yeah. You know.</p>
 
-<p>I thought &ldquo;What a great idea for making a script that handles all
-that with a simple command line!&rdquo; I hear you mumbling &ldquo;nerd&rdquo;. That&rsquo;s
+<p>I thought “What a great idea for making a script that handles all
+that with a simple command line!” I hear you mumbling “nerd”. That’s
 OK. I can take it.</p>
 
-<h2>Enter&hellip; The Script</h2>
+<h2 id="enter-the-script">Enter… The Script</h2>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
 
 <p>Very little. I use <a href="http://momentjs.com">moment</a> to figure out what
-week I&rsquo;m working on automatically and store it in the correct file.
+week I’m working on automatically and store it in the correct file.
 I also use <a href="http://github.com/substack/minimist#minimist">minimist</a> to do
 command line parsing since I barely need anything there.</p>
 
@@ -131,7 +131,7 @@ var moment = require('moment')
 </code></pre>
 
 <p>Then I realized I (or someone) might want it daily, so I add a
-default. And while I&rsquo;m at it, let&rsquo;s define a working directory
+default. And while I’m at it, let’s define a working directory
 for the files.</p>
 
 <pre><code>var defaults = { weekly: true, workdir: process.env.HOME + '/worklist/' }
@@ -141,7 +141,7 @@ var argv = require('minimist')(process.argv.slice(2), {default: defaults})
 <p>You could override those, for instance with <code>--workdir=/my/crazy/directory/</code> but
 hopefully these are sane defaults.</p>
 
-<p>Now let&rsquo;s figure out what file we should be working with:</p>
+<p>Now let’s figure out what file we should be working with:</p>
 
 <pre><code>var m = moment()
 if (argv.weekly) {
@@ -151,8 +151,8 @@ if (argv.weekly) {
 var fname = argv.workdir + m.format('YYYY-MM-DD') + '.txt'
 </code></pre>
 
-<p>The file name will now have the date, or Monday&rsquo;s date when we are doing weekly
-files. This let&rsquo;s us choose.</p>
+<p>The file name will now have the date, or Monday’s date when we are doing weekly
+files. This let’s us choose.</p>
 
 <p>Next we read in the file, if it exists, and parse the contents:</p>
 
@@ -165,7 +165,7 @@ fs.readFile(fname, function(err, data) {
 })
 </code></pre>
 
-<p>That <code>parseCommands()</code> function will need to be defined. It&rsquo;s basically the
+<p>That <code>parseCommands()</code> function will need to be defined. It’s basically the
 entry point for looking at any command the user sent and taking the correct
 action. I decided I only needed 3 commands:  list, add, and delete.</p>
 
@@ -191,7 +191,7 @@ Next, we have a <code>--add="This is the item to add"</code> command that will a
 a single line to our file, and then it will save the file. (see below for that)
 And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
 
-<p>Not really pretty, but since I&rsquo;m mostly just adding and listing, it seems
+<p>Not really pretty, but since I’m mostly just adding and listing, it seems
 to work just fine. And since the files are just text files, I can always
 edit them by hand, feed them into other programs or utilities easily, and
 generally use any of my typical Unixy workflows.</p>
@@ -203,30 +203,30 @@ generally use any of my typical Unixy workflows.</p>
 }
 </code></pre>
 
-<h2>Enter&hellip; NPM!!!</h2>
+<h2 id="enter-npm">Enter… NPM!!!</h2>
 
-<p>How does the <code>npm</code> utility enter in to this? I&rsquo;m glad you asked!</p>
+<p>How does the <code>npm</code> utility enter in to this? I’m glad you asked!</p>
 
-<p>NPM has a facility called &ldquo;bin&rdquo; in the <code>package.json</code> file that allows you
+<p>NPM has a facility called “bin” in the <code>package.json</code> file that allows you
 to define so-called <code>binary</code> programs to be installed. In my case, this is
 just a node js script as shown above.</p>
 
 <p>What steps do I take to make this work as a command? I.e. <code>worklist list</code> or
 <code>worklist --add="I totally did important work just now"</code></p>
 
-<h3>Step One</h3>
+<h3 id="step-one">Step One</h3>
 
-<p>Add the &ldquo;shebang&rdquo; at the beginning of the script telling it to use node.</p>
+<p>Add the “shebang” at the beginning of the script telling it to use node.</p>
 
 <pre><code>#!/usr/bin/env node
 </code></pre>
 
-<p>For the script, that&rsquo;s it.</p>
+<p>For the script, that’s it.</p>
 
-<h3>Step Two</h3>
+<h3 id="step-two">Step Two</h3>
 
 <p>Add the entry into <code>package.json</code> telling it that the script is a binary.
-For our example, I put the script in <code>./bin/worklist.js</code> so that&rsquo;s what I
+For our example, I put the script in <code>./bin/worklist.js</code> so that’s what I
 will tell NPM. Also, I need to tell it what I want the command to look like,
 which in this example is <code>worklist</code> so that I can just type <code>worklist</code> on the
 command line and it will run my script in node automatically.</p>
@@ -239,7 +239,7 @@ command line and it will run my script in node automatically.</p>
 }
 </code></pre>
 
-<h3>Step Three</h3>
+<h3 id="step-three">Step Three</h3>
 
 <p>Install it globally.</p>
 
@@ -250,12 +250,12 @@ command line and it will run my script in node automatically.</p>
 somewhere. I believe on Windows that this also automatically wraps it in a
 <code>.cmd</code> for you. WIN.</p>
 
-<h3>Step Four</h3>
+<h3 id="step-four">Step Four</h3>
 
 <p>Pour a hot cup of coffee, light up your favorite cigar, and enjoy. THIS STEP
 IS NOT OPTIONAL.</p>
 
-<h2>Feedback</h2>
+<h2 id="feedback">Feedback</h2>
 
 <p>Please, please, please, send me feedback, ask me questions. Yeah. You can do it.</p>
 </div>
@@ -293,8 +293,7 @@ IS NOT OPTIONAL.</p>
   </header>
 
 
-  <div class="entry-content"><p>Life no longer gives me lemons. Not after what happened the last time.</p>
-
+  <div class="entry-content"><p>Life no longer gives me lemons. Not after what happened the last time.
 </div>
   
   
@@ -335,8 +334,7 @@ IS NOT OPTIONAL.</p>
 
 
   <div class="entry-content"><p>One of the big advantages of <a href="http://nodejs.org">node.js</a> is that of events and
-an emphasis on asynchronous programming.</p>
-
+an emphasis on asynchronous programming.
 </div>
   
   
@@ -376,10 +374,9 @@ an emphasis on asynchronous programming.</p>
   </header>
 
 
-  <div class="entry-content"><p>There&rsquo;s some sort of northern barbarian that hangs out in Mae&rsquo;s group. Odd fellow.
-Keeps to himself mostly. At first I thought he didn&rsquo;t speak the language, until
-he went into a semi-furious rant about some vision he had.</p>
-
+  <div class="entry-content"><p>There’s some sort of northern barbarian that hangs out in Mae’s group. Odd fellow.
+Keeps to himself mostly. At first I thought he didn’t speak the language, until
+he went into a semi-furious rant about some vision he had.
 </div>
   
   
@@ -419,14 +416,13 @@ he went into a semi-furious rant about some vision he had.</p>
   </header>
 
 
-  <div class="entry-content"><p>&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov</p>
+  <div class="entry-content"><p>“All that is complex is not useful. All that is useful is simple.” – Mikhail Kalashnikov</p>
 
-<p>&ldquo;A scientific theory should be as simple as possible, but no simpler.&rdquo; &mdash; Albert Einstein</p>
+<p>“A scientific theory should be as simple as possible, but no simpler.” – Albert Einstein</p>
 
-<p>Ran into this problem recently. It&rsquo;s very difficult to deal with programmers sometimes,
+<p>Ran into this problem recently. It’s very difficult to deal with programmers sometimes,
 as they tend to very often be right in the face of naysayers, they get used to it and
-just assume that their way is right even when it&rsquo;s obviously wrong.</p>
-
+just assume that their way is right even when it’s obviously wrong.
 </div>
   
   
@@ -469,8 +465,7 @@ just assume that their way is right even when it&rsquo;s obviously wrong.</p>
   <div class="entry-content"><p>Having gotten themselves banned from the city, the adventuring group led by Mae approached the
 walls with not a little trepidation. Unfortunately, the Red Mantis had a use for the group and
 offered to clear their names in exchange for some help. This was obviously not going to play to
-my advantage. The Mantis are constantly interfering, the meddlesome brats.</p>
-
+my advantage. The Mantis are constantly interfering, the meddlesome brats.
 </div>
   
   
@@ -510,11 +505,10 @@ my advantage. The Mantis are constantly interfering, the meddlesome brats.</p>
   </header>
 
 
-  <div class="entry-content"><p>There&rsquo;s a very well known saying in writing: &ldquo;Show, Don&rsquo;t Tell&rdquo;. I&rsquo;m sure you&rsquo;ve heard
+  <div class="entry-content"><p>There’s a very well known saying in writing: “Show, Don’t Tell”. I’m sure you’ve heard
 it, either in some class or in a book on creative writing. The other famous saying comes
-from screenwriting, &ldquo;Exposition = Death&rdquo;, meaning it sucks all the drama out of a scene
-and bores your viewers.</p>
-
+from screenwriting, “Exposition = Death”, meaning it sucks all the drama out of a scene
+and bores your viewers.
 </div>
   
   
@@ -554,11 +548,10 @@ and bores your viewers.</p>
   </header>
 
 
-  <div class="entry-content"><p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+  <div class="entry-content"><p>Data. Always getting out of sync. You’d think it would learn. You’d think that
 maybe if you tightened up your code it would never get out of sync.</p>
 
-<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
-
+<p>Well. Data don’t care what you think. That’s why CRC, etc.
 </div>
   
   
@@ -602,8 +595,7 @@ maybe if you tightened up your code it would never get out of sync.</p>
 distributed into discrete tasks which themselves can be completed in
 any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
 npm package that I have published. I will diverge just a bit here to
-talk a little bit of background.</p>
-
+talk a little bit of background.
 </div>
   
   
@@ -645,8 +637,7 @@ talk a little bit of background.</p>
 
   <div class="entry-content"><p>There tends to be, in my experience, a certain bonding moment that
 happens among a give group of adventurers. And it usually has to do with loot.
-Whether gold or precious gems or magic swords.</p>
-
+Whether gold or precious gems or magic swords.
 </div>
   
   

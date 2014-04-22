@@ -9,8 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="The eternal struggle rages on, and in today&rsquo;s episode we bring you the
-battle of configuration. Every useful application is configurable. This &hellip;">
+  <meta name="description" content="The eternal struggle rages on, and in today’s episode we bring you the
+battle of configuration. Every useful application is configurable. This is an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,18 +116,15 @@ battle of configuration. Every useful application is configurable. This &hellip;
   </header>
 
 
-<div class="entry-content"><p>The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+<div class="entry-content"><p>The eternal struggle rages on, and in today’s episode we bring you the
 battle of configuration.</p>
 
 <p>Every useful application is configurable. This is an axiom, a universally
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
-modify its behavior.</p>
-
+modify its behavior.
 <!--more-->
-
-
-<p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
+For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the
 user to modify the behavior. And this is for a program whose sole purpose
 is to list files.</p>
@@ -136,7 +133,7 @@ is to list files.</p>
 way lies madness, since any given program should accept both. The question,
 instead, is what should you use?</p>
 
-<h3>Configuration files.</h3>
+<h3 id="configuration-files">Configuration files.</h3>
 
 <p>The pro-config-file argument is compelling. Store your settings a single time.
 Easier to run in cron or some other automation. Can be changed at any time,
@@ -147,7 +144,7 @@ can remind you what the options are for.</p>
 options very often, editing a file is actually more work than changing the
 switches.</p>
 
-<h3>Command Line</h3>
+<h3 id="command-line">Command Line</h3>
 
 <p>Easy. Allows you to quickly modify behavior between several rapid uses of
 the same program. Help screen will generally tell you what you need to know.</p>
@@ -155,7 +152,7 @@ the same program. Help screen will generally tell you what you need to know.</p>
 <p>Tedious if you have many options. Easy to forget if the times between running
 the program by hand are very long. Easy to mistype.</p>
 
-<h3>Solution</h3>
+<h3 id="solution">Solution</h3>
 
 <p>Where possible use both. Set your config file to your common and least-changed
 settings, and use the command line for your often changing parameters.</p>

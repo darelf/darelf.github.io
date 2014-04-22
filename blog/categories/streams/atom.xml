@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Streams | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/streams/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:21:32-04:00</updated>
+  <updated>2014-04-22T15:31:52-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -22,22 +22,19 @@
 distributed into discrete tasks which themselves can be completed in
 any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
 npm package that I have published. I will diverge just a bit here to
-talk a little bit of background.</p>
-
+talk a little bit of background.
 <!--more-->
-
-
-<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+STREAMS. Just think about that. Streams. Think of all the things it implies
 in programming to talk about streams and streaming.</p>
 
 <p>Probably number one is networking, that is TCP (or whatever) network
 sockets that are read/write and have very well-established, at this point,
 semantics. Open, close, pause, end, read, write, etc. Depending on the
-exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+exact stream, of course, things may be slightly different, and we’ve seen
 quite a lot of semantics built on top of streams.</p>
 
 <p>Nodejs, of course, does networking really well. In fact, that may be the
-number one purpose for most programmers using it. It&rsquo;s just really
+number one purpose for most programmers using it. It’s just really
 fantastic at networking. Your code can worry about what goes on just
 above the socket level, with the streams. They also give you an
 abstraction, so that there are file streams, etc. helping you out.</p>
@@ -45,9 +42,9 @@ abstraction, so that there are file streams, etc. helping you out.</p>
 <p>This is all fairly normal in programming, and streams have been around
 for a long time. UNIX pipes are probably the most common stream-semantic
 thing that programmers use, but they are everywhere in just about every
-language that&rsquo;s of any use.</p>
+language that’s of any use.</p>
 
-<p>So&hellip;</p>
+<p>So…</p>
 
 <p>Back to jobs. If you have a big job that can broken down into discreet
 tasks such that those tasks can happen in any order, you have something
@@ -78,7 +75,7 @@ reduce the load, or possibly even by name.</p>
 have those workers advertise the kind of work they can do and let the
 queue manager distribute jobs accordingly.</p>
 
-<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+<p>So that’s where it’s at. A lot of interesting tweaks to be made, and a
 lot of progress towards better features.</p>
 ]]></content>
   </entry>

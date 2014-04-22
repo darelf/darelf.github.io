@@ -4,7 +4,7 @@
   <title><![CDATA[The Blog from Darel]]></title>
   <link href="http://darelf.github.io/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:21:32-04:00</updated>
+  <updated>2014-04-22T15:31:52-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -21,17 +21,17 @@
     <content type="html"><![CDATA[<p>So I have to keep track of what I work on each week and send
 out an email with a short description of each. Yeah. You know.</p>
 
-<p>I thought &ldquo;What a great idea for making a script that handles all
-that with a simple command line!&rdquo; I hear you mumbling &ldquo;nerd&rdquo;. That&rsquo;s
+<p>I thought “What a great idea for making a script that handles all
+that with a simple command line!” I hear you mumbling “nerd”. That’s
 OK. I can take it.</p>
 
-<h2>Enter&hellip; The Script</h2>
+<h2 id="enter-the-script">Enter… The Script</h2>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
 
 <p>Very little. I use <a href="http://momentjs.com">moment</a> to figure out what
-week I&rsquo;m working on automatically and store it in the correct file.
+week I’m working on automatically and store it in the correct file.
 I also use <a href="http://github.com/substack/minimist#minimist">minimist</a> to do
 command line parsing since I barely need anything there.</p>
 
@@ -42,7 +42,7 @@ var moment = require('moment')
 </code></pre>
 
 <p>Then I realized I (or someone) might want it daily, so I add a
-default. And while I&rsquo;m at it, let&rsquo;s define a working directory
+default. And while I’m at it, let’s define a working directory
 for the files.</p>
 
 <pre><code>var defaults = { weekly: true, workdir: process.env.HOME + '/worklist/' }
@@ -52,7 +52,7 @@ var argv = require('minimist')(process.argv.slice(2), {default: defaults})
 <p>You could override those, for instance with <code>--workdir=/my/crazy/directory/</code> but
 hopefully these are sane defaults.</p>
 
-<p>Now let&rsquo;s figure out what file we should be working with:</p>
+<p>Now let’s figure out what file we should be working with:</p>
 
 <pre><code>var m = moment()
 if (argv.weekly) {
@@ -62,8 +62,8 @@ if (argv.weekly) {
 var fname = argv.workdir + m.format('YYYY-MM-DD') + '.txt'
 </code></pre>
 
-<p>The file name will now have the date, or Monday&rsquo;s date when we are doing weekly
-files. This let&rsquo;s us choose.</p>
+<p>The file name will now have the date, or Monday’s date when we are doing weekly
+files. This let’s us choose.</p>
 
 <p>Next we read in the file, if it exists, and parse the contents:</p>
 
@@ -76,7 +76,7 @@ fs.readFile(fname, function(err, data) {
 })
 </code></pre>
 
-<p>That <code>parseCommands()</code> function will need to be defined. It&rsquo;s basically the
+<p>That <code>parseCommands()</code> function will need to be defined. It’s basically the
 entry point for looking at any command the user sent and taking the correct
 action. I decided I only needed 3 commands:  list, add, and delete.</p>
 
@@ -102,7 +102,7 @@ Next, we have a <code>--add="This is the item to add"</code> command that will a
 a single line to our file, and then it will save the file. (see below for that)
 And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
 
-<p>Not really pretty, but since I&rsquo;m mostly just adding and listing, it seems
+<p>Not really pretty, but since I’m mostly just adding and listing, it seems
 to work just fine. And since the files are just text files, I can always
 edit them by hand, feed them into other programs or utilities easily, and
 generally use any of my typical Unixy workflows.</p>
@@ -114,30 +114,30 @@ generally use any of my typical Unixy workflows.</p>
 }
 </code></pre>
 
-<h2>Enter&hellip; NPM!!!</h2>
+<h2 id="enter-npm">Enter… NPM!!!</h2>
 
-<p>How does the <code>npm</code> utility enter in to this? I&rsquo;m glad you asked!</p>
+<p>How does the <code>npm</code> utility enter in to this? I’m glad you asked!</p>
 
-<p>NPM has a facility called &ldquo;bin&rdquo; in the <code>package.json</code> file that allows you
+<p>NPM has a facility called “bin” in the <code>package.json</code> file that allows you
 to define so-called <code>binary</code> programs to be installed. In my case, this is
 just a node js script as shown above.</p>
 
 <p>What steps do I take to make this work as a command? I.e. <code>worklist list</code> or
 <code>worklist --add="I totally did important work just now"</code></p>
 
-<h3>Step One</h3>
+<h3 id="step-one">Step One</h3>
 
-<p>Add the &ldquo;shebang&rdquo; at the beginning of the script telling it to use node.</p>
+<p>Add the “shebang” at the beginning of the script telling it to use node.</p>
 
 <pre><code>#!/usr/bin/env node
 </code></pre>
 
-<p>For the script, that&rsquo;s it.</p>
+<p>For the script, that’s it.</p>
 
-<h3>Step Two</h3>
+<h3 id="step-two">Step Two</h3>
 
 <p>Add the entry into <code>package.json</code> telling it that the script is a binary.
-For our example, I put the script in <code>./bin/worklist.js</code> so that&rsquo;s what I
+For our example, I put the script in <code>./bin/worklist.js</code> so that’s what I
 will tell NPM. Also, I need to tell it what I want the command to look like,
 which in this example is <code>worklist</code> so that I can just type <code>worklist</code> on the
 command line and it will run my script in node automatically.</p>
@@ -150,7 +150,7 @@ command line and it will run my script in node automatically.</p>
 }
 </code></pre>
 
-<h3>Step Three</h3>
+<h3 id="step-three">Step Three</h3>
 
 <p>Install it globally.</p>
 
@@ -161,12 +161,12 @@ command line and it will run my script in node automatically.</p>
 somewhere. I believe on Windows that this also automatically wraps it in a
 <code>.cmd</code> for you. WIN.</p>
 
-<h3>Step Four</h3>
+<h3 id="step-four">Step Four</h3>
 
 <p>Pour a hot cup of coffee, light up your favorite cigar, and enjoy. THIS STEP
 IS NOT OPTIONAL.</p>
 
-<h2>Feedback</h2>
+<h2 id="feedback">Feedback</h2>
 
 <p>Please, please, please, send me feedback, ask me questions. Yeah. You can do it.</p>
 ]]></content>
@@ -177,18 +177,15 @@ IS NOT OPTIONAL.</p>
     <link href="http://darelf.github.io/blog/2014/04/14/lazarus-yo-ho/"/>
     <updated>2014-04-14T12:32:30-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/14/lazarus-yo-ho</id>
-    <content type="html"><![CDATA[<p>Life no longer gives me lemons. Not after what happened the last time.</p>
-
+    <content type="html"><![CDATA[<p>Life no longer gives me lemons. Not after what happened the last time.
 <!--more-->
-
-
-<p>There had been an agreement made to help hunt down and defeat one of the
+There had been an agreement made to help hunt down and defeat one of the
 pirate captains. This was in exchange for the location of a buried treasure.
 Partly completed, I think, because Captain <del>Mars</del> Deeds thought
-that the treasure itself is actually a myth. Or at least that it&rsquo;s impossible
+that the treasure itself is actually a myth. Or at least that it’s impossible
 to get at it.</p>
 
-<p>So we all truck out in pursuit of this guy&rsquo;s pirate ship. A short bit of naval
+<p>So we all truck out in pursuit of this guy’s pirate ship. A short bit of naval
 maneuvering goes on while some fire is exchanged, and eventually we latch on
 and can head across to the enemy ship.</p>
 
@@ -196,7 +193,7 @@ and can head across to the enemy ship.</p>
 happened exactly as planned. Bravo.</p>
 
 <p>We quickly set up a permieter of fighters, with our mage and archer protected.
-An enemy archer distracted for a short time such that we couldn&rsquo;t bring the
+An enemy archer distracted for a short time such that we couldn’t bring the
 full force of our long range attack on the foot soldiers.</p>
 
 <p>However, the battle quickly evolved as the enemy brought in air support and
@@ -223,59 +220,50 @@ guarding the lost treasure of Angus.</p>
     <updated>2014-04-09T13:06:49-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/09/evented</id>
     <content type="html"><![CDATA[<p>One of the big advantages of <a href="http://nodejs.org">node.js</a> is that of events and
-an emphasis on asynchronous programming.</p>
-
+an emphasis on asynchronous programming.
 <!--more-->
-
-
-<p>It is almost a given, at this point, that if you learned all your programming
-from college, you probably didn&rsquo;t learn how to write asynchronous functions. In
+It is almost a given, at this point, that if you learned all your programming
+from college, you probably didn’t learn how to write asynchronous functions. In
 fact, you were probably warned away from dealing with things that were asynchronous
 directly. Instead using pre-packaged frameworks that exposed asynchronous things
 ( like I/O ) as if they were synchronous, solving your problem for you.</p>
 
-<p>That&rsquo;s fine. But node.js don&rsquo;t truck with that.</p>
+<p>That’s fine. But node.js don’t truck with that.</p>
 
 <p>If you are going to do something in node.js, you need to deal with asynchronous
 functions. You need to create functions that can be called asynchronously, and that
 play well in that kind of ecosystem. Here are a few tips to help you make the
 transition from one to the other.</p>
 
-<p>** Problem &ndash; Big File</p>
+<p>** Problem - Big File</p>
 
 <p>You have to create many millions of rows of data and output them to a file. You
-can&rsquo;t keep the whole file in memory and write it all at once. You may have infinite
-time but you don&rsquo;t have infinite memory.</p>
+can’t keep the whole file in memory and write it all at once. You may have infinite
+time but you don’t have infinite memory.</p>
 
-<p>Step one is to have a function that creates a row of data.</p>
-
-<pre><code>function makeOneRow(item) {
-  // do something fancy
-  return rowOfData
-}
-</code></pre>
+<p>Step one is to have a function that creates a row of data.
+    function makeOneRow(item) {
+      // do something fancy
+      return rowOfData
+    }</p>
 
 <p>Step two is to create a writable stream. For our purposes, we say a file, so we can
-use the <code>fs</code> module.</p>
+use the <code>fs</code> module.
+    var fs = require(‘fs’)
+    var outputFile = fs.createWriteableStream(‘name-of-output-file.txt’)</p>
 
-<pre><code>var fs = require('fs')
-var outputFile = fs.createWriteableStream('name-of-output-file.txt')
-</code></pre>
+<p>Step three is to loop through your list of items to create and write them to the file
+    listOfItems.forEach(function (item) {
+      outputFile.write(makeOneRow(item))
+    })
+    outputFile.end()</p>
 
-<p>Step three is to loop through your list of items to create and write them to the file</p>
-
-<pre><code>listOfItems.forEach(function (item) {
-  outputFile.write(makeOneRow(item))
-})
-outputFile.end()
-</code></pre>
-
-<p>&ldquo;Wait a second!&rdquo; I hear you exclaim. &ldquo;What if the makeOneRow() is also asynchronous?&rdquo;
+<p>“Wait a second!” I hear you exclaim. “What if the makeOneRow() is also asynchronous?”
 Maybe the call that makes a row has to call the database, which is almost certainly an
 asynchronous call. In this case, we would quickly crash.</p>
 
 <p>One solution to this problem is my favorite: events. The stream functionality that is
-available in node.js makes events a natural choice for this. Let&rsquo;s say for the moment
+available in node.js makes events a natural choice for this. Let’s say for the moment
 that creating a row takes a database call that uses a callback.</p>
 
 <pre><code>function databaseCall(item, callback) {
@@ -285,7 +273,7 @@ that creating a row takes a database call that uses a callback.</p>
 </code></pre>
 
 <p>What do we do with this callback? Well, if we are using events we need a javascript
-object that is an <code>EventEmitter</code>. So let&rsquo;s create one real quick.</p>
+object that is an <code>EventEmitter</code>. So let’s create one real quick.</p>
 
 <pre><code>var util = require('util')
 var events = require('events')
@@ -299,7 +287,7 @@ var myobject = new MyObject()
 </code></pre>
 
 <p>Ok. What does this give us? Well, it gives us an object that can call <code>emit</code> in order
-to send out events to listeners. So let&rsquo;s adapt our function that makes items to use it.</p>
+to send out events to listeners. So let’s adapt our function that makes items to use it.</p>
 
 <pre><code>MyObject.prototype.makeOneRow = function(item) {
   var self = this
@@ -311,7 +299,7 @@ to send out events to listeners. So let&rsquo;s adapt our function that makes it
 
 <p>Now all we have to do is listen for data events and write them to the file. The other
 thing is calling only one of these at a time, since we care about the order that
-things get written to the file. So when listening for the &lsquo;data&rsquo; event, check if
+things get written to the file. So when listening for the ‘data’ event, check if
 you have more items, and if you do then ask for another one.</p>
 
 <pre><code>function doOne() {
@@ -326,7 +314,7 @@ myobject.on('data', function(newdata) {
 </code></pre>
 
 <p>Even better would be to allow the object to keep track of how many items, and send
-an &lsquo;end&rsquo; event when it reached the end. I&rsquo;ll leave that as an exercise. (You gotta
+an ‘end’ event when it reached the end. I’ll leave that as an exercise. (You gotta
 learn to do it yourself eventually, right?)</p>
 ]]></content>
   </entry>
@@ -336,41 +324,38 @@ learn to do it yourself eventually, right?)</p>
     <link href="http://darelf.github.io/blog/2014/04/07/lazarus-tactics/"/>
     <updated>2014-04-07T09:01:00-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/07/lazarus-tactics</id>
-    <content type="html"><![CDATA[<p>There&rsquo;s some sort of northern barbarian that hangs out in Mae&rsquo;s group. Odd fellow.
-Keeps to himself mostly. At first I thought he didn&rsquo;t speak the language, until
-he went into a semi-furious rant about some vision he had.</p>
-
+    <content type="html"><![CDATA[<p>There’s some sort of northern barbarian that hangs out in Mae’s group. Odd fellow.
+Keeps to himself mostly. At first I thought he didn’t speak the language, until
+he went into a semi-furious rant about some vision he had.
 <!--more-->
-
-
-<p>Unfortunately, the vision was of the assassin cult of Norgorber. Those guys. You
+Unfortunately, the vision was of the assassin cult of Norgorber. Those guys. You
 know, one of the groups that if you leave them alone they usually leave you alone.
 But apparently, this Pike (or Pickaxe, maybe?) fellow crossed them somehow, or maybe someone put out a
-contract on him (though I hadn&rsquo;t heard about it). Whatever the reason, he was in
+contract on him (though I hadn’t heard about it). Whatever the reason, he was in
 deep, and these assassins are pretty sneaky; you never know who they are.</p>
 
 <p>We staked out their hideout for a few days until we saw they were having a meeting.
 Then we quickly discussed tactics.</p>
 
-<p>Now Mae&rsquo;s guards, the three ex-soldiers, seem to be a little light on tactics.
-(That may be why they are &ldquo;ex&rdquo;. That or sleeping on duty seems just as likely)
+<p>Now Mae’s guards, the three ex-soldiers, seem to be a little light on tactics.
+(That may be why they are “ex”. That or sleeping on duty seems just as likely)
 However, they did manage to have a single stray thought about possible alternate
 escape routes for the enemy. But then, instead of actually securing the exit,
-instead they sent the pirate Dripstain to take care of it. And he &ldquo;took care of it&rdquo;
+instead they sent the pirate Dripstain to take care of it. And he “took care of it”
 by drinking and having a piratey good time, and then watching calmly while several
 of the enemy escaped.</p>
 
-<p>When asked, he said something like &ldquo;Oh, you wanted me to stop them? I.. I didn&rsquo;t
+<p>When asked, he said something like “Oh, you wanted me to stop them? I.. I didn’t
 know that. I just assumed you wanted me to drink and wench and observe any
-of them coming out of the basement. Which I did! Especially the first two items!&rdquo;</p>
+of them coming out of the basement. Which I did! Especially the first two items!”</p>
 
-<p>&ldquo;How many, Dripstain?&rdquo;</p>
+<p>“How many, Dripstain?”</p>
 
-<p>&ldquo;Oh, maybe three or four. Or maybe it was only one. I was in my fifth cups by
-then, and Stacey&rsquo;s ample bosom was blocking some of my view. Plus I was trying to
+<p>“Oh, maybe three or four. Or maybe it was only one. I was in my fifth cups by
+then, and Stacey’s ample bosom was blocking some of my view. Plus I was trying to
 keep an eye on Jessica, since I thought she might be in on it what with the way
 she was swaying her hips at me constantly. Definitely, probably
-at least one of the assassins got away.&rdquo; (I&rsquo;m paraphrasing here, but you get the idea)</p>
+at least one of the assassins got away.” (I’m paraphrasing here, but you get the idea)</p>
 
 <p>Meanwhile, with Assisstant Vice Cabin Boy busy, we were laying into the enemy pretty
 heavily. Not being a group very good at making our way down corridors, we of course
@@ -381,7 +366,7 @@ Eventually we got untangled and went face first into assassins, fire elementals,
 and giant scorpians. It was invigorating.</p>
 
 <p>The frustration with the entire affair of just getting in the door made me cranky.
-I vaguely remember eating a man&rsquo;s heart. It happens sometimes. After that, of course,
+I vaguely remember eating a man’s heart. It happens sometimes. After that, of course,
 everything is a bit fuzzy since I was high as a kite on lifeblood.</p>
 
 <p>Maybe next time we can have a little better organization on getting through the door.
@@ -394,22 +379,19 @@ I know. Baby steps, baby steps.</p>
     <link href="http://darelf.github.io/blog/2014/04/02/simple-programming/"/>
     <updated>2014-04-02T08:19:57-04:00</updated>
     <id>http://darelf.github.io/blog/2014/04/02/simple-programming</id>
-    <content type="html"><![CDATA[<p>&ldquo;All that is complex is not useful. All that is useful is simple.&rdquo; &mdash; Mikhail Kalashnikov</p>
+    <content type="html"><![CDATA[<p>“All that is complex is not useful. All that is useful is simple.” – Mikhail Kalashnikov</p>
 
-<p>&ldquo;A scientific theory should be as simple as possible, but no simpler.&rdquo; &mdash; Albert Einstein</p>
+<p>“A scientific theory should be as simple as possible, but no simpler.” – Albert Einstein</p>
 
-<p>Ran into this problem recently. It&rsquo;s very difficult to deal with programmers sometimes,
+<p>Ran into this problem recently. It’s very difficult to deal with programmers sometimes,
 as they tend to very often be right in the face of naysayers, they get used to it and
-just assume that their way is right even when it&rsquo;s obviously wrong.</p>
-
+just assume that their way is right even when it’s obviously wrong.
 <!--more-->
-
-
-<p>Programmers fall for the same failings of the rest of humanity, such as resisting change,
+Programmers fall for the same failings of the rest of humanity, such as resisting change,
 or taking perverse pride in something they did even when that thing is awful. I hear so
-many times from people that they &ldquo;worked so hard&rdquo; on something. And I think, &ldquo;But that
+many times from people that they “worked so hard” on something. And I think, “But that
 something you worked hard on is horrible, you should not be proud of it or resist replacing
-it with something good.&rdquo; (I have rather lengthy internal monologues sometimes)</p>
+it with something good.” (I have rather lengthy internal monologues sometimes)</p>
 
 <p>The big issues when code gets complex center around maintainability. That extends both to
 bringing in new programmers on a project, as well as revisiting code that you have written
@@ -418,7 +400,7 @@ ones. As simple as possible while still accomplishing all the goals.</p>
 
 <p>So, if you are familiar with one tool and you start using it to solve a problem that it
 is not designed for, you will inexorably end up with a much more complex system than
-necessary. If you use techniques that aren&rsquo;t tailored to the task at hand, you will
+necessary. If you use techniques that aren’t tailored to the task at hand, you will
 have the same problem.</p>
 
 <p>Choices in programming should be made by programmers not by business decisions. Goals
@@ -427,31 +409,31 @@ end up with a horrible mess that is far more costly and a nightmare to maintain.
 business makes the decision on programming language, techniques, etc. you are headed into
 the dystopian realm of ill-functioning, difficult to maintain software.</p>
 
-<p>&ldquo;But it&rsquo;s easier to hire Java (or insert other horrible languages) programmers&hellip;&rdquo;
-I hear you cry. First, I call BS on that on its face. Second, you don&rsquo;t want programmers
-that are easy to hire. That&rsquo;s like saying it&rsquo;s easier to hire unskilled laborers.
-Of course it is. There&rsquo;s a reason for that.</p>
+<p>“But it’s easier to hire Java (or insert other horrible languages) programmers…”
+I hear you cry. First, I call BS on that on its face. Second, you don’t want programmers
+that are easy to hire. That’s like saying it’s easier to hire unskilled laborers.
+Of course it is. There’s a reason for that.</p>
 
 <p>Advice is only as good as the people taking it.</p>
 
-<p>When we say &ldquo;make it simple&rdquo;, we mean also &ldquo;make it work and work well&rdquo;. Don&rsquo;t over-simplify,
+<p>When we say “make it simple”, we mean also “make it work and work well”. Don’t over-simplify,
 but choose the right tool and the right techniques and make it as simple as it can be.
 Make code easy to reason about. Make it easy to extend. Make it easy to integrate. Make it
 easy. Simple is easy. Complex is hard.</p>
 
-<p>Just because you haven&rsquo;t encountered a technique before doesn&rsquo;t mean it&rsquo;s hard. If you
+<p>Just because you haven’t encountered a technique before doesn’t mean it’s hard. If you
 look at something like <a href="http://en.wikipedia.org/wiki/Bitmap_index">WAH</a> or CONCISE it may look
-difficult and complex at first, but it&rsquo;s really rather simple. Honestly, when you realize
-that half the compression is simply packing and run length encoding it&rsquo;s very easy to
+difficult and complex at first, but it’s really rather simple. Honestly, when you realize
+that half the compression is simply packing and run length encoding it’s very easy to
 grasp, and importantly easy to reason about.</p>
 
 <p>Keep code simple. Keep inter-process interfaces simple. Keep APIs simple. Make the so-called
 surface area easy to grasp, easy to reason about. Keep it easy to maintain, easy to upgrade,
-easy to extend. You can&rsquo;t see all futures, but if you make the code simple it will be
+easy to extend. You can’t see all futures, but if you make the code simple it will be
 easier to adapt to new and changing environments.</p>
 
-<p>If you don&rsquo;t, you are inviting trouble for yourself and others. You are the Causer of
-Problems. Don&rsquo;t be the bad guy.</p>
+<p>If you don’t, you are inviting trouble for yourself and others. You are the Causer of
+Problems. Don’t be the bad guy.</p>
 ]]></content>
   </entry>
   
@@ -463,12 +445,9 @@ Problems. Don&rsquo;t be the bad guy.</p>
     <content type="html"><![CDATA[<p>Having gotten themselves banned from the city, the adventuring group led by Mae approached the
 walls with not a little trepidation. Unfortunately, the Red Mantis had a use for the group and
 offered to clear their names in exchange for some help. This was obviously not going to play to
-my advantage. The Mantis are constantly interfering, the meddlesome brats.</p>
-
+my advantage. The Mantis are constantly interfering, the meddlesome brats.
 <!--more-->
-
-
-<p>Help from adventuring groups is usually of the &ldquo;kill it until it is dead&rdquo; variety, and this one
+Help from adventuring groups is usually of the “kill it until it is dead” variety, and this one
 was no different. Apparently, the necromantic pirate lady ( I think her name was Necrophilia, or
 something? ), had one of her ships occupying the harbor. Who knows why. Certainly for some
 nefarious purpose, but which exact type of nefary was unclear.</p>
@@ -487,13 +466,13 @@ every enemy, fought from the front and generally energized the entire affair. Hi
 enthusiasm infected the whole group, and everyone got caught up in the Swash and Buckle. It was
 a fascinating excursion, from that point of view.</p>
 
-<p>Also, I don&rsquo;t particularly like undead. They are irritating. They suck the souls out of people,
+<p>Also, I don’t particularly like undead. They are irritating. They suck the souls out of people,
 and reduce them to at best wasted husks, and at worst convert them to their undead cause. Which
 cause is entirely depressing. I assume most undead are cutters by nature, all sad on themselves,
 blaming their parents, etc. If they had hair it would naturally fall in their face and be dyed
 black. Whatever. I prefer a more energetic lifestyle.</p>
 
-<p>At least we got to sink a ship by setting it on fire. That&rsquo;s always fun.</p>
+<p>At least we got to sink a ship by setting it on fire. That’s always fun.</p>
 ]]></content>
   </entry>
   
@@ -502,77 +481,74 @@ black. Whatever. I prefer a more energetic lifestyle.</p>
     <link href="http://darelf.github.io/blog/2014/03/24/exposition/"/>
     <updated>2014-03-24T09:29:28-04:00</updated>
     <id>http://darelf.github.io/blog/2014/03/24/exposition</id>
-    <content type="html"><![CDATA[<p>There&rsquo;s a very well known saying in writing: &ldquo;Show, Don&rsquo;t Tell&rdquo;. I&rsquo;m sure you&rsquo;ve heard
+    <content type="html"><![CDATA[<p>There’s a very well known saying in writing: “Show, Don’t Tell”. I’m sure you’ve heard
 it, either in some class or in a book on creative writing. The other famous saying comes
-from screenwriting, &ldquo;Exposition = Death&rdquo;, meaning it sucks all the drama out of a scene
-and bores your viewers.</p>
-
+from screenwriting, “Exposition = Death”, meaning it sucks all the drama out of a scene
+and bores your viewers.
 <!--more-->
-
-
-<p>We&rsquo;ve read a lot of pro and con on this, and a lot of misunderstanding and overly literal
-interpretations of this particular piece of advice. There&rsquo;s a lot of &ldquo;you have to tell
-something!&rdquo; kind of response, and the other extreme of &ldquo;only imply!&rdquo;.</p>
+We’ve read a lot of pro and con on this, and a lot of misunderstanding and overly literal
+interpretations of this particular piece of advice. There’s a lot of “you have to tell
+something!” kind of response, and the other extreme of “only imply!”.</p>
 
 <p>Good writing is obvious when you read it. The non-obvious is how good writing happens.
-That&rsquo;s where we run into all kinds of problems, and different authors have different little
+That’s where we run into all kinds of problems, and different authors have different little
 phrases or mnemonics that help them move their storytelling toward good from wherever they
 are.</p>
 
-<p>For instance, Orson Scott Card will tell you that you need exposition. But that&rsquo;s because
+<p>For instance, Orson Scott Card will tell you that you need exposition. But that’s because
 he needs to be reminded. Most writers have the exact opposite problem and need to be disciplined
 away from excessive exposition. New writers can easily get confused by all the advice, and
 end up learning all the wrong things. And then, once habits become ingrained you end up with
-a decent writer who has a huge hole that brackets out any chance for greatness. (I&rsquo;m looking
+a decent writer who has a huge hole that brackets out any chance for greatness. (I’m looking
 at you George R.R. Martin)</p>
 
-<p>So in the famous screenwriter aphorism &ldquo;exposition = death&rdquo;, what is it about that bit of
-advice that we can glean? What does &ldquo;exposition&rdquo; even mean in the context of &ldquo;show, don&rsquo;t tell&rdquo;
+<p>So in the famous screenwriter aphorism “exposition = death”, what is it about that bit of
+advice that we can glean? What does “exposition” even mean in the context of “show, don’t tell”
 that will help lead us to better storytelling (whether novels or screenwriting or whatever)?</p>
 
-<p>First, a nice definition of exposition: &ldquo;a comprehensive explanation&rdquo;. Now, for many people
-that&rsquo;s really all you need to know in order to understand why you ought to never use exposition.
-But, we&rsquo;ll go a little further. (BTW, this article is exposition)</p>
+<p>First, a nice definition of exposition: “a comprehensive explanation”. Now, for many people
+that’s really all you need to know in order to understand why you ought to never use exposition.
+But, we’ll go a little further. (BTW, this article is exposition)</p>
 
-<p>So what about &ldquo;comprehensive explanation&rdquo; means bad storytelling? Any time every thing about
+<p>So what about “comprehensive explanation” means bad storytelling? Any time every thing about
 a character, place, event, etc. is thoroughly explained, you have two of deadliest poisons
-to storytelling: boredom and lack of mystery. Hemingway&rsquo;s famous &ldquo;Iceberg Theory&rdquo; captures this
-concept, where the bulk is &ldquo;below the water line&rdquo;.</p>
+to storytelling: boredom and lack of mystery. Hemingway’s famous “Iceberg Theory” captures this
+concept, where the bulk is “below the water line”.</p>
 
 <p>Most importantly, a lack of mystery means you have left nothing to the reader/audience. You
 despise them. You think they are stupid. You are being an arrogant prick. Exposition is for
 learning, classrooms, sermons, etc. it is not for storytelling. When you explain something in
-detail you have taken all the story out of the storytelling; now you&rsquo;re just telling.</p>
+detail you have taken all the story out of the storytelling; now you’re just telling.</p>
 
 <p>For serial entertainment, you have just killed your story. In a TV show, since we now know
 everything about a character the show is over. We know everything about the main background of
-the setting, there&rsquo;s nothing left. Anything you do now will be boring, since there is nothing
-new or interesting, there&rsquo;s no real mystery, no revelation is now possible since you have
+the setting, there’s nothing left. Anything you do now will be boring, since there is nothing
+new or interesting, there’s no real mystery, no revelation is now possible since you have
 just told us everything.</p>
 
 <p>In a movie, you have not only foreclosed on sequels, you have delivered what will be termed
-by the audience &ldquo;unsatisfying&rdquo;, &ldquo;disappointing&rdquo;, &ldquo;worst ending ever&rdquo;. There&rsquo;s nothing left,
-meaning the audience can take nothing with them; it&rsquo;s all left at the theatre. Another word:
-&ldquo;unmemorable&rdquo;. There&rsquo;s nothing for you to think on, so the story will quickly be forgotten.</p>
+by the audience “unsatisfying”, “disappointing”, “worst ending ever”. There’s nothing left,
+meaning the audience can take nothing with them; it’s all left at the theatre. Another word:
+“unmemorable”. There’s nothing for you to think on, so the story will quickly be forgotten.</p>
 
-<p>If you want to write boring, forgettable, cliche driven stories it&rsquo;s very easy. Just have
+<p>If you want to write boring, forgettable, cliche driven stories it’s very easy. Just have
 the characters and setting be comprehensively explained. No matter how deep the characters
-are, if they are fully understood by the audience they will be regarded as &ldquo;shallow&rdquo;. When there
+are, if they are fully understood by the audience they will be regarded as “shallow”. When there
 is no mystery left, everyone is bored, and everyone will move on and stop thinking about it,
 and you and your writing will be forgotten. Which is justice.</p>
 
 <p>The universe hates exposition.</p>
 
-<p>This is not to say that there should never be any &ldquo;telling&rdquo;. But an explanation is not an
+<p>This is not to say that there should never be any “telling”. But an explanation is not an
 exposition. If you give a bit of background information well, you are not giving exposition
-though you are certainly &ldquo;telling&rdquo; part of the story in order to give context. That kind of
+though you are certainly “telling” part of the story in order to give context. That kind of
 telling is perfectly normal, and part of regular dialogue in real life as well, so it comes
 across as natural.</p>
 
 <p>You will know when you have done the storytelling around a character correctly when discussions
-about the &ldquo;true motives&rdquo; or &ldquo;what was that event all about&rdquo; pop up. When the audience has
+about the “true motives” or “what was that event all about” pop up. When the audience has
 many different takes on what the expository meaning of the story is, then you know you
-haven&rsquo;t given too much away.</p>
+haven’t given too much away.</p>
 ]]></content>
   </entry>
   
@@ -581,47 +557,44 @@ haven&rsquo;t given too much away.</p>
     <link href="http://darelf.github.io/blog/2014/03/18/data-synchonization/"/>
     <updated>2014-03-18T09:40:31-04:00</updated>
     <id>http://darelf.github.io/blog/2014/03/18/data-synchonization</id>
-    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You&rsquo;d think it would learn. You&rsquo;d think that
+    <content type="html"><![CDATA[<p>Data. Always getting out of sync. You’d think it would learn. You’d think that
 maybe if you tightened up your code it would never get out of sync.</p>
 
-<p>Well. Data don&rsquo;t care what you think. That&rsquo;s why CRC, etc.</p>
-
+<p>Well. Data don’t care what you think. That’s why CRC, etc.
 <!--more-->
-
-
-<p>At a high level, though, it&rsquo;s very easy to see why data needs to be synchronized
+At a high level, though, it’s very easy to see why data needs to be synchronized
 and how it can get messed up. Two people updating a spreadsheet separately can
 easily end up with two different versions, and then needing to synchronize them
 (aka merge).</p>
 
 <p>What are some of our options? Glad you asked.</p>
 
-<p>One of my favorite ways of making it work is &ldquo;append only&rdquo;. That is, you can never
+<p>One of my favorite ways of making it work is “append only”. That is, you can never
 delete anything, you can only add to it. This makes synchronization easy. You just
-ask if they have any items you don&rsquo;t have, and that&rsquo;s it. Synchronized.</p>
+ask if they have any items you don’t have, and that’s it. Synchronized.</p>
 
 <p>Updates are also fairly easy. Each record having a time it was last updated, or
 a sequence number or whatever, and you can just ask for the latest versions. Again,
-that&rsquo;s pretty much a snap.</p>
+that’s pretty much a snap.</p>
 
 <p>What about deletes?</p>
 
 <p>Ah. Well, this is only slightly more complicated. In this case, what you really need
-is a &ldquo;history&rdquo;. This history can actually just be items that were deleted. The
+is a “history”. This history can actually just be items that were deleted. The
 simplest design, of course, is to have each record have a sync field (either a
-sequence or a timestamp) and also have a &ldquo;tombstone&rdquo; or list of items that were
-deleted. You don&rsquo;t even need to know when, necessarily, if a given id can never
+sequence or a timestamp) and also have a “tombstone” or list of items that were
+deleted. You don’t even need to know when, necessarily, if a given id can never
 be reused.</p>
 
 <p>If they can be reused, then you need to also include the sync field in the history,
-that way something might be &ldquo;brought back to life&rdquo; later. This kind of necromancy
+that way something might be “brought back to life” later. This kind of necromancy
 is not uncommon in many systems.</p>
 
 <p>So, what do we have? Well, in order to keep multiple copies of the same data in
 sync with each other efficiently (that is, not just checking every line and
 replacing the whole dataset), a system should have: a history that lists the latest
 version of each item with a synchronization field of some kind, such as a
-monotonic timestamp, and the action of &lsquo;created&rsquo;, &lsquo;updated&rsquo;, or &lsquo;deleted&rsquo;.</p>
+monotonic timestamp, and the action of ‘created’, ‘updated’, or ‘deleted’.</p>
 
 <p>One of the issues is with timestamps. If you need to synchronize in real-time
 between multiple nodes that share data, and you have a high rate of operations,
@@ -633,14 +606,14 @@ going to have to come up with some scheme for ordering them.</p>
 <p>This can be important for updates/deletes, depending on how you structure things.
 Very often, the solutions end up being a combination of timestamp, process name,
 and a sequence number. There are many different approaches, but they all follow
-the same pattern. A decent approach, if you are satisfied with &ldquo;rough&rdquo; ordering,
+the same pattern. A decent approach, if you are satisfied with “rough” ordering,
 would be something like <a href="https://github.com/twitter/snowflake">Twitter Snowflake</a>.</p>
 
-<p>But don&rsquo;t stop there. There&rsquo;s a lot to learn about this topic, and it is
+<p>But don’t stop there. There’s a lot to learn about this topic, and it is
 fascinating in and of itself.</p>
 
-<p>Warning: make sure you don&rsquo;t over-engineer your solution. If you are only worried
-about synchronizing data that gets updated hourly or daily, then don&rsquo;t overthink
+<p>Warning: make sure you don’t over-engineer your solution. If you are only worried
+about synchronizing data that gets updated hourly or daily, then don’t overthink
 it and come up with some really complicated system.</p>
 ]]></content>
   </entry>
@@ -654,22 +627,19 @@ it and come up with some really complicated system.</p>
 distributed into discrete tasks which themselves can be completed in
 any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
 npm package that I have published. I will diverge just a bit here to
-talk a little bit of background.</p>
-
+talk a little bit of background.
 <!--more-->
-
-
-<p>STREAMS. Just think about that. Streams. Think of all the things it implies
+STREAMS. Just think about that. Streams. Think of all the things it implies
 in programming to talk about streams and streaming.</p>
 
 <p>Probably number one is networking, that is TCP (or whatever) network
 sockets that are read/write and have very well-established, at this point,
 semantics. Open, close, pause, end, read, write, etc. Depending on the
-exact stream, of course, things may be slightly different, and we&rsquo;ve seen
+exact stream, of course, things may be slightly different, and we’ve seen
 quite a lot of semantics built on top of streams.</p>
 
 <p>Nodejs, of course, does networking really well. In fact, that may be the
-number one purpose for most programmers using it. It&rsquo;s just really
+number one purpose for most programmers using it. It’s just really
 fantastic at networking. Your code can worry about what goes on just
 above the socket level, with the streams. They also give you an
 abstraction, so that there are file streams, etc. helping you out.</p>
@@ -677,9 +647,9 @@ abstraction, so that there are file streams, etc. helping you out.</p>
 <p>This is all fairly normal in programming, and streams have been around
 for a long time. UNIX pipes are probably the most common stream-semantic
 thing that programmers use, but they are everywhere in just about every
-language that&rsquo;s of any use.</p>
+language that’s of any use.</p>
 
-<p>So&hellip;</p>
+<p>So…</p>
 
 <p>Back to jobs. If you have a big job that can broken down into discreet
 tasks such that those tasks can happen in any order, you have something
@@ -710,7 +680,7 @@ reduce the load, or possibly even by name.</p>
 have those workers advertise the kind of work they can do and let the
 queue manager distribute jobs accordingly.</p>
 
-<p>So that&rsquo;s where it&rsquo;s at. A lot of interesting tweaks to be made, and a
+<p>So that’s where it’s at. A lot of interesting tweaks to be made, and a
 lot of progress towards better features.</p>
 ]]></content>
   </entry>
@@ -722,21 +692,18 @@ lot of progress towards better features.</p>
     <id>http://darelf.github.io/blog/2014/03/10/lazarus-business</id>
     <content type="html"><![CDATA[<p>There tends to be, in my experience, a certain bonding moment that
 happens among a give group of adventurers. And it usually has to do with loot.
-Whether gold or precious gems or magic swords.</p>
-
+Whether gold or precious gems or magic swords.
 <!--more-->
-
-
-<p>Once someone has shown they can bring the loot, and are willing and eager to
+Once someone has shown they can bring the loot, and are willing and eager to
 share the loot, many of their minor character flaws are suddenly overlooked.
 Suddenly, they see the healing and the support in a new light. Suddenly all
 of that now has a context. And that context is loot.</p>
 
-<p>It&rsquo;s good that we retrieved the hold relic. I&rsquo;ll get some brownie points, Mae
+<p>It’s good that we retrieved the hold relic. I’ll get some brownie points, Mae
 and her band of adventurers will get paid.</p>
 
 <p>Everyone seemed very excited about the dragon we met. More than you would
-normally expect from a band of seasoned adventurers. It&rsquo;s almost like they are on some
+normally expect from a band of seasoned adventurers. It’s almost like they are on some
 quest looking for a dragon, though this one turned out not to be what they
 were looking for. It was a fun ride, I must admit. Seeing the dragon get at
 all those dark dwarves was satisfying.</p>
@@ -747,15 +714,15 @@ event. You know, we attempted to just quietly walk in, get the relic and walk
 out, no fuss. We even went to the trouble to be invisible, and to not be a bother
 by going in through the back, avoiding all the hoopla. Paragons of courtesy, we were.</p>
 
-<p>Some people just can&rsquo;t appreciate manners. Which is typical of drow. I mean, really,
-sure I did execute a contract on one of them&hellip; that one time. And yes, I
+<p>Some people just can’t appreciate manners. Which is typical of drow. I mean, really,
+sure I did execute a contract on one of them… that one time. And yes, I
 did <em>technically</em> cut out her heart. And it is <em>obviously</em> true that I ate her heart.
-And that may or may not have happened in front of her children &mdash; I honestly wasn&rsquo;t
-paying a whole lot of attention at that point, can you blame me? &mdash; but,
+And that may or may not have happened in front of her children – I honestly wasn’t
+paying a whole lot of attention at that point, can you blame me? – but,
 I mean, what else was I going to do? Not only was I getting paid, this was the
 same drow that shortchanged me. The important take away is that if you claim that
 there are fourteen potions of cure light wounds, and it turns out there are only
-twelve&hellip; I mean, what do you expect is going to happen?</p>
+twelve… I mean, what do you expect is going to happen?</p>
 
 <p>Also, I learned that I hate driders. I had only heard rumors, but the reality
 is pretty horrible. At least horrible to face in battle.</p>
@@ -769,18 +736,15 @@ is pretty horrible. At least horrible to face in battle.</p>
     <link href="http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets/"/>
     <updated>2014-03-04T10:59:10-05:00</updated>
     <id>http://darelf.github.io/blog/2014/03/04/wrap-those-web-sockets</id>
-    <content type="html"><![CDATA[<p>Here&rsquo;s the situation: You have a websocket-friendly routing infrastructure that
+    <content type="html"><![CDATA[<p>Here’s the situation: You have a websocket-friendly routing infrastructure that
 only has a single port available on each machine. (at least that you can use) But
 you have some awesome client-server stuff that runs completely in the background
 and is not really related to browsers or anything. You currently, and brilliantly,
 have them speaking over regular node streams using the <code>net</code> functionality.</p>
 
-<p>What to do?</p>
-
+<p>What to do?
 <!--more-->
-
-
-<p>The routing structure only routes http requests. You can&rsquo;t just redirect regular
+The routing structure only routes http requests. You can’t just redirect regular
 socket connections.</p>
 
 <p>WEBSOCKETS TO THE RESCUE!  Websockets are just sockets, but they are negotiated
@@ -788,10 +752,10 @@ over http. Oh yeah they are. So they can be routed by your infrastructure that
 supports websockets. (like, say, <a href="http://github.com/substack/bouncy">bouncy</a>, but
 there are plenty of other examples).</p>
 
-<p>But you aren&rsquo;t using a browser. There&rsquo;s no browser here. Hmm.</p>
+<p>But you aren’t using a browser. There’s no browser here. Hmm.</p>
 
 <p>You go check out <code>npm</code> and find out that maxogden has already solved your problem.
-That&rsquo;s what you do. He has already wrapped websockets with stream functionality in
+That’s what you do. He has already wrapped websockets with stream functionality in
 a project he calls <a href="http://github.com/maxogden/websocket-stream">websocket-stream</a></p>
 
 <p>Now your carefully designed code that leverages the node stream api can continue
@@ -808,17 +772,14 @@ on untouched simply by wrapping the websockets with this little gem.</p>
     <id>http://darelf.github.io/blog/2014/03/03/lazarus-new-beginnings</id>
     <content type="html"><![CDATA[<p>Journal Entry:</p>
 
-<p>Mae is exactly as I remember her. Something about elves, probably.</p>
-
+<p>Mae is exactly as I remember her. Something about elves, probably.
 <!--more-->
-
-
-<p>I convinced her to let me help out on some salvage mission. I don&rsquo;t
-even know what they were after. She didn&rsquo;t leave with anything,
+I convinced her to let me help out on some salvage mission. I don’t
+even know what they were after. She didn’t leave with anything,
 which was really odd behavior for her.</p>
 
 <p>She has apparently hired some mercenaries. Fairly sure of themselves.
-I haven&rsquo;t seen them prove anything yet, but from the scars and scuff
+I haven’t seen them prove anything yet, but from the scars and scuff
 marks they seem to have experience. Apparently, they are some sort
 of local semi-celebrities.</p>
 
@@ -832,26 +793,26 @@ girl, came back and pocketed the reward money. Quest complete.</p>
 
 <p>We were all still eating lunch. Classic.</p>
 
-<p>With Mae&rsquo;s help, I convinced her mercenary friends to help
+<p>With Mae’s help, I convinced her mercenary friends to help
 bring back Merideth and to retrieve that artifact for Meron.
-Let&rsquo;s hope some of that muscle can be turned to good use.</p>
+Let’s hope some of that muscle can be turned to good use.</p>
 
-<p>Aowyn is still operating in the city. If I didn&rsquo;t have a dozen other
+<p>Aowyn is still operating in the city. If I didn’t have a dozen other
 priorities I would do something about that. I still may try to have
-Mae acquire one of her poisoned weapons for me, kill Aowyn&rsquo;s associate
+Mae acquire one of her poisoned weapons for me, kill Aowyn’s associate
 with whom she seems to have some animosity, and leave the weapon to
-be found with the body. Some guy named &ldquo;Scurvyder&rdquo; or something.</p>
+be found with the body. Some guy named “Scurvyder” or something.</p>
 
 <p>Sitting here in camp with some pervy merc named Marcandus or
 Mercurius or something. Just one of those types who at very first
-look makes you immediately suspicious. Maybe he&rsquo;ll cozy up to the
-camp follower we brought along. Isn&rsquo;t that why we bring them, so
+look makes you immediately suspicious. Maybe he’ll cozy up to the
+camp follower we brought along. Isn’t that why we bring them, so
 they can satisfy the odd inclination?</p>
 
-<p>Speaking of which, why didn&rsquo;t we think to bring some of the girls
+<p>Speaking of which, why didn’t we think to bring some of the girls
 from town? Why does this guy get to bring his own personal boy and
 none of the rest of us get anything? This is ridiculous. I only
-brought one bottle of wine, too. That&rsquo;s not going to last.</p>
+brought one bottle of wine, too. That’s not going to last.</p>
 ]]></content>
   </entry>
   
@@ -862,35 +823,32 @@ brought one bottle of wine, too. That&rsquo;s not going to last.</p>
     <id>http://darelf.github.io/blog/2014/02/28/lazarus-intro</id>
     <content type="html"><![CDATA[<p>Introducing Lazarus, Devoted to Calistria:</p>
 
-<p><a href="http://imgur.com/YC7jIwg"><img src="http://i.imgur.com/YC7jIwg.jpg" width="150px"/></a></p>
-
+<p><a href="http://imgur.com/YC7jIwg"><img src="http://i.imgur.com/YC7jIwg.jpg" width="150px" /></a>
 <!--more-->
-
-
-<p>Left on a boat to the infamous Black Pearl of the Tropics. My kind of place.
+Left on a boat to the infamous Black Pearl of the Tropics. My kind of place.
 Pirates, women, treasure, pirate women, wild adventure, women. It really has
 everything a man could want. And quite a few other things besides.</p>
 
-<p>While not a sea farer myself, I don&rsquo;t mind the trip. Apparently, our valuable
-&ldquo;cargo&rdquo; has crashed on the lovely shores of Mediogalti Island and has survived.
-Could even be some of her guard is with her, though that&rsquo;s not quite as important.</p>
+<p>While not a sea farer myself, I don’t mind the trip. Apparently, our valuable
+“cargo” has crashed on the lovely shores of Mediogalti Island and has survived.
+Could even be some of her guard is with her, though that’s not quite as important.</p>
 
-<p>In fact, I&rsquo;m sure it&rsquo;s almost beside the point. Actually, I&rsquo;d rather be walking
-into a &ldquo;lone survivor&rdquo; situation and be the knight to rescue the exceedingly
+<p>In fact, I’m sure it’s almost beside the point. Actually, I’d rather be walking
+into a “lone survivor” situation and be the knight to rescue the exceedingly
 appreciative damsel in stereotypical distress. Nevertheless, if any of her
 barely qualified personal guard has survived, I suppose that would be fine.</p>
 
-<p>This promises to be an exciting mission. In fact, I&rsquo;ve been given permission
+<p>This promises to be an exciting mission. In fact, I’ve been given permission
 from Meron to charter an expedition for one of our lost relics that is
 reportedly on the island. Two birds, as it were. Though hopefully there are
 many more birds available as well. I might have to requistion some guides
 from the wilderness whatever-they-call-themselves, but I have some amount
 of funds from the temple to help offset any costs.</p>
 
-<p>If only my favorite treasure hunter was available. It&rsquo;s really too bad
-about the guild. She would have loved to go on this expedition, since I&rsquo;m
+<p>If only my favorite treasure hunter was available. It’s really too bad
+about the guild. She would have loved to go on this expedition, since I’m
 sure the payout would be plenty to cover her losses back in Sargava.
-Unfortunately, I haven&rsquo;t been able to find her. Oh well, more for me then.</p>
+Unfortunately, I haven’t been able to find her. Oh well, more for me then.</p>
 ]]></content>
   </entry>
   
@@ -902,26 +860,23 @@ Unfortunately, I haven&rsquo;t been able to find her. Oh well, more for me then.
     <content type="html"><![CDATA[<p>Taking out comments. Unnecessary.</p>
 
 <p>If you need to contact me or have a comment about a post, send me an email.
-Or use the twitter or google plus buttons on the post. I&rsquo;m down. Down with
-the twitters and plusai.</p>
-
+Or use the twitter or google plus buttons on the post. I’m down. Down with
+the twitters and plusai.
 <!--more-->
-
-
-<p>Separating things into categories. That&rsquo;s what I&rsquo;ll be doing.</p>
+Separating things into categories. That’s what I’ll be doing.</p>
 
 <p>There should already be a <a href="http://darelf.github.io/blog/categories/programming">programming category</a>
 which should have all of that stuff. If you are only interested in that
 part, well, use that category.</p>
 
-<p>I&rsquo;ll be adding character posts about gaming. Right now doing Pathfinder,
-so most of the posts will be about characters in that game. Don&rsquo;t sweat it.
+<p>I’ll be adding character posts about gaming. Right now doing Pathfinder,
+so most of the posts will be about characters in that game. Don’t sweat it.
 If you are only into the Pathfinder part, use the
 <a href="http://darelf.github.io/blog/categories/pathfinder">Pathfinder category</a>
-or if you want to know about a specific character, or what&rsquo;s going
+or if you want to know about a specific character, or what’s going
 on in a specific game you can filter further by their categories.</p>
 
-<p>That&rsquo;s all for now. If you aren&rsquo;t on <a href="http://plus.google.com">Google +</a> or
+<p>That’s all for now. If you aren’t on <a href="http://plus.google.com">Google +</a> or
 on <a href="http://twitter.com">Twitter</a> let me know; I can add different social
 networks.</p>
 ]]></content>
@@ -934,20 +889,17 @@ networks.</p>
     <id>http://darelf.github.io/blog/2014/02/18/building-blocks</id>
     <content type="html"><![CDATA[<p>Modules. Oh, modules.</p>
 
-<p>I&rsquo;ve talked to so many programmers over the years, and the one thing I would suggest
+<p>I’ve talked to so many programmers over the years, and the one thing I would suggest
 to all of them is to rediscover modules. As opposed to frameworks.</p>
 
 <p>Modules are the building blocks of application development. Keeping them out of
 frameworks lets them breath and be more generally useful than if you bind them tightly
 in chains. You can reuse modules over and over again, if they are well designed, in
-many different contexts only if you emancipate them from the bondage of frameworks.</p>
-
+many different contexts only if you emancipate them from the bondage of frameworks.
 <!--more-->
+What does that even look like?</p>
 
-
-<p>What does that even look like?</p>
-
-<p>Let&rsquo;s take a quick overview look at a problem I needed to solve recently: I have a
+<p>Let’s take a quick overview look at a problem I needed to solve recently: I have a
 very large list of items that need processing and each item requires multiple database
 queries and even some file access. (large means in the millions)</p>
 
@@ -958,13 +910,13 @@ asynchronous nature of the database kills that on larger sets. It just fills up 
 space and crashes.</p>
 
 <p>Next up was an in memory queue. This actually works, but it is slow. It is slow for
-all the obvious reasons, but also because I&rsquo;m using a single process, single thread
+all the obvious reasons, but also because I’m using a single process, single thread
 solution. This means I have to keep concurrency down because otherwise I will, again,
 fill up the available memory or use up the available file handles. ( I actually tried
 both the queue from the <code>async</code> module, as well as <code>queue-async</code>. The first would actually
-work, while the second was so slow it wasn&rsquo;t even worth pursuing any further. )</p>
+work, while the second was so slow it wasn’t even worth pursuing any further. )</p>
 
-<p>So that&rsquo;s what didn&rsquo;t work at the level of performance I wanted, and wouldn&rsquo;t scale
+<p>So that’s what didn’t work at the level of performance I wanted, and wouldn’t scale
 anyway.</p>
 
 <p>Network Queue</p>
@@ -982,32 +934,32 @@ over other kinds of streams.</p>
 <p>Conceptually, there are four parts I considered vital to accomplishing this task (and
 any similar task): Completely separate out the code that actually performs the task,
 create a worker that only knows how to participate in the group, create a server that
-communicates with workers and observers, and an observer that receives updates on what&rsquo;s
+communicates with workers and observers, and an observer that receives updates on what’s
 happening.</p>
 
 <p>The code that actually runs the task needs to be completely separated from the rest.
 In this case, the task was to either delete a document or to create an updated document.
-That&rsquo;s all this code does, it knows how to get the information from the database and
+That’s all this code does, it knows how to get the information from the database and
 update the index.</p>
 
 <p>The code that manages the process keeps a list of workers, and list of observers. These
-two lists are very lightweight wrappers around streams. It doesn&rsquo;t need much information
+two lists are very lightweight wrappers around streams. It doesn’t need much information
 about these, just needs the stream so it can send over information. It also keeps the
 list of current items that need processing. It uses this to assign to the list of workers
-items until it&rsquo;s empty. The observers can request processing and can receive updates of
+items until it’s empty. The observers can request processing and can receive updates of
 status.</p>
 
 <p>The workers have a status (idle or busy) and can send update messages and receive request
-to process items. That&rsquo;s pretty much it.</p>
+to process items. That’s pretty much it.</p>
 
 <p>The observer mostly just listens to the server waiting for updates. It can also request
 that the entire grid work on a particular problem by sending a message. If no problem
 is being worked on currently, then the manager will generate the list of tasks and
 then start handing them out.</p>
 
-<p>What&rsquo;s underneath there?</p>
+<p>What’s underneath there?</p>
 
-<p>Oh, that&rsquo;s just <a href="http://npmjs.org/package/event-stream">event-stream</a> This thing kind of
+<p>Oh, that’s just <a href="http://npmjs.org/package/event-stream">event-stream</a> This thing kind of
 does what you think. Or maybe not. It creates a pipeline of processing on streams. That
 is, node js streams, which in my case means sockets. Basically it listens for <code>events</code>
 on the <code>stream</code> and then takes the steps in the chain, possibly passing it back out to
@@ -1015,17 +967,17 @@ another stream at the end.</p>
 
 <p>It solves a problem I was going to have to solve anyway, since I wanted to use JSON
 to communicate between the processes. This module has all of that, and does just that.
-Meaning it takes care of the event streaming so I don&rsquo;t have to, and doesn&rsquo;t do a
+Meaning it takes care of the event streaming so I don’t have to, and doesn’t do a
 whole bunch of unrelated, extraneous stuff that makes it unusable or terribly
 interdependent. Basic solution of problem using standard interfaces.</p>
 
 <p>In my case, I pass it the socket, split it and parse it (courtesy of <code>event-stream</code>),
-and then do something with the parsed message. I throw away the data after I&rsquo;m done,
-since I don&rsquo;t need to pass the messages on.</p>
+and then do something with the parsed message. I throw away the data after I’m done,
+since I don’t need to pass the messages on.</p>
 
 <p>Ta-Da!</p>
 
-<p>That&rsquo;s all there is to it. Use modules. When designing solutions, design them in modules
+<p>That’s all there is to it. Use modules. When designing solutions, design them in modules
 and as you refactor make them generically useful if you can. When you use a modular
 design you can keep swapping out parts of the implementation without hassle. Something
 that can be frustrating if not impossible when using a framework.</p>
@@ -1041,12 +993,9 @@ that can be frustrating if not impossible when using a framework.</p>
 
 <p>So here at work we finally settled on a versioning scheme. After literally
 years of trying to push versioning in general, and semantic versioning in
-particular, we are now implementing.</p>
-
+particular, we are now implementing.
 <!--more-->
-
-
-<p>What is &ldquo;semantic versioning&rdquo;?</p>
+What is “semantic versioning”?</p>
 
 <p>In short, you know those version numbers you see on all those projects
 on the internet with version numbers like 1.2.5 or 0.10.21? Yeah. That.</p>
@@ -1056,12 +1005,12 @@ that an application often depends on other software projects, and those
 other software projects often are currently being developed, either to
 fix bugs or add features/enhancements.</p>
 
-<p>This can often be referred to as &ldquo;dependency hell&rdquo; since making sure of
+<p>This can often be referred to as “dependency hell” since making sure of
 which version of what you are using in a project can be a nightmare, taking
 into account which set of features you depend on from different projects,
 what those projects in turn depend on, etc. You need to distinguish between
 a bug fix version increase, a feature add, or API breaking changes. Maybe
-a new feature is one you want, or maybe you don&rsquo;t. How do you tell which
+a new feature is one you want, or maybe you don’t. How do you tell which
 version of a project you have?</p>
 
 <p>More importantly, how do you communicate those decisions in the project
@@ -1072,7 +1021,7 @@ and to the consumers of your project?</p>
 
 <p>The basic idea of semver is this:  MAJOR.MINOR.PATCH</p>
 
-<p>Additional labels, like &lsquo;-musical&rsquo; or whatever can be added if things get hairy.
+<p>Additional labels, like ‘-musical’ or whatever can be added if things get hairy.
 But the basic idea should serve.</p>
 
 <p>The MAJOR part of a version is the basic feature set. That is, the API for
@@ -1098,17 +1047,17 @@ more deployment specific than it is functionality specific. That is, the
 version number, especially the MAJOR and MINOR numbers, will indicate what
 deployment level this is at.</p>
 
-<p>So, the MAJOR number will be the &ldquo;this is in production&rdquo; version. This is
+<p>So, the MAJOR number will be the “this is in production” version. This is
 the customer facing, being used in real work, version. 1.0.x will be in
-production use, 2.0.x will be it&rsquo;s successor, etc.</p>
+production use, 2.0.x will be it’s successor, etc.</p>
 
-<p>The MINOR number will be &ldquo;features being tested&rdquo;. So, 1.1.x will NOT be
+<p>The MINOR number will be “features being tested”. So, 1.1.x will NOT be
 in production use, but rather will be something that is being tested to
 eventually be included in the 2.0.x version.</p>
 
-<p>Again, that&rsquo;s a specific case for us, and not really required by the
+<p>Again, that’s a specific case for us, and not really required by the
 semver specification. We find that kind of structure useful for our purposes,
-while I&rsquo;m sure your project(s) will have different needs. The main reason
+while I’m sure your project(s) will have different needs. The main reason
 for this kind of versioning is to prevent problems related to what version
 of which project is being used in a given context.</p>
 
@@ -1122,18 +1071,15 @@ of which project is being used in a given context.</p>
     <link href="http://darelf.github.io/blog/2014/02/06/refactor/"/>
     <updated>2014-02-06T09:40:06-05:00</updated>
     <id>http://darelf.github.io/blog/2014/02/06/refactor</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve heard of refactoring. Wikipedia has a pretty good <a href="http://en.wikipedia.org/wiki/Code_refactoring">definition</a>.
+    <content type="html"><![CDATA[<p>You’ve heard of refactoring. Wikipedia has a pretty good <a href="http://en.wikipedia.org/wiki/Code_refactoring">definition</a>.
 You have probably done it. You may not have even known it.</p>
 
 <p>I often think of refactoring as the primary job in programming. It cuts to the heart of
 what this is all about, and the philosophy of programming in general. Refactoring code well
 means being disciplined about code structure in the first place. It is the anti-spaghetti code.
-It is the way in which we accomplish those ideals of &ldquo;elegant&rdquo; code.</p>
-
+It is the way in which we accomplish those ideals of “elegant” code.
 <!--more-->
-
-
-<p>So, I thought I would give a recent example of something I worked on. It&rsquo;s a small bit. Which
+So, I thought I would give a recent example of something I worked on. It’s a small bit. Which
 is the best kind, and goes to the point of the whole thing. The rule I live by is to reduce
 the problem into smaller and smaller pieces until it is actually manageable.</p>
 
@@ -1144,7 +1090,7 @@ Then, one of the filters needed to check for the existance of some key on some o
 objects.</p>
 
 <p>In the first pass of this, the filter function was written specifically to the problem we
-were trying to solve. Here&rsquo;s an example (although the objects were more complex than this):</p>
+were trying to solve. Here’s an example (although the objects were more complex than this):</p>
 
 <pre><code>var array_1 = [{name: 'Joe'}, {name: 'Jane'}]
 
@@ -1167,10 +1113,10 @@ found in the second array. That is, if we run the filter on this sample, it shou
 
 <p>This is very specific. The name of the key, the fact that <code>array_2</code> needs to be in scope, these
 all have to be true when running this. More importantly, such a function that looks for a
-match in an array could be very useful in more than one context. It&rsquo;s an obvious (some
+match in an array could be very useful in more than one context. It’s an obvious (some
 would say blindingly so) candidate for refactoring.</p>
 
-<p>Without much ado, here&rsquo;s the refactored version of this that I can now use in other places
+<p>Without much ado, here’s the refactored version of this that I can now use in other places
 where I need similar functionality:</p>
 
 <pre><code>function contains(a, key, value) {
@@ -1182,8 +1128,8 @@ where I need similar functionality:</p>
 </code></pre>
 
 <p>Much better! Now I can call this function in order to determine if an array of objects
-contains a value on a given key. It&rsquo;s not perfect. And it&rsquo;s specific to an array of
-objects, and won&rsquo;t work on flat arrays. It could be made even better or more generic,
+contains a value on a given key. It’s not perfect. And it’s specific to an array of
+objects, and won’t work on flat arrays. It could be made even better or more generic,
 though we begin at that point to enter the territory of trade-off value.</p>
 
 <p>This version makes a lot of sense in the context of the application, as that application
@@ -1192,7 +1138,7 @@ uses quite a lot of arrays of objects.</p>
 <p>It may seem like a small thing, and it is, but these kind of tiny little refactorings
 over the course of an entire application will make the code better, more readable,
 and more maintainable. ( The name <code>contains</code> is easy to read and understand what
-it&rsquo;s supposed to do )</p>
+it’s supposed to do )</p>
 ]]></content>
   </entry>
   
@@ -1203,76 +1149,69 @@ it&rsquo;s supposed to do )</p>
     <id>http://darelf.github.io/blog/2014/02/04/programmer-identification</id>
     <content type="html"><![CDATA[<p>Seems like people are complicated creatures. Sure. But we always seem to come back
 to certain variables that we all latch on to when trying to identify each other
-or to predict behavior. Gender, race, social class, politics, hobbies, etc.</p>
-
+or to predict behavior. Gender, race, social class, politics, hobbies, etc.
 <!--more-->
-
-
-<p>For the most part, these work as pretty good predictors, you can almost always tell
-&ldquo;if X then Y&rdquo; and make fairly accurate generalizations.</p>
+For the most part, these work as pretty good predictors, you can almost always tell
+“if X then Y” and make fairly accurate generalizations.</p>
 
 <p>We do this for a lot of reasons, but one is to find those that we would be
 compatible with. In fact, a lot of the identifiers that we look for are usually
 in relation to our own preferences and not some objective standard. So while, for
-instance gender is an objective identifier, something like &ldquo;goes to Starbucks a lot&rdquo;
+instance gender is an objective identifier, something like “goes to Starbucks a lot”
 would be just as useful as an indentifier for social compatibility.</p>
 
 <p>So, how do programmers/software engineers/developers identify possible compatibilities?
-Outside of the standard ones, such as &ldquo;wears sandles at all times&rdquo; or &ldquo;drives a Prius&rdquo;
-or &ldquo;deeply and passionately believes that proper government can solve problems&rdquo;, we
+Outside of the standard ones, such as “wears sandles at all times” or “drives a Prius”
+or “deeply and passionately believes that proper government can solve problems”, we
 have to look at preferences that indicate something about that person.</p>
 
 <p>Since, as I mentioned, this is kind of subjective, I will only be talking about things
 that matter to me even in the smallest way, along with how important or useful an
-indicator it is with &ldquo;1&rdquo; being not very useful at all, and &ldquo;10&rdquo; being apocalyptic.</p>
+indicator it is with “1” being not very useful at all, and “10” being apocalyptic.</p>
 
-<h4>Tabs or Spaces &ndash; 2</h4>
-
+<h4 id="tabs-or-spaces---2">Tabs or Spaces - 2</h4>
 <p>Spaces is the correct answer here.</p>
 
 <p>Why so high as a 2? Well, there are two indications here. The first is that if you are
 the kind of programmer who has never really considered which one is better and has
-experimented with both to find what&rsquo;s right for you, then that&rsquo;s an indicator that we
-probably don&rsquo;t have much in common. In fact, that would be an even bigger negative
+experimented with both to find what’s right for you, then that’s an indicator that we
+probably don’t have much in common. In fact, that would be an even bigger negative
 than choosing Tabs.</p>
 
-<h4>Functional Language &ndash; 5</h4>
-
-<p>There are two main camps of good programmers. (I mean good in the sense of &ldquo;good at
-their job&rdquo;). The ones who like math, and the rest of us.</p>
+<h4 id="functional-language---5">Functional Language - 5</h4>
+<p>There are two main camps of good programmers. (I mean good in the sense of “good at
+their job”). The ones who like math, and the rest of us.</p>
 
 <p>I am not a mathemetician. I passed my classes, but have forgotten everything past
 Algebra since I never use any of it in my line of work. This means that I generally
-hate things like Lisp. And I&rsquo;ve tried Lisp and Erlang and Scala and Haskell and others,
+hate things like Lisp. And I’ve tried Lisp and Erlang and Scala and Haskell and others,
 but just never got into them.</p>
 
-<p>As xkcd once remarked they have &ldquo;the flexibility and power of abstract mathematics
-with the intuitive clarity of abstract mathematics&rdquo;. Which is why I generally just
-stay away from &ldquo;functional&rdquo; languages. I understand, by the way, why it&rsquo;s called that
+<p>As xkcd once remarked they have “the flexibility and power of abstract mathematics
+with the intuitive clarity of abstract mathematics”. Which is why I generally just
+stay away from “functional” languages. I understand, by the way, why it’s called that
 but I have a hard time viewing those languages as functional in the normal sense
 of the word.</p>
 
-<h4>Command Line or IDE &ndash; 7</h4>
-
+<h4 id="command-line-or-ide---7">Command Line or IDE - 7</h4>
 <p>This is a tough one, since in some circumstances an IDE is the most efficient.
 But to make it a seven it has to be a preference for an IDE over command line, where
 all other things are equal. That is, when editing HTML, you prefer Eclipse over Vi,
 in which case we will just never get along.</p>
 
 <p>When I bring new people in at work, we go over how to build the projects both at
-the command line and using the Eclipse IDE. I lie to them and say it doesn&rsquo;t matter
+the command line and using the Eclipse IDE. I lie to them and say it doesn’t matter
 and use whatever you want. In reality, it does matter, and if they choose and
-stick with the IDE, we generally don&rsquo;t end up doing a lot of successful projects
+stick with the IDE, we generally don’t end up doing a lot of successful projects
 together.</p>
 
-<h4>Single Language &ndash; 10</h4>
+<h4 id="single-language---10">Single Language - 10</h4>
+<p>This is a ten because if you only program in one language, then I wouldn’t even
+call you a programmer. As far as I’m concerned, you chose the wrong profession.</p>
 
-<p>This is a ten because if you only program in one language, then I wouldn&rsquo;t even
-call you a programmer. As far as I&rsquo;m concerned, you chose the wrong profession.</p>
+<p>So….</p>
 
-<p>So&hellip;.</p>
-
-<p>This is just my brief list, and isn&rsquo;t everything, and reflects my own biases.
+<p>This is just my brief list, and isn’t everything, and reflects my own biases.
 Yet, we all use these kinds of things to varying degress to help us match up with
 fellow programmers. Maybe one day we can come up with a system for helping match
 programmers.</p>
@@ -1284,18 +1223,15 @@ programmers.</p>
     <link href="http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line/"/>
     <updated>2014-01-31T13:26:34-05:00</updated>
     <id>http://darelf.github.io/blog/2014/01/31/important-topics-config-file-vs-command-line</id>
-    <content type="html"><![CDATA[<p>The eternal struggle rages on, and in today&rsquo;s episode we bring you the
+    <content type="html"><![CDATA[<p>The eternal struggle rages on, and in today’s episode we bring you the
 battle of configuration.</p>
 
 <p>Every useful application is configurable. This is an axiom, a universally
 accepted truth about programming. If a software application is to be useful
 to a user of any kind, it must allow some way of specifying parameters that
-modify its behavior.</p>
-
+modify its behavior.
 <!--more-->
-
-
-<p>For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
+For instance, one of the simplest Unix programs of all time, <code>ls</code>, on my
 Linux machine has over 50 separate command line switches that allow the
 user to modify the behavior. And this is for a program whose sole purpose
 is to list files.</p>
@@ -1304,7 +1240,7 @@ is to list files.</p>
 way lies madness, since any given program should accept both. The question,
 instead, is what should you use?</p>
 
-<h3>Configuration files.</h3>
+<h3 id="configuration-files">Configuration files.</h3>
 
 <p>The pro-config-file argument is compelling. Store your settings a single time.
 Easier to run in cron or some other automation. Can be changed at any time,
@@ -1315,7 +1251,7 @@ can remind you what the options are for.</p>
 options very often, editing a file is actually more work than changing the
 switches.</p>
 
-<h3>Command Line</h3>
+<h3 id="command-line">Command Line</h3>
 
 <p>Easy. Allows you to quickly modify behavior between several rapid uses of
 the same program. Help screen will generally tell you what you need to know.</p>
@@ -1323,7 +1259,7 @@ the same program. Help screen will generally tell you what you need to know.</p>
 <p>Tedious if you have many options. Easy to forget if the times between running
 the program by hand are very long. Easy to mistype.</p>
 
-<h3>Solution</h3>
+<h3 id="solution">Solution</h3>
 
 <p>Where possible use both. Set your config file to your common and least-changed
 settings, and use the command line for your often changing parameters.</p>
@@ -1335,26 +1271,23 @@ settings, and use the command line for your often changing parameters.</p>
     <link href="http://darelf.github.io/blog/2014/01/27/browserify-and-me/"/>
     <updated>2014-01-27T08:18:54-05:00</updated>
     <id>http://darelf.github.io/blog/2014/01/27/browserify-and-me</id>
-    <content type="html"><![CDATA[<p>The title might should be &ldquo;Caught between two worlds&rdquo;, but that sounded
+    <content type="html"><![CDATA[<p>The title might should be “Caught between two worlds”, but that sounded
 really, really pretentious.</p>
 
 <p>So, I had started a project a while back before realizing that something
-like browserify existed. I know. I feel like a moron already, don&rsquo;t rub
-it in. And even when I started using it I didn&rsquo;t really understand what
-it was going to do.</p>
-
+like browserify existed. I know. I feel like a moron already, don’t rub
+it in. And even when I started using it I didn’t really understand what
+it was going to do.
 <!--more-->
-
-
-<p>Then, as I got halfway through the project, I realized what was happening
+Then, as I got halfway through the project, I realized what was happening
 and started doing what I should have done the whole time. So now, the code
 for this web application has two completely different approaches that,
 while not technically incompatible, make reading and debugging the code
 a chore.</p>
 
-<p>Here&rsquo;s what I learned in this very specific context:</p>
+<p>Here’s what I learned in this very specific context:</p>
 
-<p>I&rsquo;m trying to use jquery/bootstrap to build a single page web application,
+<p>I’m trying to use jquery/bootstrap to build a single page web application,
 and then using browserify to make a bridge between the client and the node
 server. That is, there are modules that run on node, and the application
 module is most easily written in node as well. The only problem is how
@@ -1366,7 +1299,7 @@ using custom events on DOM elements from the application code, and catching
 those events to do the UI parts. That is, some jquery/bootstrap code can
 use all of its normal methods and coding style to accomplish the UI
 functions, while the node style application code that has been browserified
-can simply fire off events without worrying too much about what&rsquo;s going
+can simply fire off events without worrying too much about what’s going
 to happen.</p>
 
 <p>There are some improvements I can make, and will be making, in said
@@ -1376,6 +1309,7 @@ code, and more cleanly setting up the custom javascript DOM events.</p>
 <p>All in all, though, stepping through the code again to refactor for all of
 this new knowledge makes for better code and I learned a little something
 along the way.</p>
+
 ]]></content>
   </entry>
   
