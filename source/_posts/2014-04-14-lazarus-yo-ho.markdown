@@ -6,7 +6,7 @@ comments: true
 categories: [pathfinder, pirates, lazarus, rpg]
 ---
 Life no longer gives me lemons. Not after what happened the last time.
-
+<!--more-->
 There had been an agreement made to help hunt down and defeat one of the
 pirate captains. This was in exchange for the location of a buried treasure.
 Partly completed, I think, because Captain <del>Mars</del> Deeds thought
