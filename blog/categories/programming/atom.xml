@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:45:38-04:00</updated>
+  <updated>2014-05-08T15:47:14-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Bouncing and Routing]]></title>
+    <link href="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing/"/>
+    <updated>2014-05-08T10:51:08-04:00</updated>
+    <id>http://darelf.github.io/blog/2014/05/08/bouncing-and-routing</id>
+    <content type="html"><![CDATA[<p>Oh, man. I’ve created two different really great node.js web services/sites and now
+I want to host them. Oh man, this is going to be great!</p>
+
+<p>Hmm. I can only expose a single port on a single machine to the outside.
+How can I make that work? What if my services are on multiple physical machines?</p>
+
+<h3 id="finding-the-right-server">Finding the Right Server</h3>
+
+<p>Enter <a href="https://github.com/substack/seaport">seaport</a>. This little beauty is great
+for registering/discovering web services. It’s soooooo much easier than anything
+else you’ve ever tried. (Although, as of this writing, there is an issue that needs
+patching, and there’s even a pull request for it at
+<a href="https://github.com/substack/seaport/pull/57">https://github.com/substack/seaport/pull/57</a>
+so I would just apply that little bit of code if I were you… at least until it gets
+merged)</p>
+
+<p>Let me show you:</p>
+
+<pre><code>var seaport = require('seaport')
+var ports = seaport.createServer()
+ports.listen(9001)
+</code></pre>
+
+<p>That’s it for the server.</p>
+
+<p>Now, your node.js webservices need to pick their port by asking that seaport
+server we just created. Let’s say Service One is on the same physical machine.</p>
+
+<pre><code>var http = require('http')
+var seaport = require('seaport').connect('localhost', 9001, { secret: 'totallysecret' })
+var port = seaport.register('serviceone@0.0.1')
+http.createServer(function(req,res) { res.end("I'm Service One!\n") }).listen(port)
+</code></pre>
+
+<p>What just happened?</p>
+
+<p>Well, we connected to the registry, and then we said “When someone asks for ‘serviceone’ with
+a version of ‘0.0.1’, then you can direct them our way.” The seaport then gives you a port number
+and you use that in your server.</p>
+
+<p>Let’s now say that Service Two is on a different physical machine. The seaport is on a server
+named “kahleesi” while Service Two is running on “katniss”. So first connect to the seaport
+server:</p>
+
+<pre><code>... stuff ...
+var seaport = require('seaport').connect('kahleesi', 9001, {secret: 'totallysecret'})
+var port = seaport.register('servicetwo@0.0.1')
+... actual server ...
+</code></pre>
+
+<p>Now that we have the services all talking to each other… what now?</p>
+
+<h2 id="url-routing">URL Routing</h2>
+
+<p>Let’s say your web services only use straight up, request/response, HTTP. No
+websockets. And you aren’t allowed to have multiple hostnames for some reason.</p>
+
+<p>You might be tempted to use <a href="https://github.com/substack/bouncy">bouncy</a> and under other
+circumstances, I would agree. If you can use vhost style routing, then bouncy is the
+perfect solution to your problem.</p>
+
+<p>The problem here is that without hostname differentiation,
+the client browser will only get the socket once. This means routing by URL won’t work.
+Or at least, it will seem to work until you try to open another tab and go to a different
+URL on that same host… then you’ll realize that bouncy is connecting the socket directly
+and once it does that it doesn’t look at it ever again so it has no idea you wanted something
+different. Kind of a nightmare.</p>
+
+<p>So… we build a proxy. In other languages, let’s say “lesser” languages, building such
+a proxy would be hard work.  But in node.js it is really easy.  Here’s how I did it.</p>
+
+<p>First we will create a combination seaport/http proxy server so that it can all be
+combined into a single process.</p>
+
+<pre><code>var http = require('http')
+var seaport = require('seaport')
+var argv = require('optimist').default('p', 8080).argv
+
+var ports = seaport.createServer()
+ports.listen(9001)
+
+var server = http.createServer(function(req,res) {
+  if (/^\/serviceone/.test(req.url)) {
+    var service = 'serviceone@0.0.1'
+  } else if (/^\/servicetwo/.test(req.url)) {
+    var service = 'servicetwo@0.0.1'
+  }
+  
+  if (service) {
+    // Here's where we ask seaport if it knows about this service
+    var ps = ports.query(service)
+    if (ps.length === 0) {
+      res.end("No Service Available")
+    } else {
+      // At this point, ps is an array of host,port that can respond to these requests
+      // I'm just going to take the first one...
+      
+      // Here's the actual proxy stuff
+      var opts = {host: ps[0].host, port: ps[0].port, method: req.method,
+                  path: req.url, headers: req.headers}
+      var proxy = http.request(opts)
+      proxy.on('response', function (response) {
+        response.on('data', function(chunk) {
+          res.write(chunk)
+        })
+        response.on('end', function() { res.end() })
+        res.writeHead(response.statusCode, response.headers)
+      })
+      req.on('data', function(chunk) { proxy.write(chunk) })
+      req.on('end', function() { proxy.end() })
+    }        
+  } else {
+    // Well, we have no idea what they want
+    res.end("Whatever, dude.")
+  }
+}).listen(argv.p)
+</code></pre>
+
+<p>I don’t know if you’ve ever tried to write an http proxy by hand before, but in most
+other langauges it takes a lot more work than this.</p>
+
+<p>Basically, we are taking their request, looking for where the “real” server is, and
+then creating a new request with the host and port of the “real” server and then
+returning the response back to the client.  NONE THE WISER.</p>
+
+<p>We just hook into the <code>data</code> and <code>end</code> events and just rewrite stuff. It’s pretty
+straight forward.</p>
+
+<p>This way it doesn’t really matter how many services, or even if you have different
+versions, or whatever. You can just route to your heart’s content based on any
+criteria you want. You have the full request and headers to play with, so you can
+make up whatever rules you can code in javascript.</p>
+
+<p>Have Fun!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using NPM Like a Boss]]></title>
@@ -23,9 +165,9 @@ out an email with a short description of each. Yeah. You know.</p>
 
 <p>I thought “What a great idea for making a script that handles all
 that with a simple command line!” I hear you mumbling “nerd”. That’s
-OK. I can take it.</p>
-
-<h2 id="enter-the-script">Enter… The Script</h2>
+OK. I can take it.
+<!--more-->
+## Enter… The Script</p>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
@@ -403,73 +545,6 @@ fascinating in and of itself.</p>
 <p>Warning: make sure you don’t over-engineer your solution. If you are only worried
 about synchronizing data that gets updated hourly or daily, then don’t overthink
 it and come up with some really complicated system.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Distributed Jobs]]></title>
-    <link href="http://darelf.github.io/blog/2014/03/11/distributed-jobs/"/>
-    <updated>2014-03-11T13:12:33-04:00</updated>
-    <id>http://darelf.github.io/blog/2014/03/11/distributed-jobs</id>
-    <content type="html"><![CDATA[<p>This post is supposed to be about network queuing of jobs that can be
-distributed into discrete tasks which themselves can be completed in
-any order. And about the boiled down <a href="http://github.com/darelf/stream-queue">stream-queue</a>
-npm package that I have published. I will diverge just a bit here to
-talk a little bit of background.
-<!--more-->
-STREAMS. Just think about that. Streams. Think of all the things it implies
-in programming to talk about streams and streaming.</p>
-
-<p>Probably number one is networking, that is TCP (or whatever) network
-sockets that are read/write and have very well-established, at this point,
-semantics. Open, close, pause, end, read, write, etc. Depending on the
-exact stream, of course, things may be slightly different, and we’ve seen
-quite a lot of semantics built on top of streams.</p>
-
-<p>Nodejs, of course, does networking really well. In fact, that may be the
-number one purpose for most programmers using it. It’s just really
-fantastic at networking. Your code can worry about what goes on just
-above the socket level, with the streams. They also give you an
-abstraction, so that there are file streams, etc. helping you out.</p>
-
-<p>This is all fairly normal in programming, and streams have been around
-for a long time. UNIX pipes are probably the most common stream-semantic
-thing that programmers use, but they are everywhere in just about every
-language that’s of any use.</p>
-
-<p>So…</p>
-
-<p>Back to jobs. If you have a big job that can broken down into discreet
-tasks such that those tasks can happen in any order, you have something
-that can be distributed. And by distributed, I mean among separate processes,
-each process accomplishing one of the tasks towards the goal of completing
-the job.</p>
-
-<p>What <code>stream-queue</code> is designed to do is give the basic functionality of
-a distributed queue that I needed. I need to have it manage the list of
-tasks, how many total tasks there were at the beginning, how many have
-been completed and how many are left to do. It needs to notify me of
-when it starts, when it ends, and each time a step is taken on the way
-(progress).</p>
-
-<p>These are all straightforward. They need to not depend on time. That is,
-having a unique timestamp should not be required, seeing as how there
-might be many workers concurrently processing tasks, and some will inevitably
-happen at the same timestamp.</p>
-
-<p>The workers should be able to spin up or shutdown without consequence to
-the working of the queue as it is in progress. One future upgrade to the
-<code>stream-queue</code> package will be the ability to re-do a task if a worker
-gets shutdown before completing the task. Also, having a standard semantic
-for asking the queue to shutdown one of its workers, either simply to
-reduce the load, or possibly even by name.</p>
-
-<p>Others might be the ability to manage multiple kinds of workers, and
-have those workers advertise the kind of work they can do and let the
-queue manager distribute jobs accordingly.</p>
-
-<p>So that’s where it’s at. A lot of interesting tweaks to be made, and a
-lot of progress towards better features.</p>
 ]]></content>
   </entry>
   

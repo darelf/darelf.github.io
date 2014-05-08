@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Simple Programming - The Blog from Darel</title>
+  <title>Bouncing and Routing - The Blog from Darel</title>
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="“All that is complex is not useful. All that is useful is simple.” – Mikhail Kalashnikov “A scientific theory should be as simple as possible, but no &hellip;">
+  <meta name="description" content="Oh, man. I’ve created two different really great node.js web services/sites and now
+I want to host them. Oh man, this is going to be great! Hmm. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://darelf.github.io/blog/2014/04/02/simple-programming">
+  <link rel="canonical" href="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="The Blog from Darel" type="application/atom+xml">
@@ -80,7 +81,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/02/simple-programming/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/02/simple-programming/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -92,7 +93,7 @@
   
   <header>
     
-      <h1 class="entry-title">Simple Programming</h1>
+      <h1 class="entry-title">Bouncing and Routing</h1>
     
     
       <p class="meta">
@@ -108,68 +109,147 @@
   
 
 
-<time datetime="2014-04-02T08:19:57-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
+<time datetime="2014-05-08T10:51:08-04:00" pubdate data-updated="true">May 8<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>“All that is complex is not useful. All that is useful is simple.” – Mikhail Kalashnikov</p>
+<div class="entry-content"><p>Oh, man. I’ve created two different really great node.js web services/sites and now
+I want to host them. Oh man, this is going to be great!</p>
 
-<p>“A scientific theory should be as simple as possible, but no simpler.” – Albert Einstein</p>
+<p>Hmm. I can only expose a single port on a single machine to the outside.
+How can I make that work? What if my services are on multiple physical machines?</p>
 
-<p>Ran into this problem recently. It’s very difficult to deal with programmers sometimes,
-as they tend to very often be right in the face of naysayers, they get used to it and
-just assume that their way is right even when it’s obviously wrong.
-<!--more-->
-Programmers fall for the same failings of the rest of humanity, such as resisting change,
-or taking perverse pride in something they did even when that thing is awful. I hear so
-many times from people that they “worked so hard” on something. And I think, “But that
-something you worked hard on is horrible, you should not be proud of it or resist replacing
-it with something good.” (I have rather lengthy internal monologues sometimes)</p>
+<h3 id="finding-the-right-server">Finding the Right Server</h3>
 
-<p>The big issues when code gets complex center around maintainability. That extends both to
-bringing in new programmers on a project, as well as revisiting code that you have written
-in the past. It also affects interoperability. Simple interfaces are better than complex
-ones. As simple as possible while still accomplishing all the goals.</p>
+<p>Enter <a href="https://github.com/substack/seaport">seaport</a>. This little beauty is great
+for registering/discovering web services. It’s soooooo much easier than anything
+else you’ve ever tried. (Although, as of this writing, there is an issue that needs
+patching, and there’s even a pull request for it at
+<a href="https://github.com/substack/seaport/pull/57">https://github.com/substack/seaport/pull/57</a>
+so I would just apply that little bit of code if I were you… at least until it gets
+merged)</p>
 
-<p>So, if you are familiar with one tool and you start using it to solve a problem that it
-is not designed for, you will inexorably end up with a much more complex system than
-necessary. If you use techniques that aren’t tailored to the task at hand, you will
-have the same problem.</p>
+<p>Let me show you:</p>
 
-<p>Choices in programming should be made by programmers not by business decisions. Goals
-and products should be chosen by business not by programmers. Once you start mixing, you
-end up with a horrible mess that is far more costly and a nightmare to maintain. When
-business makes the decision on programming language, techniques, etc. you are headed into
-the dystopian realm of ill-functioning, difficult to maintain software.</p>
+<pre><code>var seaport = require('seaport')
+var ports = seaport.createServer()
+ports.listen(9001)
+</code></pre>
 
-<p>“But it’s easier to hire Java (or insert other horrible languages) programmers…”
-I hear you cry. First, I call BS on that on its face. Second, you don’t want programmers
-that are easy to hire. That’s like saying it’s easier to hire unskilled laborers.
-Of course it is. There’s a reason for that.</p>
+<p>That’s it for the server.</p>
 
-<p>Advice is only as good as the people taking it.</p>
+<p>Now, your node.js webservices need to pick their port by asking that seaport
+server we just created. Let’s say Service One is on the same physical machine.</p>
 
-<p>When we say “make it simple”, we mean also “make it work and work well”. Don’t over-simplify,
-but choose the right tool and the right techniques and make it as simple as it can be.
-Make code easy to reason about. Make it easy to extend. Make it easy to integrate. Make it
-easy. Simple is easy. Complex is hard.</p>
+<pre><code>var http = require('http')
+var seaport = require('seaport').connect('localhost', 9001, { secret: 'totallysecret' })
+var port = seaport.register('serviceone@0.0.1')
+http.createServer(function(req,res) { res.end("I'm Service One!\n") }).listen(port)
+</code></pre>
 
-<p>Just because you haven’t encountered a technique before doesn’t mean it’s hard. If you
-look at something like <a href="http://en.wikipedia.org/wiki/Bitmap_index">WAH</a> or CONCISE it may look
-difficult and complex at first, but it’s really rather simple. Honestly, when you realize
-that half the compression is simply packing and run length encoding it’s very easy to
-grasp, and importantly easy to reason about.</p>
+<p>What just happened?</p>
 
-<p>Keep code simple. Keep inter-process interfaces simple. Keep APIs simple. Make the so-called
-surface area easy to grasp, easy to reason about. Keep it easy to maintain, easy to upgrade,
-easy to extend. You can’t see all futures, but if you make the code simple it will be
-easier to adapt to new and changing environments.</p>
+<p>Well, we connected to the registry, and then we said “When someone asks for ‘serviceone’ with
+a version of ‘0.0.1’, then you can direct them our way.” The seaport then gives you a port number
+and you use that in your server.</p>
 
-<p>If you don’t, you are inviting trouble for yourself and others. You are the Causer of
-Problems. Don’t be the bad guy.</p>
+<p>Let’s now say that Service Two is on a different physical machine. The seaport is on a server
+named “kahleesi” while Service Two is running on “katniss”. So first connect to the seaport
+server:</p>
+
+<pre><code>... stuff ...
+var seaport = require('seaport').connect('kahleesi', 9001, {secret: 'totallysecret'})
+var port = seaport.register('servicetwo@0.0.1')
+... actual server ...
+</code></pre>
+
+<p>Now that we have the services all talking to each other… what now?</p>
+
+<h2 id="url-routing">URL Routing</h2>
+
+<p>Let’s say your web services only use straight up, request/response, HTTP. No
+websockets. And you aren’t allowed to have multiple hostnames for some reason.</p>
+
+<p>You might be tempted to use <a href="https://github.com/substack/bouncy">bouncy</a> and under other
+circumstances, I would agree. If you can use vhost style routing, then bouncy is the
+perfect solution to your problem.</p>
+
+<p>The problem here is that without hostname differentiation,
+the client browser will only get the socket once. This means routing by URL won’t work.
+Or at least, it will seem to work until you try to open another tab and go to a different
+URL on that same host… then you’ll realize that bouncy is connecting the socket directly
+and once it does that it doesn’t look at it ever again so it has no idea you wanted something
+different. Kind of a nightmare.</p>
+
+<p>So… we build a proxy. In other languages, let’s say “lesser” languages, building such
+a proxy would be hard work.  But in node.js it is really easy.  Here’s how I did it.</p>
+
+<p>First we will create a combination seaport/http proxy server so that it can all be
+combined into a single process.</p>
+
+<pre><code>var http = require('http')
+var seaport = require('seaport')
+var argv = require('optimist').default('p', 8080).argv
+
+var ports = seaport.createServer()
+ports.listen(9001)
+
+var server = http.createServer(function(req,res) {
+  if (/^\/serviceone/.test(req.url)) {
+    var service = 'serviceone@0.0.1'
+  } else if (/^\/servicetwo/.test(req.url)) {
+    var service = 'servicetwo@0.0.1'
+  }
+  
+  if (service) {
+    // Here's where we ask seaport if it knows about this service
+    var ps = ports.query(service)
+    if (ps.length === 0) {
+      res.end("No Service Available")
+    } else {
+      // At this point, ps is an array of host,port that can respond to these requests
+      // I'm just going to take the first one...
+      
+      // Here's the actual proxy stuff
+      var opts = {host: ps[0].host, port: ps[0].port, method: req.method,
+                  path: req.url, headers: req.headers}
+      var proxy = http.request(opts)
+      proxy.on('response', function (response) {
+        response.on('data', function(chunk) {
+          res.write(chunk)
+        })
+        response.on('end', function() { res.end() })
+        res.writeHead(response.statusCode, response.headers)
+      })
+      req.on('data', function(chunk) { proxy.write(chunk) })
+      req.on('end', function() { proxy.end() })
+    }        
+  } else {
+    // Well, we have no idea what they want
+    res.end("Whatever, dude.")
+  }
+}).listen(argv.p)
+</code></pre>
+
+<p>I don’t know if you’ve ever tried to write an http proxy by hand before, but in most
+other langauges it takes a lot more work than this.</p>
+
+<p>Basically, we are taking their request, looking for where the “real” server is, and
+then creating a new request with the host and port of the “real” server and then
+returning the response back to the client.  NONE THE WISER.</p>
+
+<p>We just hook into the <code>data</code> and <code>end</code> events and just rewrite stuff. It’s pretty
+straight forward.</p>
+
+<p>This way it doesn’t really matter how many services, or even if you have different
+versions, or whatever. You can just route to your heart’s content based on any
+criteria you want. You have the full request and headers to play with, so you can
+make up whatever rules you can code in javascript.</p>
+
+<p>Have Fun!</p>
 </div>
 
 
@@ -192,12 +272,12 @@ Problems. Don’t be the bad guy.</p>
   
 
 
-<time datetime="2014-04-02T08:19:57-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
+<time datetime="2014-05-08T10:51:08-04:00" pubdate data-updated="true">May 8<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/complexity/'>complexity</a>, <a class='category' href='/blog/categories/philosophy/'>philosophy</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
+    <a class='category' href='/blog/categories/nodejs/'>nodejs</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/proxy/'>proxy</a>, <a class='category' href='/blog/categories/router/'>router</a>
   
 </span>
 
@@ -206,7 +286,7 @@ Problems. Don’t be the bad guy.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/04/02/simple-programming/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/04/02/simple-programming/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing/" data-via="darelf" data-counturl="http://darelf.github.io/blog/2014/05/08/bouncing-and-routing/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -217,10 +297,8 @@ Problems. Don’t be the bad guy.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/24/lazarus-the-not-dead/" title="Previous Post: Lazarus - The Not Dead">&laquo; Lazarus - The Not Dead</a>
+        <a class="basic-alignment left" href="/blog/2014/04/22/using-npm-like-a-boss/" title="Previous Post: Using NPM Like A Boss">&laquo; Using NPM Like A Boss</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/04/07/lazarus-tactics/" title="Next Post: Lazarus - Tactics">Lazarus - Tactics &raquo;</a>
       
     </p>
   </footer>

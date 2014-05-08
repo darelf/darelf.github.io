@@ -9,8 +9,8 @@
   <meta name="author" content="Darel Finkbeiner">
 
   
-  <meta name="description" content="So I have to keep track of what I work on each week and send
-out an email with a short description of each. Yeah. You know. I thought “What a great &hellip;">
+  <meta name="description" content="Oh, man. I’ve created two different really great node.js web services/sites and now
+I want to host them. Oh man, this is going to be great! Hmm. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,175 @@ out an email with a short description of each. Yeah. You know. I thought “What
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/05/08/bouncing-and-routing/">Bouncing and Routing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-08T10:51:08-04:00" pubdate data-updated="true">May 8<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Oh, man. I’ve created two different really great node.js web services/sites and now
+I want to host them. Oh man, this is going to be great!</p>
+
+<p>Hmm. I can only expose a single port on a single machine to the outside.
+How can I make that work? What if my services are on multiple physical machines?</p>
+
+<h3 id="finding-the-right-server">Finding the Right Server</h3>
+
+<p>Enter <a href="https://github.com/substack/seaport">seaport</a>. This little beauty is great
+for registering/discovering web services. It’s soooooo much easier than anything
+else you’ve ever tried. (Although, as of this writing, there is an issue that needs
+patching, and there’s even a pull request for it at
+<a href="https://github.com/substack/seaport/pull/57">https://github.com/substack/seaport/pull/57</a>
+so I would just apply that little bit of code if I were you… at least until it gets
+merged)</p>
+
+<p>Let me show you:</p>
+
+<pre><code>var seaport = require('seaport')
+var ports = seaport.createServer()
+ports.listen(9001)
+</code></pre>
+
+<p>That’s it for the server.</p>
+
+<p>Now, your node.js webservices need to pick their port by asking that seaport
+server we just created. Let’s say Service One is on the same physical machine.</p>
+
+<pre><code>var http = require('http')
+var seaport = require('seaport').connect('localhost', 9001, { secret: 'totallysecret' })
+var port = seaport.register('serviceone@0.0.1')
+http.createServer(function(req,res) { res.end("I'm Service One!\n") }).listen(port)
+</code></pre>
+
+<p>What just happened?</p>
+
+<p>Well, we connected to the registry, and then we said “When someone asks for ‘serviceone’ with
+a version of ‘0.0.1’, then you can direct them our way.” The seaport then gives you a port number
+and you use that in your server.</p>
+
+<p>Let’s now say that Service Two is on a different physical machine. The seaport is on a server
+named “kahleesi” while Service Two is running on “katniss”. So first connect to the seaport
+server:</p>
+
+<pre><code>... stuff ...
+var seaport = require('seaport').connect('kahleesi', 9001, {secret: 'totallysecret'})
+var port = seaport.register('servicetwo@0.0.1')
+... actual server ...
+</code></pre>
+
+<p>Now that we have the services all talking to each other… what now?</p>
+
+<h2 id="url-routing">URL Routing</h2>
+
+<p>Let’s say your web services only use straight up, request/response, HTTP. No
+websockets. And you aren’t allowed to have multiple hostnames for some reason.</p>
+
+<p>You might be tempted to use <a href="https://github.com/substack/bouncy">bouncy</a> and under other
+circumstances, I would agree. If you can use vhost style routing, then bouncy is the
+perfect solution to your problem.</p>
+
+<p>The problem here is that without hostname differentiation,
+the client browser will only get the socket once. This means routing by URL won’t work.
+Or at least, it will seem to work until you try to open another tab and go to a different
+URL on that same host… then you’ll realize that bouncy is connecting the socket directly
+and once it does that it doesn’t look at it ever again so it has no idea you wanted something
+different. Kind of a nightmare.</p>
+
+<p>So… we build a proxy. In other languages, let’s say “lesser” languages, building such
+a proxy would be hard work.  But in node.js it is really easy.  Here’s how I did it.</p>
+
+<p>First we will create a combination seaport/http proxy server so that it can all be
+combined into a single process.</p>
+
+<pre><code>var http = require('http')
+var seaport = require('seaport')
+var argv = require('optimist').default('p', 8080).argv
+
+var ports = seaport.createServer()
+ports.listen(9001)
+
+var server = http.createServer(function(req,res) {
+  if (/^\/serviceone/.test(req.url)) {
+    var service = 'serviceone@0.0.1'
+  } else if (/^\/servicetwo/.test(req.url)) {
+    var service = 'servicetwo@0.0.1'
+  }
+  
+  if (service) {
+    // Here's where we ask seaport if it knows about this service
+    var ps = ports.query(service)
+    if (ps.length === 0) {
+      res.end("No Service Available")
+    } else {
+      // At this point, ps is an array of host,port that can respond to these requests
+      // I'm just going to take the first one...
+      
+      // Here's the actual proxy stuff
+      var opts = {host: ps[0].host, port: ps[0].port, method: req.method,
+                  path: req.url, headers: req.headers}
+      var proxy = http.request(opts)
+      proxy.on('response', function (response) {
+        response.on('data', function(chunk) {
+          res.write(chunk)
+        })
+        response.on('end', function() { res.end() })
+        res.writeHead(response.statusCode, response.headers)
+      })
+      req.on('data', function(chunk) { proxy.write(chunk) })
+      req.on('end', function() { proxy.end() })
+    }        
+  } else {
+    // Well, we have no idea what they want
+    res.end("Whatever, dude.")
+  }
+}).listen(argv.p)
+</code></pre>
+
+<p>I don’t know if you’ve ever tried to write an http proxy by hand before, but in most
+other langauges it takes a lot more work than this.</p>
+
+<p>Basically, we are taking their request, looking for where the “real” server is, and
+then creating a new request with the host and port of the “real” server and then
+returning the response back to the client.  NONE THE WISER.</p>
+
+<p>We just hook into the <code>data</code> and <code>end</code> events and just rewrite stuff. It’s pretty
+straight forward.</p>
+
+<p>This way it doesn’t really matter how many services, or even if you have different
+versions, or whatever. You can just route to your heart’s content based on any
+criteria you want. You have the full request and headers to play with, so you can
+make up whatever rules you can code in javascript.</p>
+
+<p>Have Fun!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/04/22/using-npm-like-a-boss/">Using NPM Like a Boss</a></h1>
     
     
@@ -112,154 +281,13 @@ out an email with a short description of each. Yeah. You know.</p>
 
 <p>I thought “What a great idea for making a script that handles all
 that with a simple command line!” I hear you mumbling “nerd”. That’s
-OK. I can take it.</p>
-
-<h2 id="enter-the-script">Enter… The Script</h2>
-
-<p>Well, I just need a list, each list can live in a text file that I
-can then email to my boss each week. What do I need?</p>
-
-<p>Very little. I use <a href="http://momentjs.com">moment</a> to figure out what
-week I’m working on automatically and store it in the correct file.
-I also use <a href="http://github.com/substack/minimist#minimist">minimist</a> to do
-command line parsing since I barely need anything there.</p>
-
-<p>So the beginning looked like this:</p>
-
-<pre><code>var fs = require('fs')
-var moment = require('moment')
-</code></pre>
-
-<p>Then I realized I (or someone) might want it daily, so I add a
-default. And while I’m at it, let’s define a working directory
-for the files.</p>
-
-<pre><code>var defaults = { weekly: true, workdir: process.env.HOME + '/worklist/' }
-var argv = require('minimist')(process.argv.slice(2), {default: defaults})
-</code></pre>
-
-<p>You could override those, for instance with <code>--workdir=/my/crazy/directory/</code> but
-hopefully these are sane defaults.</p>
-
-<p>Now let’s figure out what file we should be working with:</p>
-
-<pre><code>var m = moment()
-if (argv.weekly) {
-  m = moment().startOf('week').add('days', 1)
-}
-
-var fname = argv.workdir + m.format('YYYY-MM-DD') + '.txt'
-</code></pre>
-
-<p>The file name will now have the date, or Monday’s date when we are doing weekly
-files. This let’s us choose.</p>
-
-<p>Next we read in the file, if it exists, and parse the contents:</p>
-
-<pre><code>var contents = []
-fs.readFile(fname, function(err, data) {
-  if (!err) {
-    contents = data.toString().split('\n').filter(Boolean)
-  }
-  parseCommands()
-})
-</code></pre>
-
-<p>That <code>parseCommands()</code> function will need to be defined. It’s basically the
-entry point for looking at any command the user sent and taking the correct
-action. I decided I only needed 3 commands:  list, add, and delete.</p>
-
-<pre><code>function parseCommands() {
-  if (argv._.indexOf('list') &gt; -1) {
-    contents.forEach(function(v,i) { console.log("%d: %s", i, v) })
-  }
-  if (argv.add) {
-    contents.push(argv.add)
-    saveContents()
-  }
-  if (argv.d) {
-    if (contents.length &gt; argv.d) {
-      delete contents[argv.d]
-      saveContents()
-    }
-  }
-}
-</code></pre>
-
-<p>What we have going on here is a <code>list</code> command that just dumps the contents.
-Next, we have a <code>--add="This is the item to add"</code> command that will add
-a single line to our file, and then it will save the file. (see below for that)
-And finally the <code>-d #</code> command that takes the number of the item to delete.</p>
-
-<p>Not really pretty, but since I’m mostly just adding and listing, it seems
-to work just fine. And since the files are just text files, I can always
-edit them by hand, feed them into other programs or utilities easily, and
-generally use any of my typical Unixy workflows.</p>
-
-<p>Oh, and saving the file just looks like this:</p>
-
-<pre><code>function saveContents() {
-  fs.writeFile(fname, contents.join('\n') + '\n')
-}
-</code></pre>
-
-<h2 id="enter-npm">Enter… NPM!!!</h2>
-
-<p>How does the <code>npm</code> utility enter in to this? I’m glad you asked!</p>
-
-<p>NPM has a facility called “bin” in the <code>package.json</code> file that allows you
-to define so-called <code>binary</code> programs to be installed. In my case, this is
-just a node js script as shown above.</p>
-
-<p>What steps do I take to make this work as a command? I.e. <code>worklist list</code> or
-<code>worklist --add="I totally did important work just now"</code></p>
-
-<h3 id="step-one">Step One</h3>
-
-<p>Add the “shebang” at the beginning of the script telling it to use node.</p>
-
-<pre><code>#!/usr/bin/env node
-</code></pre>
-
-<p>For the script, that’s it.</p>
-
-<h3 id="step-two">Step Two</h3>
-
-<p>Add the entry into <code>package.json</code> telling it that the script is a binary.
-For our example, I put the script in <code>./bin/worklist.js</code> so that’s what I
-will tell NPM. Also, I need to tell it what I want the command to look like,
-which in this example is <code>worklist</code> so that I can just type <code>worklist</code> on the
-command line and it will run my script in node automatically.</p>
-
-<pre><code>{
-  ... bunch of normal package.json stuff ...
-  "bin": {
-    "worklist": "./bin/worklist.js"
-  }
-}
-</code></pre>
-
-<h3 id="step-three">Step Three</h3>
-
-<p>Install it globally.</p>
-
-<pre><code>npm install -g
-</code></pre>
-
-<p>You will notice NPM telling you that it is linking the script into your path
-somewhere. I believe on Windows that this also automatically wraps it in a
-<code>.cmd</code> for you. WIN.</p>
-
-<h3 id="step-four">Step Four</h3>
-
-<p>Pour a hot cup of coffee, light up your favorite cigar, and enjoy. THIS STEP
-IS NOT OPTIONAL.</p>
-
-<h2 id="feedback">Feedback</h2>
-
-<p>Please, please, please, send me feedback, ask me questions. Yeah. You can do it.</p>
+OK. I can take it.
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/04/22/using-npm-like-a-boss/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -607,48 +635,6 @@ talk a little bit of background.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/10/lazarus-business/">Lazarus - Business</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-10T08:06:49-04:00" pubdate data-updated="true">Mar 10<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There tends to be, in my experience, a certain bonding moment that
-happens among a give group of adventurers. And it usually has to do with loot.
-Whether gold or precious gems or magic swords.
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/03/10/lazarus-business/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -664,6 +650,10 @@ Whether gold or precious gems or magic swords.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/05/08/bouncing-and-routing/">Bouncing and Routing</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/22/using-npm-like-a-boss/">Using NPM Like a Boss</a>
       </li>
     
@@ -677,10 +667,6 @@ Whether gold or precious gems or magic swords.
     
       <li class="post">
         <a href="/blog/2014/04/07/lazarus-tactics/">Lazarus - Tactics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/02/simple-programming/">Simple Programming</a>
       </li>
     
   </ul>
@@ -702,13 +688,15 @@ Whether gold or precious gems or magic swords.
 <li class='category'><a href='/blog/categories/modules/'>modules <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/network/'>network <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/node/'>node <span class='badge'>2</span></a></li>
-<li class='category'><a href='/blog/categories/nodejs/'>nodejs <span class='badge'>4</span></a></li>
+<li class='category'><a href='/blog/categories/nodejs/'>nodejs <span class='badge'>5</span></a></li>
 <li class='category'><a href='/blog/categories/npm/'>npm <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/pathfinder/'>pathfinder <span class='badge'>7</span></a></li>
 <li class='category'><a href='/blog/categories/philosophy/'>philosophy <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/pirates/'>pirates <span class='badge'>1</span></a></li>
-<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>11</span></a></li>
+<li class='category'><a href='/blog/categories/programming/'>programming <span class='badge'>12</span></a></li>
+<li class='category'><a href='/blog/categories/proxy/'>proxy <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/queue/'>queue <span class='badge'>1</span></a></li>
+<li class='category'><a href='/blog/categories/router/'>router <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/rpg/'>rpg <span class='badge'>2</span></a></li>
 <li class='category'><a href='/blog/categories/storytelling/'>storytelling <span class='badge'>1</span></a></li>
 <li class='category'><a href='/blog/categories/streams/'>streams <span class='badge'>1</span></a></li>

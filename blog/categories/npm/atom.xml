@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Npm | The Blog from Darel]]></title>
   <link href="http://darelf.github.io/blog/categories/npm/atom.xml" rel="self"/>
   <link href="http://darelf.github.io/"/>
-  <updated>2014-04-22T15:45:38-04:00</updated>
+  <updated>2014-05-08T15:47:14-04:00</updated>
   <id>http://darelf.github.io/</id>
   <author>
     <name><![CDATA[Darel Finkbeiner]]></name>
@@ -23,9 +23,9 @@ out an email with a short description of each. Yeah. You know.</p>
 
 <p>I thought “What a great idea for making a script that handles all
 that with a simple command line!” I hear you mumbling “nerd”. That’s
-OK. I can take it.</p>
-
-<h2 id="enter-the-script">Enter… The Script</h2>
+OK. I can take it.
+<!--more-->
+## Enter… The Script</p>
 
 <p>Well, I just need a list, each list can live in a text file that I
 can then email to my boss each week. What do I need?</p>
